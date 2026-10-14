@@ -34,9 +34,11 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ `update-data.yml` weekly (Mon 06:00 UTC) + `workflow_dispatch`.
 * ✅ `deploy.yml` GitHub Pages deployment (push to `main`, manual, reusable).
 * ✅ `ci.yml` tests + build on pull requests.
-* ⏳ Enable GitHub Pages → Source: *GitHub Actions* (Settings → Pages).
+* ✅ Failure alerts: failed refresh/deploy opens a `data-refresh-failure` issue; closed on recovery.
+* ✅ All actions pinned to Node 24 releases (checkout v7, setup-node v7, setup-python v7, upload-artifact v7, configure-pages v6, upload-pages-artifact v5, deploy-pages v5).
+* ✅ GitHub Pages enabled with GitHub Actions as source; first deploy succeeded 2026-10-14.
 * ⏳ Settings → Actions → General → Workflow permissions: *Read and write* (needed for the data commit), or keep read-only and rely on the explicit `permissions:` block (already set per job).
-* ⏳ Merge this branch into `main` to trigger the first deployment.
+* ✅ First release merged (PR #1); manual **Update data** run succeeded (outcome `unchanged`).
 
 ## Milestone 5 — Quality and release 🔜
 
@@ -45,7 +47,7 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * 🔜 Manual accessibility audit with a screen reader (NVDA/VoiceOver) and axe.
 * 🔜 Manual mobile review on real devices.
 * 🔜 Independent data-integrity review of displayed figures against Eurostat data browser.
-* ⏳ Confirm the public URL `https://dalust.github.io/eu-road-safety-observatory/` serves the site.
+* ✅ Public URL `https://dalust.github.io/eu-road-safety-observatory/` serves the site (checked in Chromium).
 
 ## Outstanding decisions
 

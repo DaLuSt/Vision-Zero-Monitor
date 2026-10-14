@@ -132,7 +132,10 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
 3. `pipeline_status.json` records `last_outcome: "failure"` and the error message;
    the workflow commits it so the dashboard can display the failed run, then
    exits non-zero so the run is red in GitHub Actions.
-4. If the regenerated data are byte-identical (ignoring retrieval timestamps),
+4. The workflow's `alert` job opens a GitHub issue labelled `data-refresh-failure`
+   when the refresh or its deploy fails (commenting on it if already open) and
+   closes it after the next successful run (`scripts/ci/refresh-alert.sh`).
+5. If the regenerated data are byte-identical (ignoring retrieval timestamps),
    nothing is committed and nothing is deployed.
 
 ## 7. Limitations
