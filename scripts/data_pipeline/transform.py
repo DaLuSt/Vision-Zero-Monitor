@@ -15,6 +15,7 @@ STATUS_ORDER = {"missing": 0, "estimated": 1, "provisional": 2, "unknown": 3, "f
 
 EXPECTED_DIMENSIONS = {
     "eurostat:tran_sf_roadus": {"freq", "sex", "age", "unit", "pers_cat", "geo", "time"},
+    "eurostat:tran_sf_roadve": {"freq", "unit", "vehicle", "geo", "time"},
     "eurostat:demo_gind": {"freq", "indic_de", "geo", "time"},
     "eurostat:sdg_11_40": {"freq", "tra_infr", "unit", "geo", "time"},
 }
@@ -27,6 +28,8 @@ class TransformResult:
     observations: list[dict]
     sources: list[dict]
     cross_check: dict = field(default_factory=dict)
+    parsed: dict = field(default_factory=dict)   # source_id -> jsonstat.Dataset
+    periods: list = field(default_factory=list)  # reference periods of the primary source
 
 
 def to_utc_iso(value: str | None) -> str | None:
@@ -233,7 +236,7 @@ def transform(raw: dict[str, RawSource]) -> TransformResult:
         "status_flag_labels": {},
         "license": "Derived from Eurostat data; same reuse terms apply",
     })
-    return TransformResult(observations=observations, sources=sources, cross_check=cross)
+    return TransformResult(observations=observations, sources=sources, cross_check=cross, parsed=ds, periods=periods)
 
 
 # ---------------------------------------------------------------------------
@@ -352,9 +355,17 @@ def build_latest(observations: list[dict], targets: list[dict], generated_at: st
     }
 
 
-def content_hash(observations: list[dict], sources: list[dict]) -> str:
+def content_hash(observations: list[dict], sources: list[dict], breakdowns: dict | None = None) -> str:
     """Hash of the substantive content, ignoring retrieval timestamps."""
     stable_obs = [{k: v for k, v in o.items() if k != "retrieved_at"} for o in observations]
     stable_src = [{k: v for k, v in s.items() if k not in ("retrieved_at",)} for s in sources]
-    blob = json.dumps({"o": stable_obs, "s": stable_src}, sort_keys=True, separators=(",", ":")).encode()
+    stable_bd = None
+    if breakdowns is not None:
+        stable_bd = {
+            "periods": breakdowns["periods"],
+            "dimensions": [{k: v for k, v in d.items() if k != "retrieved_at"} for d in breakdowns["dimensions"]],
+            "series": breakdowns["series"],
+        }
+    payload = {"o": stable_obs, "s": stable_src} if stable_bd is None else {"o": stable_obs, "s": stable_src, "b": stable_bd}
+    blob = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
     return "sha256:" + hashlib.sha256(blob).hexdigest()

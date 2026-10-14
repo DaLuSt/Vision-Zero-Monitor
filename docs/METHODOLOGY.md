@@ -80,9 +80,44 @@ benchmark_path[y]   = baseline + (y - 2019)/(2030 - 2019) * (target_2030 - basel
   different, error if it looks double-counted).
 * Status of a comparison = most cautious status of the two observations compared.
 
+## Breakdowns
+
+`public/data/breakdowns.json` splits road deaths two ways. Each split adds up to the total.
+
+**By road user** (`tran_sf_roadus`, `pers_cat`): Drivers and riders (`DRIV`, includes cyclists
+and motorcyclists), Passengers (`PAS`), Pedestrians (`PED`), Unknown (`UNK`).
+
+**By mode of transport** (`tran_sf_roadve`, `vehicle`), 27 source codes grouped into 8:
+
+| Category | Eurostat codes |
+| --- | --- |
+| Car occupants | `CAR` |
+| Motorcyclists | `MOTO_LE125`, `MOTO_GT125`, `MOTO_NSP`, `MOTO_2WH` |
+| Moped riders | `MOP` |
+| Cyclists | `BIKE`, `EPAC` (e-bikes) |
+| Goods vehicles and tractors | `VEH_GD`, `VG_LE3P5`, `VG_GT3P5`, `TRC`, `TRC_AGR` |
+| Buses and coaches | `BUS_TOT`, `BUS_MIN`, `BUS`, `BUS_TRO`, `MCO` |
+| Pedestrians | `OTH` |
+| Other and unknown | `QUA_LE50`, `QUA_GT50`, `MCMOB` (e-scooters), `MTZ_OTH`, `NMTZ_OTH`, `ANI_RD`, `TRM_LR`, `UNK` |
+
+Rules:
+
+* A category is missing for a year if any of its source codes is missing.
+* Shares are computed only for years in which every category has a value, so they add to 100 %.
+* **EU coverage:** `eu_members_reporting` records, per year, how many Member States report the
+  breakdown. EU breakdown values are shown only for years with all 27 (from 2016); earlier
+  EU aggregates count non-reporting countries' deaths as unknown and are not comparable.
+  Published values remain in the file and in CSV exports, with the coverage column.
+* A warning is shown when more than 10 % of a country's deaths are "unknown"/"other and unknown".
+* Rates per million for a category use the same average population and rounding as the
+  headline rate; they are computed in the browser from the published counts.
+* Validation: categories vs total (warning above max(2, 1 %)), road-user pedestrians vs vehicle
+  pedestrians (warning above max(2, 2 %)), structural checks and coverage collapse (errors).
+
 ## Charts
 
-The chart builder (`#/charts`) plots the EU total and any Member States with three measures:
+The chart builder (`#/charts`) plots the EU total and any Member States, for all road deaths
+or one breakdown category (e.g. cyclists), with three measures:
 
 * **Deaths**: `road_fatalities` as published.
 * **Per million inhabitants**: `road_fatalities_per_million` (see above).

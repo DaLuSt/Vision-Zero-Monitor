@@ -10,6 +10,7 @@ import { CountryTable } from './features/countries/CountryTable';
 import { CountryDetail } from './features/countries/CountryDetail';
 import { DataExplorer } from './features/data-explorer/DataExplorer';
 import { ChartBuilder } from './features/charts/ChartBuilder';
+import { RoadUsers } from './features/breakdowns/RoadUsers';
 import { Methodology } from './features/about/Methodology';
 import { Sources } from './features/about/Sources';
 
@@ -39,6 +40,7 @@ export default function App({ load = loadDataset }: { load?: () => Promise<Datas
       case 'countries': content = <CountryTable data={d} />; break;
       case 'country': content = <CountryDetail data={d} geo={route.geo} />; break;
       case 'explorer': content = <DataExplorer data={d} />; break;
+      case 'road-users': content = <RoadUsers key={route.query} data={d} query={route.query} />; break;
       case 'charts': content = <ChartBuilder key={route.query} data={d} query={route.query} />; break;
       case 'methodology': content = <Methodology data={d} />; break;
       case 'sources': content = <Sources data={d} />; break;

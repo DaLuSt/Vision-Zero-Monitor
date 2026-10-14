@@ -57,6 +57,16 @@ export function Methodology({ data }: { data: Dataset }) {
         Comparisons using provisional values may change when final data are published.
       </p>
 
+      <h3>Road users and modes of transport</h3>
+      <p>
+        Deaths are split by road user (drivers and riders, passengers, pedestrians) and by mode of transport. Eurostat's
+        27 vehicle codes are grouped into 8 categories; some codes that sound like totals (for example “two-wheeled motor
+        vehicles”) are in fact “not elsewhere classified” remainders, so all motorcycle codes are added together.
+        Eurostat's “Other” vehicle category holds people not in a vehicle and is shown as pedestrians. EU breakdowns are
+        shown from 2016, the first year all 27 Member States reported them. Full mapping in the{' '}
+        <a href={`${DOCS_URL}/METHODOLOGY.md#breakdowns`}>methodology document</a>.
+      </p>
+
       <h3>Missing data and revisions</h3>
       <p>
         Missing values are never replaced by zero, interpolated or carried forward. Charts show gaps. The EU total is

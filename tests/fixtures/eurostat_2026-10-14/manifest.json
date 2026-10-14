@@ -1,17 +1,22 @@
 {
  "eurostat:tran_sf_roadus": {
-  "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&sex=T&age=TOTAL&pers_cat=TOTAL&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
-  "retrieved_at": "2026-10-14T18:28:40Z",
+  "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&sex=T&age=TOTAL&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
+  "retrieved_at": "2026-10-14T19:31:12Z",
   "file": "tran_sf_roadus.json"
+ },
+ "eurostat:tran_sf_roadve": {
+  "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadve?format=JSON&lang=EN&unit=NR&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
+  "retrieved_at": "2026-10-14T19:31:13Z",
+  "file": "tran_sf_roadve.json"
  },
  "eurostat:demo_gind": {
   "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?format=JSON&lang=EN&indic_de=AVG&sinceTimePeriod=1999&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
-  "retrieved_at": "2026-10-14T18:28:41Z",
+  "retrieved_at": "2026-10-14T19:31:14Z",
   "file": "demo_gind.json"
  },
  "eurostat:sdg_11_40": {
   "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/sdg_11_40?format=JSON&lang=EN&tra_infr=TOTAL&unit=NR&unit=RT&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
-  "retrieved_at": "2026-10-14T18:28:42Z",
+  "retrieved_at": "2026-10-14T19:31:15Z",
   "file": "sdg_11_40.json"
  }
 }

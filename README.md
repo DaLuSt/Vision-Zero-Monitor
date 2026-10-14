@@ -18,6 +18,7 @@ on the way to Vision Zero (close to zero road deaths by 2050).
 
 Direct links: [Overview](https://dalust.github.io/eu-road-safety-observatory/) ·
 [Countries](https://dalust.github.io/eu-road-safety-observatory/#/countries) ·
+[Road users](https://dalust.github.io/eu-road-safety-observatory/#/road-users) ·
 [Chart builder](https://dalust.github.io/eu-road-safety-observatory/#/charts) ·
 [Data explorer](https://dalust.github.io/eu-road-safety-observatory/#/explorer) ·
 [Methodology](https://dalust.github.io/eu-road-safety-observatory/#/methodology) ·
@@ -30,6 +31,7 @@ Direct links: [Overview](https://dalust.github.io/eu-road-safety-observatory/) �
 | How many people die on EU roads? | Overview KPI cards (latest reference year, EU27) |
 | How has this changed? | EU trend chart (1999→), deaths or per million inhabitants |
 | Which Member States have the highest rates? | Countries: sortable table + per-country detail |
+| Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/eu-road-safety-observatory/#/road-users): deaths by road user and by mode of transport, latest year and trends, per country |
 | How does my country compare? | [Chart builder](https://dalust.github.io/eu-road-safety-observatory/#/charts): graphs for the EU total and any Member States (deaths, per million, or index 2019 = 100), combined or one per selection, downloadable as PNG/CSV, shareable by link |
 | Is the EU on course for 2030? | 2019 baseline, 2030 benchmark (−50 %), progress share, linear analytical path |
 | Where are data incomplete or uncertain? | Status badges, data freshness panel, validation warnings, data explorer + CSV |
@@ -39,6 +41,7 @@ Direct links: [Overview](https://dalust.github.io/eu-road-safety-observatory/) �
 | Dataset | Use |
 | --- | --- |
 | Eurostat [`tran_sf_roadus`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table) (CARE / DG MOVE) | Road deaths, EU27 + Member States |
+| Eurostat [`tran_sf_roadve`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table) | Deaths by mode of transport |
 | Eurostat [`demo_gind`](https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table) (`AVG`) | Average population → rates per million |
 | Eurostat [`sdg_11_40`](https://ec.europa.eu/eurostat/databrowser/view/sdg_11_40/default/table) | Independent cross-check |
 
@@ -90,6 +93,7 @@ scripts/data_pipeline/
   fetch.py           HTTP retrieval (retries, size limit)
   jsonstat.py        defensive JSON-stat parser
   transform.py       normalisation, derived rates, status mapping, summaries
+  breakdowns.py      deaths by road user and mode of transport (grouped, coverage-aware)
   validate.py        schema, statistical, cross-source and revision checks
   export.py          atomic file writes
   run.py             orchestration / CLI

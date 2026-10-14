@@ -13,16 +13,17 @@ import shutil
 import tempfile
 from pathlib import Path
 
-PUBLIC_FILES = ("observations", "countries", "indicators", "metadata", "latest")
+PUBLIC_FILES = ("observations", "breakdowns", "countries", "indicators", "metadata", "latest")
 
 
 def dumps(document: dict) -> str:
     """Pretty-print, except that long record lists are written one record per line (compact, diff-friendly)."""
-    if "observations" in document and isinstance(document["observations"], list):
-        head = {k: v for k, v in document.items() if k != "observations"}
-        lines = [json.dumps(o, ensure_ascii=False, separators=(",", ":")) for o in document["observations"]]
-        body = json.dumps(head, ensure_ascii=False, indent=1)[:-2]
-        return body + ',\n "observations": [\n' + ",\n".join(lines) + "\n ]\n}\n"
+    for key in ("observations", "series"):
+        if key in document and isinstance(document[key], list):
+            head = {k: v for k, v in document.items() if k != key}
+            lines = [json.dumps(o, ensure_ascii=False, separators=(",", ":")) for o in document[key]]
+            body = json.dumps(head, ensure_ascii=False, indent=1)[:-2]
+            return body + f',\n "{key}": [\n' + ",\n".join(lines) + "\n ]\n}\n"
     return json.dumps(document, ensure_ascii=False, indent=1) + "\n"
 
 

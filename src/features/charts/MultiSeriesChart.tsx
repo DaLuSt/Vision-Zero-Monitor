@@ -19,6 +19,10 @@ export interface ChartSeries {
 
 interface Props {
   title: string;
+  /** Overrides the default "<measure>, <from>–<to>" subtitle. */
+  subtitle?: string;
+  /** Source line for exported images. */
+  source?: string;
   series: ChartSeries[];
   measure: Measure;
   from: string;
@@ -31,7 +35,13 @@ interface Props {
 export const SOURCE_LINE =
   'Source: Eurostat (tran_sf_roadus, demo_gind) · EU Road Safety Vision Zero Observatory';
 
+/** Source line naming the Eurostat datasets a chart actually uses. */
+export function sourceLine(datasets: string[]): string {
+  return `Source: Eurostat (${[...new Set(datasets)].join(', ')}) · EU Road Safety Vision Zero Observatory`;
+}
+
 export function formatFor(measure: Measure): (v: number) => string {
+  if (measure === 'share') return (v: number) => `${fmtRate(v)}%`;
   return measure === 'deaths' ? fmtInt : fmtRate;
 }
 
@@ -72,7 +82,7 @@ function MultiTooltip({ active, payload, label, series, format }: {
   );
 }
 
-export function MultiSeriesChart({ title, series, measure, from, to, height = 360, yDomain, compact = false }: Props) {
+export function MultiSeriesChart({ title, subtitle: subtitleOverride, source = SOURCE_LINE, series, measure, from, to, height = 360, yDomain, compact = false }: Props) {
   const id = useId();
   const canvasRef = useRef<HTMLDivElement>(null);
   const [exportError, setExportError] = useState<string | null>(null);
@@ -84,7 +94,7 @@ export function MultiSeriesChart({ title, series, measure, from, to, height = 36
   // Direct end labels for 2–4 lines (palette relief rule); omitted on narrow screens where the legend suffices.
   const wide = typeof window === 'undefined' || window.innerWidth >= 600;
   const endLabels = series.length > 1 && series.length <= 4 && !compact && wide;
-  const subtitle = `${m.axis}, ${from}–${to}`;
+  const subtitle = subtitleOverride ?? `${m.axis}, ${from}–${to}`;
   const fileBase = slug(`${title}-${measure}-${from}-${to}`);
 
   const lastIndex = (geo: string) => {
@@ -100,7 +110,7 @@ export function MultiSeriesChart({ title, series, measure, from, to, height = 36
       await downloadChartPng(svg, {
         title, subtitle,
         legend: series.length > 1 ? series.map((s) => ({ label: s.name, color: resolveColor(s.color) })) : [],
-        source: SOURCE_LINE,
+        source,
       }, `${fileBase}.png`);
     } catch (e) {
       setExportError(e instanceof Error ? e.message : 'Export failed.');
@@ -131,7 +141,7 @@ export function MultiSeriesChart({ title, series, measure, from, to, height = 36
       ) : (
         <div className="chart__canvas" ref={canvasRef}>
           <ResponsiveContainer width="100%" height={height} initialDimension={{ width: 640, height }}>
-            <LineChart data={rows} margin={{ top: 12, right: endLabels ? 96 : 16, bottom: 4, left: 4 }} accessibilityLayer title={title}>
+            <LineChart data={rows} margin={{ top: 12, right: endLabels ? Math.min(170, 16 + Math.max(...series.map((s) => s.name.length)) * 6.6) : 16, bottom: 4, left: 4 }} accessibilityLayer title={title}>
               <CartesianGrid stroke="var(--grid)" vertical={false} />
               <XAxis dataKey="period" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} tickLine={false}
                 axisLine={{ stroke: 'var(--axis)' }} minTickGap={compact ? 24 : 16} />

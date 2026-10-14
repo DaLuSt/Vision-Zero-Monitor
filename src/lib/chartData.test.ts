@@ -33,6 +33,20 @@ describe('measureSeries', () => {
   });
 });
 
+describe('measureSeries for a breakdown category', () => {
+  const bd = d.breakdowns!;
+  it('uses category deaths, computes rates from average population and indexes to 2019', () => {
+    expect(measureSeries(d.observations, 'NL', 'deaths', bd, 'vehicle.CYCLE').map((p) => p.value)).toEqual([null, 40, null, null, 40, 36]);
+    const rate = measureSeries(d.observations, 'NL', 'rate', bd, 'vehicle.CYCLE');
+    expect(rate.find((p) => p.period === '2022')?.value).toBeCloseTo(2.3, 1); // 40 / 17.7m × 1e6
+    expect(rate.find((p) => p.period === '2023')).toMatchObject({ value: 2, status: 'provisional' }); // population flagged
+    expect(measureSeries(d.observations, 'NL', 'index', bd, 'vehicle.CYCLE').at(-1)?.value).toBeCloseTo(90);
+  });
+  it('falls back to all road deaths for an unknown category', () => {
+    expect(measureSeries(d.observations, 'NL', 'deaths', bd, 'vehicle.TANK').map((p) => p.value)).toEqual([100, null, null, 90, 80]);
+  });
+});
+
 describe('wideRows', () => {
   it('produces one row per year in range with null for missing values', () => {
     const rows = wideRows([{ geo: 'NL', points: measureSeries(d.observations, 'NL', 'deaths') }], '2019', '2022');
@@ -56,16 +70,21 @@ describe('assignSlots', () => {
 describe('URL state', () => {
   it('parses a shared link', () => {
     expect(parseBuilderParams('geo=EU27_2020,nl&measure=rate&layout=separate&from=2019&to=2022', geos, periods))
-      .toEqual({ geos: ['EU27_2020', 'NL'], measure: 'rate', layout: 'separate', from: '2019', to: '2022' });
+      .toEqual({ geos: ['EU27_2020', 'NL'], cat: null, measure: 'rate', layout: 'separate', from: '2019', to: '2022' });
   });
 
   it('defaults to the EU total over all years', () => {
-    expect(parseBuilderParams('', geos, periods)).toEqual({ geos: ['EU27_2020'], measure: 'deaths', layout: 'combined', from: '2018', to: '2023' });
+    expect(parseBuilderParams('', geos, periods)).toEqual({ geos: ['EU27_2020'], cat: null, measure: 'deaths', layout: 'combined', from: '2018', to: '2023' });
   });
 
   it('drops unknown codes and values, and swaps a reversed range', () => {
     const s = parseBuilderParams('geo=XX,BE,<script>&measure=evil&layout=x&from=2022&to=2019', geos, periods);
-    expect(s).toEqual({ geos: ['BE'], measure: 'deaths', layout: 'combined', from: '2019', to: '2022' });
+    expect(s).toEqual({ geos: ['BE'], cat: null, measure: 'deaths', layout: 'combined', from: '2019', to: '2022' });
+  });
+
+  it('accepts only known breakdown categories', () => {
+    expect(parseBuilderParams('cat=vehicle.CYCLE', geos, periods, ['vehicle.CYCLE']).cat).toBe('vehicle.CYCLE');
+    expect(parseBuilderParams('cat=vehicle.TANK', geos, periods, ['vehicle.CYCLE']).cat).toBeNull();
   });
 
   it('keeps an explicitly empty selection empty', () => {
@@ -73,9 +92,9 @@ describe('URL state', () => {
   });
 
   it('round-trips through the query string', () => {
-    const s = { geos: ['EU27_2020', 'NL'], measure: 'index' as const, layout: 'separate' as const, from: '2019', to: '2023' };
-    expect(builderQuery(s)).toBe('geo=EU27_2020,NL&measure=index&layout=separate&from=2019&to=2023');
-    expect(parseBuilderParams(builderQuery(s), geos, periods)).toEqual(s);
+    const s = { geos: ['EU27_2020', 'NL'], cat: 'vehicle.CYCLE', measure: 'index' as const, layout: 'separate' as const, from: '2019', to: '2023' };
+    expect(builderQuery(s)).toBe('geo=EU27_2020,NL&cat=vehicle.CYCLE&measure=index&layout=separate&from=2019&to=2023');
+    expect(parseBuilderParams(builderQuery(s), geos, periods, ['vehicle.CYCLE'])).toEqual(s);
     expect(parseHash(`#/charts?${builderQuery(s)}`)).toEqual({ page: 'charts', query: builderQuery(s) });
   });
 });

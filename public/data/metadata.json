@@ -1,7 +1,7 @@
 {
- "schema_version": "1.0.0",
- "generated_at": "2026-10-14T18:28:59Z",
- "content_hash": "sha256:01410503b612cf46e864f14ffb063d560da8cbb823e90ef4b10f749250d2f710",
+ "schema_version": "1.1.0",
+ "generated_at": "2026-10-14T19:36:07Z",
+ "content_hash": "sha256:3a891a2b937a2f9338e890f60d128ced769083bad38a397ff84d2bec0b2bf6d5",
  "frequency_notice": "Official fatality statistics are published periodically. This dashboard checks for updated data weekly; the underlying figures are not necessarily weekly.",
  "status_vocabulary": {
   "final": "Published by the source as final.",
@@ -18,10 +18,25 @@
    "dataset": "tran_sf_roadus",
    "role": "primary",
    "url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table",
-   "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&sex=T&age=TOTAL&pers_cat=TOTAL&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
+   "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&sex=T&age=TOTAL&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
    "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-14T18:28:40Z",
+   "retrieved_at": "2026-10-14T19:31:12Z",
+   "latest_period_in_source": "2024",
+   "status_flag_labels": {},
+   "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source"
+  },
+  {
+   "id": "eurostat:tran_sf_roadve",
+   "publisher": "Eurostat (data compiled by European Commission DG MOVE, CARE database)",
+   "title": "Persons killed in road accidents by type of vehicle",
+   "dataset": "tran_sf_roadve",
+   "role": "breakdown",
+   "url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table",
+   "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadve?format=JSON&lang=EN&unit=NR&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
+   "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm",
+   "source_published_at": "2026-08-25T21:00:00Z",
+   "retrieved_at": "2026-10-14T19:31:13Z",
    "latest_period_in_source": "2024",
    "status_flag_labels": {},
    "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source"
@@ -36,7 +51,7 @@
    "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?format=JSON&lang=EN&indic_de=AVG&sinceTimePeriod=1999&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
    "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/demo_gind_esms.htm",
    "source_published_at": "2026-09-30T21:00:00Z",
-   "retrieved_at": "2026-10-14T18:28:41Z",
+   "retrieved_at": "2026-10-14T19:31:14Z",
    "latest_period_in_source": "2026",
    "status_flag_labels": {
     "b": "break in time series",
@@ -58,7 +73,7 @@
    "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/sdg_11_40?format=JSON&lang=EN&tra_infr=TOTAL&unit=NR&unit=RT&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
    "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/sdg_11_40_esmsip2.htm",
    "source_published_at": "2026-09-30T21:00:00Z",
-   "retrieved_at": "2026-10-14T18:28:42Z",
+   "retrieved_at": "2026-10-14T19:31:15Z",
    "latest_period_in_source": "2024",
    "status_flag_labels": {
     "b": "break in time series",
@@ -80,7 +95,7 @@
    "api_url": null,
    "metadata_url": "https://github.com/DaLuSt/eu-road-safety-observatory/blob/main/docs/METHODOLOGY.md#rates-per-million-inhabitants",
    "source_published_at": null,
-   "retrieved_at": "2026-10-14T18:28:41Z",
+   "retrieved_at": "2026-10-14T19:31:14Z",
    "latest_period_in_source": null,
    "status_flag_labels": {},
    "license": "Derived from Eurostat data; same reuse terms apply"
@@ -122,11 +137,16 @@
     "level": "warning",
     "code": "source_rate_inconsistent",
     "message": "EU27_2020: tran_sf_roadus published P_MHAB disagrees with its own counts / average population in 26 year(s), e.g. 1999 (127.8 vs 43), 2000 (124.7 vs 42), 2001 (119.6 vs 40). Derived rates are used."
+   },
+   {
+    "level": "warning",
+    "code": "pedestrian_mismatch",
+    "message": "Pedestrian deaths differ between tran_sf_roadus and tran_sf_roadve 'Other' in 1 case(s), e.g. MT 2009 (4 vs 0); review the vehicle mapping"
    }
   ]
  },
  "revisions": {
-  "compared_with": null,
+  "compared_with": "2026-10-14T19:31:11Z",
   "changed": 0,
   "added": 0,
   "removed": 0,
