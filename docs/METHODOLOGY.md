@@ -80,6 +80,24 @@ benchmark_path[y]   = baseline + (y - 2019)/(2030 - 2019) * (target_2030 - basel
   different, error if it looks double-counted).
 * Status of a comparison = most cautious status of the two observations compared.
 
+## Charts
+
+The chart builder (`#/charts`) plots the EU total and any Member States with three measures:
+
+* **Deaths**: `road_fatalities` as published.
+* **Per million inhabitants**: `road_fatalities_per_million` (see above).
+* **Index (2019 = 100)**: `deaths[y] / deaths[2019] * 100` per geography, so trends of very
+  different sizes share one axis. If a geography has no 2019 value its index is not
+  shown. The status of an index value is the most cautious of the year and the 2019 base.
+
+Rules: one y-axis per chart, starting at zero; gaps are not bridged; provisional or
+estimated values use hollow diamond markers; a combined chart shows at most 8 lines
+(the validated categorical palette, colours fixed per geography while the selection
+changes), larger selections switch to one chart per geography; every chart has a
+legend (2+ lines), a text summary and a data table. PNG exports include title,
+measure, years, legend and source; CSV exports contain exactly the plotted values with
+their status. The selection is stored in the URL so a chart can be shared.
+
 ## 2030 target and Vision Zero
 
 The EU Road Safety Policy Framework 2021–2030 sets the objective of halving road

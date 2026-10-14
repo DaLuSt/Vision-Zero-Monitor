@@ -5,12 +5,14 @@ export type Route =
   | { page: 'countries' }
   | { page: 'country'; geo: string }
   | { page: 'explorer' }
+  | { page: 'charts'; query: string }
   | { page: 'methodology' }
   | { page: 'sources' }
   | { page: 'notfound' };
 
 export function parseHash(hash: string): Route {
-  const path = hash.replace(/^#\/?/, '').split('?')[0].replace(/\/$/, '');
+  const [rawPath, query = ''] = hash.replace(/^#\/?/, '').split('?');
+  const path = rawPath.replace(/\/$/, '');
   const [first, second] = path.split('/');
   switch (first) {
     case '':
@@ -19,6 +21,8 @@ export function parseHash(hash: string): Route {
       return second ? { page: 'country', geo: second.toUpperCase() } : { page: 'countries' };
     case 'explorer':
       return { page: 'explorer' };
+    case 'charts':
+      return { page: 'charts', query };
     case 'methodology':
       return { page: 'methodology' };
     case 'sources':

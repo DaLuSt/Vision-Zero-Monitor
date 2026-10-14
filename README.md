@@ -1,5 +1,10 @@
 # EU Road Safety Vision Zero Observatory
 
+**🌐 Live dashboard: [dalust.github.io/eu-road-safety-observatory](https://dalust.github.io/eu-road-safety-observatory/)**
+
+[![Deploy to GitHub Pages](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/deploy.yml/badge.svg)](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/deploy.yml)
+[![Update data](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/update-data.yml/badge.svg)](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/update-data.yml)
+
 An independent, open-source dashboard that tracks **official road fatality statistics**
 for the 27 EU Member States and progress towards the EU's 2030 road-death benchmark,
 on the way to Vision Zero (close to zero road deaths by 2050).
@@ -11,7 +16,12 @@ on the way to Vision Zero (close to zero road deaths by 2050).
 > Official fatality statistics are published periodically. This dashboard checks for
 > updated data weekly; the underlying figures are not necessarily weekly.
 
-Planned public URL: `https://dalust.github.io/eu-road-safety-observatory/` (live only after the setup steps below are done).
+Direct links: [Overview](https://dalust.github.io/eu-road-safety-observatory/) ·
+[Countries](https://dalust.github.io/eu-road-safety-observatory/#/countries) ·
+[Chart builder](https://dalust.github.io/eu-road-safety-observatory/#/charts) ·
+[Data explorer](https://dalust.github.io/eu-road-safety-observatory/#/explorer) ·
+[Methodology](https://dalust.github.io/eu-road-safety-observatory/#/methodology) ·
+[Sources & freshness](https://dalust.github.io/eu-road-safety-observatory/#/sources)
 
 ## What it shows
 
@@ -20,6 +30,7 @@ Planned public URL: `https://dalust.github.io/eu-road-safety-observatory/` (live
 | How many people die on EU roads? | Overview KPI cards (latest reference year, EU27) |
 | How has this changed? | EU trend chart (1999→), deaths or per million inhabitants |
 | Which Member States have the highest rates? | Countries: sortable table + per-country detail |
+| How does my country compare? | [Chart builder](https://dalust.github.io/eu-road-safety-observatory/#/charts): graphs for the EU total and any Member States (deaths, per million, or index 2019 = 100), combined or one per selection, downloadable as PNG/CSV, shareable by link |
 | Is the EU on course for 2030? | 2019 baseline, 2030 benchmark (−50 %), progress share, linear analytical path |
 | Where are data incomplete or uncertain? | Status badges, data freshness panel, validation warnings, data explorer + CSV |
 

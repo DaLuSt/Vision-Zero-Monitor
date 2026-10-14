@@ -7,6 +7,7 @@ import { REPO_URL } from '../lib/site';
 const NAV: { href: string; label: string; pages: Route['page'][] }[] = [
   { href: '#/', label: 'Overview', pages: ['overview'] },
   { href: '#/countries', label: 'Countries', pages: ['countries', 'country'] },
+  { href: '#/charts', label: 'Chart builder', pages: ['charts'] },
   { href: '#/explorer', label: 'Data explorer', pages: ['explorer'] },
   { href: '#/methodology', label: 'Methodology', pages: ['methodology'] },
   { href: '#/sources', label: 'Sources & freshness', pages: ['sources'] },
