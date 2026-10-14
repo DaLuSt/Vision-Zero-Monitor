@@ -96,7 +96,8 @@ One-time repository settings:
 2. **Settings → Actions → General → Workflow permissions:** the workflows declare
    their own minimal `permissions:`; the data job needs `contents: write` to push to
    `main`. If `main` is protected, allow `github-actions[bot]` to push or change the
-   update job to open a pull request instead.
+   update job to open a pull request instead. The alert job needs `issues: write`
+   (declared in the workflow) to open the failure issue.
 3. Merge to `main`. `deploy.yml` runs on every push to `main`: it runs the Python and
    frontend tests, builds with the base path reported by `actions/configure-pages`
    (`/eu-road-safety-observatory/`), and deploys.
@@ -119,6 +120,9 @@ base path then becomes `/` automatically. For other hosts, build with
    then call `deploy.yml`.
 6. If anything fails → previous data kept, failure recorded in
    `pipeline_status.json` (committed and deployed so the site shows it), job fails red.
+7. A failed refresh or deploy opens a GitHub issue labelled `data-refresh-failure`
+   (or comments on the one already open); the next successful run closes it.
+   Watch the repository's issues to get these alerts by email.
 
 ## Known limitations
 
