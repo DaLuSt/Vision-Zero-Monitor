@@ -21,3 +21,16 @@ test('navigation to countries and a country detail works', async ({ page, isMobi
   await page.getByRole('link', { name: 'Netherlands' }).click();
   await expect(page.getByRole('heading', { name: 'Netherlands', level: 2 })).toBeVisible();
 });
+
+test('chart builder plots a comparison and exports a PNG', async ({ page }) => {
+  await page.goto('/#/charts?geo=EU27_2020,NL&measure=rate&layout=combined');
+  const fig = page.getByRole('figure', { name: /2 geographies compared/ });
+  await expect(fig.locator('svg.recharts-surface')).toBeVisible();
+  await expect(fig.locator('.recharts-line')).toHaveCount(2);
+  const [download] = await Promise.all([page.waitForEvent('download'), fig.getByRole('button', { name: /^PNG/ }).click()]);
+  expect(download.suggestedFilename()).toMatch(/\.png$/);
+  await page.getByRole('checkbox', { name: 'Belgium' }).check();
+  const fig3 = page.getByRole('figure', { name: /3 geographies compared/ });
+  await expect(fig3.locator('.recharts-line')).toHaveCount(3);
+  await expect(page).toHaveURL(/geo=EU27_2020,BE,NL/);
+});

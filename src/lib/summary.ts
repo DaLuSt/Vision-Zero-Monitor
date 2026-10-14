@@ -2,6 +2,19 @@ import type { Point } from './indicators';
 import { missingPeriods, pctChange } from './indicators';
 import { fmtPct } from './format';
 
+/** "2013, 2014, 2015, 2018" → "2013–2015, 2018". */
+export function yearRanges(years: string[]): string {
+  const ys = [...new Set(years.map(Number))].sort((a, b) => a - b);
+  const parts: string[] = [];
+  for (let i = 0; i < ys.length; i++) {
+    let j = i;
+    while (j + 1 < ys.length && ys[j + 1] === ys[j] + 1) j++;
+    parts.push(j > i ? `${ys[i]}–${ys[j]}` : String(ys[i]));
+    i = j;
+  }
+  return parts.join(', ');
+}
+
 /** Plain-language description of a series for screen readers and non-visual users. */
 export function describeSeries(points: Point[], subject: string, fmt: (v: number) => string): string {
   const withData = points.filter((p) => p.value != null);
@@ -16,8 +29,8 @@ export function describeSeries(points: Point[], subject: string, fmt: (v: number
   ];
   if (withData.length > 2) parts.push(`The highest value was ${fmt(max.value!)} in ${max.period}; the lowest was ${fmt(min.value!)} in ${min.period}.`);
   const gaps = missingPeriods(points);
-  if (gaps.length) parts.push(`No data for ${gaps.join(', ')}.`);
+  if (gaps.length) parts.push(`No data for ${yearRanges(gaps)}.`);
   const qualified = withData.filter((p) => p.status === 'provisional' || p.status === 'estimated').map((p) => p.period);
-  if (qualified.length) parts.push(`Values for ${qualified.join(', ')} are provisional or estimated.`);
+  if (qualified.length) parts.push(`Values for ${yearRanges(qualified)} are provisional or estimated.`);
   return parts.join(' ');
 }

@@ -58,6 +58,9 @@ export function CountryDetail({ data, geo }: { data: Dataset; geo: string }) {
             <dd>{fmtPct(row.baselinePct)}{base?.value != null ? ` (from ${fmtInt(base.value)})` : ''}</dd>
           </div>
         </dl>
+        <p>
+          <a href={`#/charts?geo=EU27_2020,${geo}&measure=rate`}>Compare {country.name} with the EU total in the chart builder</a>
+        </p>
         {latest && base?.value != null && (
           <p className="small muted">
             A 50% reduction from {baseline} would correspond to {fmtInt(base.value * 0.5)} deaths in 2030. National
