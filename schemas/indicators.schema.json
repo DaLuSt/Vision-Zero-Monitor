@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "indicators.schema.json",
+  "title": "Indicators",
+  "type": "object",
+  "required": ["schema_version", "indicators"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "indicators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "description", "unit", "value_type", "source_id", "derivation"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "unit": {"type": "string"},
+          "value_type": {"enum": ["count", "rate"]},
+          "source_id": {"type": "string"},
+          "derivation": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+ "schema_version": "1.0.0",
+ "indicators": [
+  {
+   "id": "road_fatalities",
+   "name": "Road fatalities",
+   "description": "Persons killed in road traffic accidents, including those who die within 30 days of the accident.",
+   "unit": "persons",
+   "value_type": "count",
+   "source_id": "eurostat:tran_sf_roadus",
+   "derivation": "Source value (sex=T, age=TOTAL, pers_cat=TOTAL, unit=NR)."
+  },
+  {
+   "id": "population_average",
+   "name": "Average population",
+   "description": "Average population of the reference year (mean of 1 January populations of two consecutive years).",
+   "unit": "persons",
+   "value_type": "count",
+   "source_id": "eurostat:demo_gind",
+   "derivation": "Source value (indic_de=AVG)."
+  },
+  {
+   "id": "road_fatalities_per_million",
+   "name": "Road fatalities per million inhabitants",
+   "description": "Road fatalities divided by average population, multiplied by 1,000,000.",
+   "unit": "per million inhabitants",
+   "value_type": "rate",
+   "source_id": "derived:road_fatalities_per_million",
+   "derivation": "road_fatalities / population_average * 1e6, rounded to 1 decimal. Status is the most cautious of the two inputs."
+  }
+ ]
+}

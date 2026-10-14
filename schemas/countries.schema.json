@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "countries.schema.json",
+  "title": "Countries",
+  "type": "object",
+  "required": ["schema_version", "countries"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "countries": {
+      "type": "array",
+      "minItems": 27,
+      "maxItems": 27,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["geo", "iso2", "name", "eu_member"],
+        "properties": {
+          "geo": {"type": "string", "pattern": "^[A-Z]{2}$"},
+          "iso2": {"type": "string", "pattern": "^[A-Z]{2}$"},
+          "name": {"type": "string", "minLength": 1},
+          "eu_member": {"const": true}
+        }
+      }
+    }
+  }
+}

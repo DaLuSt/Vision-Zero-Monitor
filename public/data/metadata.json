@@ -1,0 +1,135 @@
+{
+ "schema_version": "1.0.0",
+ "generated_at": "2026-10-14T18:28:59Z",
+ "content_hash": "sha256:01410503b612cf46e864f14ffb063d560da8cbb823e90ef4b10f749250d2f710",
+ "frequency_notice": "Official fatality statistics are published periodically. This dashboard checks for updated data weekly; the underlying figures are not necessarily weekly.",
+ "status_vocabulary": {
+  "final": "Published by the source as final.",
+  "provisional": "Flagged by the source as provisional (p); may be revised.",
+  "estimated": "Flagged by the source as estimated (e).",
+  "missing": "No value published by the source for this period. Shown as a gap, never as zero.",
+  "unknown": "Published without a status flag; finality cannot be established from the source."
+ },
+ "sources": [
+  {
+   "id": "eurostat:tran_sf_roadus",
+   "publisher": "Eurostat (data compiled by European Commission DG MOVE, CARE database)",
+   "title": "Persons killed in road accidents by age, sex and category of persons involved",
+   "dataset": "tran_sf_roadus",
+   "role": "primary",
+   "url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table",
+   "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&sex=T&age=TOTAL&pers_cat=TOTAL&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
+   "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm",
+   "source_published_at": "2026-08-25T21:00:00Z",
+   "retrieved_at": "2026-10-14T18:28:40Z",
+   "latest_period_in_source": "2024",
+   "status_flag_labels": {},
+   "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source"
+  },
+  {
+   "id": "eurostat:demo_gind",
+   "publisher": "Eurostat",
+   "title": "Population change - demographic balance and crude rates at national level (average population)",
+   "dataset": "demo_gind",
+   "role": "denominator",
+   "url": "https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table",
+   "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?format=JSON&lang=EN&indic_de=AVG&sinceTimePeriod=1999&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
+   "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/demo_gind_esms.htm",
+   "source_published_at": "2026-09-30T21:00:00Z",
+   "retrieved_at": "2026-10-14T18:28:41Z",
+   "latest_period_in_source": "2026",
+   "status_flag_labels": {
+    "b": "break in time series",
+    "p": "provisional",
+    "ep": "estimated, provisional",
+    "be": "break in time series, estimated",
+    "e": "estimated",
+    "bep": "break in time series, estimated, provisional"
+   },
+   "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source"
+  },
+  {
+   "id": "eurostat:sdg_11_40",
+   "publisher": "Eurostat",
+   "title": "Road traffic deaths, by type of roads",
+   "dataset": "sdg_11_40",
+   "role": "cross_check",
+   "url": "https://ec.europa.eu/eurostat/databrowser/view/sdg_11_40/default/table",
+   "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/sdg_11_40?format=JSON&lang=EN&tra_infr=TOTAL&unit=NR&unit=RT&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
+   "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/sdg_11_40_esmsip2.htm",
+   "source_published_at": "2026-09-30T21:00:00Z",
+   "retrieved_at": "2026-10-14T18:28:42Z",
+   "latest_period_in_source": "2024",
+   "status_flag_labels": {
+    "b": "break in time series",
+    "be": "break in time series, estimated",
+    "e": "estimated",
+    "bep": "break in time series, estimated, provisional",
+    "ep": "estimated, provisional",
+    "p": "provisional"
+   },
+   "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source"
+  },
+  {
+   "id": "derived:road_fatalities_per_million",
+   "publisher": "EU Road Safety Vision Zero Observatory (derived from Eurostat data)",
+   "title": "Road fatalities per million inhabitants (derived)",
+   "dataset": null,
+   "role": "derived",
+   "url": "https://github.com/DaLuSt/eu-road-safety-observatory/blob/main/docs/METHODOLOGY.md#rates-per-million-inhabitants",
+   "api_url": null,
+   "metadata_url": "https://github.com/DaLuSt/eu-road-safety-observatory/blob/main/docs/METHODOLOGY.md#rates-per-million-inhabitants",
+   "source_published_at": null,
+   "retrieved_at": "2026-10-14T18:28:41Z",
+   "latest_period_in_source": null,
+   "status_flag_labels": {},
+   "license": "Derived from Eurostat data; same reuse terms apply"
+  }
+ ],
+ "targets": [
+  {
+   "id": "eu_2030_fatalities_halving",
+   "name": "EU 2030 road-death benchmark (fatality component)",
+   "geo": "EU27_2020",
+   "indicator": "road_fatalities",
+   "baseline_period": "2019",
+   "target_period": "2030",
+   "reduction_fraction": 0.5,
+   "policy_reference": "EU Road Safety Policy Framework 2021-2030 – Next steps towards 'Vision Zero' (SWD(2019) 283)",
+   "policy_url": "https://transport.ec.europa.eu/transport-themes/road-safety_en",
+   "note": "The EU objective is to halve both road deaths and serious injuries by 2030 compared with 2019. This benchmark covers road deaths only and does not by itself measure the serious-injury objective. Vision Zero is the long-term ambition of moving close to zero road deaths by 2050.",
+   "baseline_value": 22757,
+   "baseline_status": "unknown",
+   "target_value": 11378.5
+  }
+ ],
+ "coverage": {
+  "period": "2024",
+  "member_states_reporting": 27,
+  "member_states_total": 27,
+  "missing": []
+ },
+ "validation": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   {
+    "level": "warning",
+    "code": "eu_aggregate",
+    "message": "2003: EU27 aggregate 47404 differs from sum of Member States 47405"
+   },
+   {
+    "level": "warning",
+    "code": "source_rate_inconsistent",
+    "message": "EU27_2020: tran_sf_roadus published P_MHAB disagrees with its own counts / average population in 26 year(s), e.g. 1999 (127.8 vs 43), 2000 (124.7 vs 42), 2001 (119.6 vs 40). Derived rates are used."
+   }
+  ]
+ },
+ "revisions": {
+  "compared_with": null,
+  "changed": 0,
+  "added": 0,
+  "removed": 0,
+  "examples": []
+ }
+}
