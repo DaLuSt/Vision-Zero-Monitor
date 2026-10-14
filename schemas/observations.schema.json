@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "observations.schema.json",
+  "title": "Observations",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "observations"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["geo", "geo_name", "indicator", "period", "frequency", "value", "unit", "status",
+                     "source_flag", "source_id", "source_url", "source_published_at", "retrieved_at"],
+        "properties": {
+          "geo": {"type": "string", "pattern": "^(EU27_2020|[A-Z]{2})$"},
+          "geo_name": {"type": "string", "minLength": 1},
+          "indicator": {"enum": ["road_fatalities", "population_average", "road_fatalities_per_million"]},
+          "period": {"type": "string", "pattern": "^\\d{4}$"},
+          "frequency": {"enum": ["annual"]},
+          "value": {"type": ["number", "null"], "minimum": 0},
+          "unit": {"enum": ["persons", "per million inhabitants"]},
+          "status": {"enum": ["final", "provisional", "estimated", "missing", "unknown"]},
+          "source_flag": {"type": ["string", "null"], "maxLength": 8},
+          "status_note": {"type": "string"},
+          "source_id": {"type": "string", "minLength": 1},
+          "source_url": {"type": "string", "pattern": "^https://"},
+          "source_published_at": {"type": ["string", "null"], "format": "date-time"},
+          "retrieved_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    }
+  }
+}

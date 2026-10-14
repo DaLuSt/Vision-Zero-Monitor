@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "latest.schema.json",
+  "title": "Latest summary",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "latest_period", "eu", "coverage", "countries"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "latest_period": {"type": ["string", "null"], "pattern": "^\\d{4}$"},
+    "eu": {
+      "type": ["object", "null"],
+      "required": ["period", "fatalities", "fatalities_status", "baseline_period", "baseline_fatalities", "target_fatalities"]
+    },
+    "coverage": {"type": "object"},
+    "countries": {
+      "type": "array",
+      "maxItems": 27,
+      "items": {
+        "type": "object",
+        "required": ["geo", "iso2", "name", "period", "fatalities", "status", "rate_per_million"],
+        "properties": {
+          "fatalities": {"type": ["integer", "null"], "minimum": 0},
+          "rate_per_million": {"type": ["number", "null"], "minimum": 0}
+        }
+      }
+    }
+  }
+}

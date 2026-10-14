@@ -1,0 +1,17 @@
+[project]
+name = "eu-road-safety-observatory-pipeline"
+version = "1.0.0"
+description = "Data pipeline for the EU Road Safety Vision Zero Observatory"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "requests>=2.32,<3",
+  "jsonschema>=4.23,<5",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

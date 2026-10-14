@@ -1,0 +1,20 @@
+import { REPO_URL } from '../lib/site';
+
+export function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="site-footer__inner">
+        <p>
+          Source: Eurostat (<a href="https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table">tran_sf_roadus</a>,{' '}
+          <a href="https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table">demo_gind</a>), based on the
+          European Commission's CARE database. Reuse of Eurostat data is subject to the{' '}
+          <a href="https://ec.europa.eu/eurostat/about-us/policies/copyright">Eurostat copyright notice</a>.
+        </p>
+        <p>
+          This is an independent open-source project, not an official publication of the European Union. No tracking or
+          analytics. <a href={REPO_URL}>Source code (MIT)</a>.
+        </p>
+      </div>
+    </footer>
+  );
+}
