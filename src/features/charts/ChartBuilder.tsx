@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Dataset } from '../../types/data';
 import { EU } from '../../lib/indicators';
 import {
-  assignSlots, builderQuery, inRange, niceCeil, MAX_COMBINED_SERIES, MEASURES, measureSeries, parseBuilderParams,
-  type BuilderState, type Layout, type Measure,
+  assignSlots, BUILDER_MEASURES, builderQuery, inRange, niceCeil, MAX_COMBINED_SERIES, MEASURES, measureSeries, parseBuilderParams,
+  type BuilderState, type Layout,
 } from '../../lib/chartData';
+import { euComparableFrom, parseCategoryKey } from '../../lib/breakdowns';
 import { Notice } from '../../components/States';
-import { MultiSeriesChart, type ChartSeries } from './MultiSeriesChart';
+import { MultiSeriesChart, sourceLine, type ChartSeries } from './MultiSeriesChart';
 
 const EU_LABEL = 'EU total';
 
@@ -20,8 +21,11 @@ export function ChartBuilder({ data, query }: { data: Dataset; query: string }) 
   const names = useMemo(() => new Map<string, string>([[EU, EU_LABEL], ...countries.map((c) => [c.geo, c.name] as [string, string])]), [countries]);
   const order = (geos: string[]) => [...names.keys()].filter((g) => geos.includes(g));
 
+  const bd = data.breakdowns ?? null;
+  const catKeys = useMemo(() => (bd ? bd.dimensions.flatMap((d) => d.categories.map((c) => `${d.id}.${c.id}`)) : []), [bd]);
+
   const [state, setState] = useState<BuilderState>(() => {
-    const parsed = parseBuilderParams(query, [...names.keys()], periods);
+    const parsed = parseBuilderParams(query, [...names.keys()], periods, catKeys);
     return { ...parsed, geos: order(parsed.geos) };
   });
   const [slots, setSlots] = useState<Record<string, number>>(() => assignSlots(state.geos, {}));
@@ -50,7 +54,7 @@ export function ChartBuilder({ data, query }: { data: Dataset; query: string }) 
   const series: ChartSeries[] = useMemo(() => state.geos.map((geo) => ({
     geo,
     name: names.get(geo) ?? geo,
-    points: inRange(measureSeries(data.observations, geo, state.measure), state.from, state.to),
+    points: inRange(measureSeries(data.observations, geo, state.measure, bd, state.cat), state.from, state.to),
     color: `var(--cat-${(slots[geo] ?? 0) + 1})`,
   })), [data, state, slots, names]);
 
@@ -75,6 +79,17 @@ export function ChartBuilder({ data, query }: { data: Dataset; query: string }) 
   };
 
   const allCountries = countries.map((c) => c.geo);
+  const cat = parseCategoryKey(state.cat, bd);
+  const subject = cat ? `${cat.category.label} killed` : 'Road deaths';
+  const source = sourceLine([
+    cat ? cat.dimension.source_id.replace('eurostat:', '') : 'tran_sf_roadus',
+    ...(state.measure === 'rate' ? ['demo_gind'] : []),
+  ]);
+  const subtitleFor = () => {
+    const what = cat ? `${cat.category.label} killed` : 'Road deaths';
+    const how = state.measure === 'rate' ? ' per million inhabitants' : state.measure === 'index' ? ', index 2019 = 100' : '';
+    return `${what}${how}, ${state.from}–${state.to}`;
+  };
   const measureLabel = MEASURES[state.measure].label.toLowerCase();
 
   return (
@@ -113,10 +128,22 @@ export function ChartBuilder({ data, query }: { data: Dataset; query: string }) 
           </fieldset>
 
           <div className="builder__options">
+            {bd && (
+              <label className="field"><span>Who</span>
+                <select value={state.cat ?? ''} onChange={(e) => update({ cat: e.target.value || null })}>
+                  <option value="">All road deaths</option>
+                  {bd.dimensions.map((d) => (
+                    <optgroup key={d.id} label={`By ${d.label.toLowerCase()}`}>
+                      {d.categories.map((c) => <option key={c.id} value={`${d.id}.${c.id}`}>{c.label}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
+              </label>
+            )}
             <div className="field">
               <span id="measure-label">Measure</span>
               <div className="segmented segmented--stack" role="group" aria-labelledby="measure-label">
-                {(Object.keys(MEASURES) as Measure[]).map((m) => (
+                {BUILDER_MEASURES.map((m) => (
                   <button key={m} type="button" aria-pressed={state.measure === m} onClick={() => update({ measure: m })}>{MEASURES[m].label}</button>
                 ))}
               </div>
@@ -154,6 +181,12 @@ export function ChartBuilder({ data, query }: { data: Dataset; query: string }) 
         <section className="panel"><p className="state state--empty">Select the EU total or at least one country to create a chart.</p></section>
       ) : (
         <>
+          {cat && bd && state.geos.includes(EU) && (euComparableFrom(bd, cat.dimension) ?? '') > state.from && (
+            <Notice>
+              EU figures for {cat.category.label.toLowerCase()} start in {euComparableFrom(bd, cat.dimension)}, the first
+              year in which all 27 Member States reported this breakdown.
+            </Notice>
+          )}
           {tooMany && (
             <Notice tone="warning">
               A combined chart shows at most {MAX_COMBINED_SERIES} lines so that every line keeps a distinguishable colour.
@@ -171,7 +204,8 @@ export function ChartBuilder({ data, query }: { data: Dataset; query: string }) 
           {layout === 'combined' ? (
             <section className="panel">
               <MultiSeriesChart
-                title={series.length === 1 ? `Road deaths: ${series[0].name}` : `Road deaths: ${series.length} geographies compared`}
+                title={series.length === 1 ? `${subject}: ${series[0].name}` : `${subject}: ${series.length} geographies compared`}
+                subtitle={subtitleFor()} source={source}
                 series={series} measure={state.measure} from={state.from} to={state.to}
               />
             </section>
@@ -179,7 +213,7 @@ export function ChartBuilder({ data, query }: { data: Dataset; query: string }) 
             <section aria-label={`One chart per selection, ${measureLabel}`} className="small-multiples">
               {series.map((s) => (
                 <div key={s.geo} className="panel">
-                  <MultiSeriesChart title={`Road deaths: ${s.name}`} series={[{ ...s, color: 'var(--series-1)' }]}
+                  <MultiSeriesChart title={`${subject}: ${s.name}`} subtitle={subtitleFor()} source={source} series={[{ ...s, color: 'var(--series-1)' }]}
                     measure={state.measure} from={state.from} to={state.to} height={220} yDomain={sharedDomain} compact />
                 </div>
               ))}

@@ -9,6 +9,7 @@ quoted below come from that day's API responses, which are saved in
 | Source | Machine-readable | Official | Prelim./final | Cadence | National comparison | Used |
 | --- | --- | --- | --- | --- | --- | --- |
 | Eurostat `tran_sf_roadus` | ✅ API (JSON-stat) | ✅ | Unflagged (see below) | Annual, ~once a year | ✅ 27 MS + EU27, 1999→ | **Primary** |
+| Eurostat `tran_sf_roadve` | ✅ API (JSON-stat) | ✅ | Unflagged | Annual | ✅ from 2016 for all 27 | Breakdown by mode of transport |
 | Eurostat `demo_gind` (AVG) | ✅ API | ✅ | Flags `p`, `e`, `b` | Annual (+ revisions) | ✅ | Denominator |
 | Eurostat `sdg_11_40` | ✅ API | ✅ | Counts unflagged; rates flagged | Annual | ✅ 2000→ | Cross-check only |
 | DG MOVE "Road safety statistics 2025" page | ❌ (figures are images/HTML) | ✅ | **Preliminary** | Annual (spring) | Partly | Not used |
@@ -28,7 +29,9 @@ quoted below come from that day's API responses, which are saved in
 * **Dimensions:** `freq` (A), `sex` (T/M/F/UNK), `age` (TOTAL + 7 bands), `unit`
   (`NR` number, `P_MHAB` per million inhabitants), `pers_cat` (TOTAL, PAS, DRIV, PED, UNK),
   `geo` (EU27_2020, 27 MS, EFTA, candidates, UK), `time` (1999–2024).
-* **Variables used:** `NR` with `sex=T, age=TOTAL, pers_cat=TOTAL`.
+* **Variables used:** `NR` with `sex=T, age=TOTAL`; `pers_cat=TOTAL` for road deaths and
+  `DRIV`, `PAS`, `PED`, `UNK` for the road-user breakdown (these four add up to `TOTAL`
+  in 643 of 656 country-years; the rest differ by ±1).
 * **Geography:** `EU27_2020` and the 27 Member States (Eurostat codes; Greece = `EL`).
 * **Reference period:** calendar years 1999–2024 (`OBS_PERIOD_OVERALL_LATEST` = 2024).
 * **Publication date:** `UPDATE_DATA` annotation = 2026-08-25T23:00:00+02:00.
@@ -53,7 +56,35 @@ quoted below come from that day's API responses, which are saved in
   (explicit `null` + `status: "missing"` where no value); integer check;
   `UPDATE_DATA` converted to UTC → `source_published_at`.
 
-## 2. Eurostat — `demo_gind` (rate denominator)
+## 2. Eurostat — `tran_sf_roadve` (breakdown by mode of transport)
+
+* **Title:** Persons killed in road accidents by type of vehicle.
+* **Canonical URL:** https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table
+* **API endpoint:** `…/data/tran_sf_roadve?format=JSON&lang=EN&unit=NR&geo=…`
+* **Dimensions:** `vehicle` (28 codes incl. `TOTAL`), `unit` (`NR`), `geo`, `time` (1999–2024).
+* **Publication date:** `UPDATE_DATA` = 2026-08-25T23:00:00+02:00. No status flags.
+* **Findings verified on 2026-10-14 (important for correct use):**
+  * The 27 non-`TOTAL` codes are **one non-overlapping partition**: they add up to `TOTAL`
+    in 625 of 656 country-years (the rest only in the EU aggregate, ±1–2).
+  * Parent-sounding codes are **residual "not elsewhere classified" categories, not totals**:
+    `MOTO_2WH` = 951 EU deaths in 2024 while `MOTO_LE125 + MOTO_GT125 + MOTO_NSP` = 2,788.
+    Reading `MOTO_2WH` as "all motorcyclists" would undercount them by about 75 %. The same
+    holds for `VEH_GD` and `BUS_TOT`.
+  * `OTH` ("Other") holds people not using a vehicle, i.e. **pedestrians**: it equals
+    `tran_sf_roadus` `PED` in 648 of 656 country-years; the 8 exceptions differ by at most 4
+    (largest: Malta 2009, 4 vs 0, reported as a validation warning).
+  * **Coverage:** 12 Member States did not report breakdowns for some early years, and a few
+    have gaps in 2011–2015; all 27 report from **2016**. Eurostat's EU aggregate for incomplete
+    years counts the non-reporting countries' deaths as unknown (37 % "unknown" in 1999), so
+    EU breakdowns are only comparable from 2016. Both road-user and vehicle breakdowns share
+    this pattern.
+  * Some countries record many deaths without a vehicle type (Estonia: "other and unknown"
+    above 10 % in most years, 51 % in 2020).
+* **Transformation:** 27 codes grouped into 8 categories (see METHODOLOGY.md § Breakdowns);
+  a group is missing for a year if any of its codes is missing (never undercounted). A new,
+  unmapped code makes the pipeline fail instead of silently dropping deaths.
+
+## 3. Eurostat — `demo_gind` (rate denominator)
 
 * **Title:** Population change – demographic balance and crude rates at national level.
 * **Canonical URL:** https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table
@@ -67,7 +98,7 @@ quoted below come from that day's API responses, which are saved in
 * **Transformation:** used as `population_average` observations and as the
   denominator of `road_fatalities_per_million` (see METHODOLOGY.md).
 
-## 3. Eurostat — `sdg_11_40` (cross-check)
+## 4. Eurostat — `sdg_11_40` (cross-check)
 
 * **Title:** Road traffic deaths, by type of roads.
 * **Canonical URL:** https://ec.europa.eu/eurostat/databrowser/view/sdg_11_40/default/table
@@ -79,7 +110,7 @@ quoted below come from that day's API responses, which are saved in
   checks passed for **every** geo × year — independent confirmation of the counts
   and of the derived rates.
 
-## 4. European Commission DG MOVE / European Road Safety Observatory
+## 5. European Commission DG MOVE / European Road Safety Observatory
 
 * **Road safety statistics 2025 in more detail:**
   https://transport.ec.europa.eu/background/road-safety-statistics-2025_en —

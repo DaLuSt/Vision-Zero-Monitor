@@ -21,8 +21,11 @@ from . import config
 from .export import PUBLIC_FILES, read_json, write_atomic
 from .fetch import FetchError, RawSource, fetch_all, utc_now_iso
 from .jsonstat import SchemaChangeError
+from .breakdowns import build_breakdowns
 from .transform import build_latest, build_targets, content_hash, coverage, transform
-from .validate import check_observations, compare_with_previous, cross_check, validate_schema
+from .validate import (
+    check_breakdowns, check_observations, compare_with_previous, cross_check, validate_schema,
+)
 
 log = logging.getLogger("data_pipeline")
 
@@ -83,7 +86,8 @@ def _status_doc(attempt_at: str, outcome: str, last_success_at: str | None, mess
 
 
 def build_documents(raw: dict[str, RawSource], generated_at: str, previous_obs: list[dict] | None,
-                    previous_generated_at: str | None) -> tuple[dict[str, dict], list[dict], list[dict]]:
+                    previous_generated_at: str | None,
+                    previous_breakdowns: dict | None = None) -> tuple[dict[str, dict], list[dict], list[dict]]:
     result = transform(raw)
     observations = result.observations
     targets = build_targets(observations)
@@ -93,6 +97,9 @@ def build_documents(raw: dict[str, RawSource], generated_at: str, previous_obs: 
     issues += cross_check(observations, result.cross_check)
     revisions, revision_issues = compare_with_previous(observations, previous_obs, previous_generated_at)
     issues += revision_issues
+
+    breakdowns = build_breakdowns(result.parsed, raw, result.periods, generated_at)
+    issues += check_breakdowns(breakdowns, observations, previous_breakdowns)
 
     latest = build_latest(observations, targets, generated_at)
     docs = {
@@ -104,13 +111,14 @@ def build_documents(raw: dict[str, RawSource], generated_at: str, previous_obs: 
         },
         "indicators": {"schema_version": config.SCHEMA_VERSION, "indicators": config.INDICATORS},
         "latest": latest,
+        "breakdowns": breakdowns,
     }
     errors = [i for i in issues if i["level"] == "error"]
     warnings = [i for i in issues if i["level"] == "warning"]
     docs["metadata"] = {
         "schema_version": config.SCHEMA_VERSION,
         "generated_at": generated_at,
-        "content_hash": content_hash(observations, result.sources),
+        "content_hash": content_hash(observations, result.sources, breakdowns),
         "frequency_notice": FREQUENCY_NOTICE,
         "status_vocabulary": STATUS_VOCABULARY,
         "sources": result.sources,
@@ -131,6 +139,7 @@ def run(output_dir: Path = DEFAULT_OUTPUT, from_raw: Path | None = None, save_ra
     prev_status = read_json(output_dir / "pipeline_status.json") or {}
     prev_meta = read_json(output_dir / "metadata.json")
     prev_obs_doc = read_json(output_dir / "observations.json")
+    prev_breakdowns = read_json(output_dir / "breakdowns.json")
     last_success_at = prev_status.get("last_success_at")
 
     try:
@@ -141,6 +150,7 @@ def run(output_dir: Path = DEFAULT_OUTPUT, from_raw: Path | None = None, save_ra
             raw, attempt_at,
             prev_obs_doc.get("observations") if prev_obs_doc else None,
             prev_meta.get("generated_at") if prev_meta else None,
+            prev_breakdowns,
         )
         if errors:
             raise ValidationFailed(errors)

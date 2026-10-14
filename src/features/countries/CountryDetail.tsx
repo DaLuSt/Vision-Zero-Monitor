@@ -60,6 +60,8 @@ export function CountryDetail({ data, geo }: { data: Dataset; geo: string }) {
         </dl>
         <p>
           <a href={`#/charts?geo=EU27_2020,${geo}&measure=rate`}>Compare {country.name} with the EU total in the chart builder</a>
+          {' · '}
+          <a href={`#/road-users?geo=${geo}`}>Who dies on the roads in {country.name}</a>
         </p>
         {latest && base?.value != null && (
           <p className="small muted">

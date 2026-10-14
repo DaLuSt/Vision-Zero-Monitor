@@ -20,7 +20,8 @@ It has no backend server, database, API keys or paid services.
 
 ```
  Eurostat dissemination API (JSON-stat 2.0, no key)
-   ├─ tran_sf_roadus   road deaths (counts), CARE via DG MOVE
+   ├─ tran_sf_roadus   road deaths (counts) + by road user, CARE via DG MOVE
+   ├─ tran_sf_roadve   road deaths by mode of transport
    ├─ demo_gind        average population (rate denominator)
    └─ sdg_11_40        cross-check only (counts + flagged rates)
           │
@@ -79,6 +80,7 @@ Entities (generated JSON files in `public/data/`):
 | File | Content |
 | --- | --- |
 | `observations.json` | All observations (EU27_2020 + 27 Member States, all available years, 3 indicators). Missing values are explicit `null` with `status: "missing"`. |
+| `breakdowns.json` | Deaths by road user and by mode of transport: compact columnar series (values aligned to a shared `periods` list) with category mapping and per-year EU coverage. Loaded optionally; the rest of the site works without it. |
 | `countries.json` | Member State codes (Eurostat geo codes, e.g. `EL` for Greece), ISO 3166-1 alpha-2 (`GR`), names. |
 | `indicators.json` | Indicator definitions, units, derivation. |
 | `metadata.json` | Schema version, `generated_at`, sources (URLs, dataset ids, publication + retrieval timestamps), targets, coverage, validation results, revision summary. |

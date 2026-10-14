@@ -207,3 +207,87 @@ def compare_with_previous(new: list[dict], previous: list[dict] | None, previous
         issues.append(issue("error", "latest_period_regressed",
                             f"Latest EU reference period went from {old_latest} to {new_latest}; refusing to publish"))
     return summary, issues
+
+
+def check_breakdowns(doc: dict, observations: list[dict], previous: dict | None = None) -> list[dict]:
+    """Structural and statistical checks for breakdowns.json.
+
+    Hard errors: misaligned series, duplicates, missing categories, null/status mismatch,
+    a coverage collapse vs the previous file. Warnings: categories that do not add up to
+    the published total, and road-user pedestrians disagreeing with vehicle pedestrians.
+    """
+    issues: list[dict] = []
+    periods = doc["periods"]
+    n = len(periods)
+    dims = {d["id"]: [c["id"] for c in d["categories"]] for d in doc["dimensions"]}
+    seen: set[tuple[str, str, str]] = set()
+    by_key: dict[tuple[str, str, str], dict] = {}
+    for s in doc["series"]:
+        key = (s["geo"], s["dimension"], s["category"])
+        where = " ".join(key)
+        if key in seen:
+            issues.append(issue("error", "duplicate", f"breakdowns: duplicate series {where}"))
+        seen.add(key)
+        by_key[key] = s
+        if s["geo"] not in config.GEO_NAMES:
+            issues.append(issue("error", "geo", f"breakdowns: unknown geo {s['geo']!r}"))
+        if s["category"] not in dims.get(s["dimension"], []):
+            issues.append(issue("error", "category", f"breakdowns: unknown category {where}"))
+        if len(s["values"]) != n or len(s["statuses"]) != n:
+            issues.append(issue("error", "alignment", f"breakdowns: {where} is not aligned with {n} periods"))
+            continue
+        for v, st in zip(s["values"], s["statuses"]):
+            if (v is None) != (st == "missing"):
+                issues.append(issue("error", "missing", f"breakdowns: {where} value/status mismatch ({v!r}, {st})"))
+                break
+            if v is not None and (not isinstance(v, int) or isinstance(v, bool) or v < 0):
+                issues.append(issue("error", "integer", f"breakdowns: {where} has invalid count {v!r}"))
+                break
+    for geo in config.ALL_GEOS:
+        for dim, cats in dims.items():
+            absent = [c for c in cats if (geo, dim, c) not in by_key]
+            if absent:
+                issues.append(issue("error", "incomplete", f"breakdowns: {geo} {dim} lacks categories {absent}"))
+    if any(i["level"] == "error" for i in issues):
+        return issues
+
+    # Categories should add up to the published total (they partition it in the source).
+    totals = {(o["geo"], o["period"]): o["value"] for o in observations if o["indicator"] == "road_fatalities"}
+    for dim, cats in dims.items():
+        off = []
+        for geo in config.ALL_GEOS:
+            for i, period in enumerate(periods):
+                parts = [by_key[(geo, dim, c)]["values"][i] for c in cats]
+                total = totals.get((geo, period))
+                if total is None or any(p is None for p in parts):
+                    continue
+                if abs(sum(parts) - total) > max(2, config.BREAKDOWN_SUM_TOLERANCE * total):
+                    off.append(f"{geo} {period} ({sum(parts)} vs {total})")
+        if off:
+            issues.append(issue("warning", "breakdown_sum",
+                                f"{dim}: categories do not add up to total road deaths in {len(off)} case(s), e.g. {', '.join(off[:5])}"))
+
+    # Pedestrians appear in both dimensions (vehicle PED is Eurostat 'OTH'); they should agree.
+    if "road_user" in dims and "vehicle" in dims:
+        off = []
+        for geo in config.ALL_GEOS:
+            a = by_key.get((geo, "road_user", "PED"))
+            b = by_key.get((geo, "vehicle", "PED"))
+            if not a or not b:
+                continue
+            for i, period in enumerate(periods):
+                x, y = a["values"][i], b["values"][i]
+                if x is not None and y is not None and abs(x - y) > max(2, config.PEDESTRIAN_TOLERANCE * max(x, y)):
+                    off.append(f"{geo} {period} ({x} vs {y})")
+        if off:
+            issues.append(issue("warning", "pedestrian_mismatch",
+                                f"Pedestrian deaths differ between tran_sf_roadus and tran_sf_roadve 'Other' in "
+                                f"{len(off)} case(s), e.g. {', '.join(off[:5])}; review the vehicle mapping"))
+
+    if previous and previous.get("series"):
+        old = sum(v is not None for s in previous["series"] for v in s.get("values", []))
+        new = sum(v is not None for s in doc["series"] for v in s["values"])
+        if old and (old - new) / old > config.COVERAGE_DROP_FAIL_FRACTION:
+            issues.append(issue("error", "coverage_drop",
+                                f"breakdowns: non-null values dropped from {old} to {new}; refusing to publish"))
+    return issues

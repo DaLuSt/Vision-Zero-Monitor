@@ -1,4 +1,4 @@
-import type { Dataset, Metadata, Observation, PipelineStatus, Country, Indicator } from '../types/data';
+import type { Breakdowns, Dataset, Metadata, Observation, PipelineStatus, Country, Indicator } from '../types/data';
 
 export const DATA_BASE = `${import.meta.env.BASE_URL}data/`;
 
@@ -22,7 +22,13 @@ export async function loadDataset(fetchImpl: typeof fetch = fetch): Promise<Data
     getJson<Metadata>('metadata.json', fetchImpl),
   ]);
   // The pipeline status is informative only; its absence must not break the dashboard.
-  const pipelineStatus = await getJson<PipelineStatus>('pipeline_status.json', fetchImpl).catch(() => null);
+  const [pipelineStatus, breakdowns] = await Promise.all([
+    getJson<PipelineStatus>('pipeline_status.json', fetchImpl).catch(() => null),
+    // Breakdowns are optional: the core dashboard works without them.
+    getJson<Breakdowns>('breakdowns.json', fetchImpl)
+      .then((b) => (Array.isArray(b?.series) && Array.isArray(b?.periods) ? b : null))
+      .catch(() => null),
+  ]);
   if (!Array.isArray(obs?.observations) || !Array.isArray(countries?.countries)) {
     throw new DataLoadError('The data files have an unexpected structure.');
   }
@@ -32,5 +38,6 @@ export async function loadDataset(fetchImpl: typeof fetch = fetch): Promise<Data
     indicators: indicators.indicators ?? [],
     metadata,
     pipelineStatus,
+    breakdowns,
   };
 }

@@ -49,6 +49,13 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * 🔜 Independent data-integrity review of displayed figures against Eurostat data browser.
 * ✅ Public URL `https://dalust.github.io/eu-road-safety-observatory/` serves the site (checked in Chromium).
 
+## Milestone 6 — Breakdowns ✅
+
+* ✅ Deaths by road user (`tran_sf_roadus` `pers_cat`) and by mode of transport (`tran_sf_roadve`, 27 codes → 8 groups).
+* ✅ Coverage-aware EU figures (complete from 2016), unknown-share warnings, partition and pedestrian cross-checks.
+* ✅ Road users page; chart builder "Who" filter (e.g. cyclists per million across countries).
+* 🔜 Breakdown rows in the data explorer; age and sex breakdowns (`tran_sf_roadus` `age`, `sex`); road type (`tran_sf_roadro`).
+
 ## Outstanding decisions
 
 | Decision | Current assumption | Who decides |

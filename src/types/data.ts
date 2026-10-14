@@ -95,8 +95,49 @@ export interface PipelineStatus {
   run_url?: string | null;
 }
 
+export type BreakdownDimensionId = 'road_user' | 'vehicle';
+
+export interface BreakdownCategory {
+  id: string;
+  label: string;
+  description: string;
+  source_categories: string[];
+}
+
+export interface BreakdownDimension {
+  id: BreakdownDimensionId;
+  label: string;
+  description: string;
+  unit: 'persons';
+  source_id: string;
+  source_url: string;
+  source_published_at: string | null;
+  retrieved_at: string;
+  categories: BreakdownCategory[];
+  /** Per period: Member States with a complete breakdown. EU values are comparable only at 27. */
+  eu_members_reporting: number[];
+}
+
+export interface BreakdownSeries {
+  geo: string;
+  dimension: BreakdownDimensionId;
+  category: string;
+  values: (number | null)[];
+  statuses: Status[];
+}
+
+/** breakdowns.json: values[i] / statuses[i] refer to periods[i]. */
+export interface Breakdowns {
+  schema_version: string;
+  generated_at: string;
+  periods: string[];
+  dimensions: BreakdownDimension[];
+  series: BreakdownSeries[];
+}
+
 export interface Dataset {
   observations: Observation[];
+  breakdowns?: Breakdowns | null;
   countries: Country[];
   indicators: Indicator[];
   metadata: Metadata;

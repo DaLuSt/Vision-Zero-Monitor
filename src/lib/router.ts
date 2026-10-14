@@ -6,6 +6,7 @@ export type Route =
   | { page: 'country'; geo: string }
   | { page: 'explorer' }
   | { page: 'charts'; query: string }
+  | { page: 'road-users'; query: string }
   | { page: 'methodology' }
   | { page: 'sources' }
   | { page: 'notfound' };
@@ -23,6 +24,8 @@ export function parseHash(hash: string): Route {
       return { page: 'explorer' };
     case 'charts':
       return { page: 'charts', query };
+    case 'road-users':
+      return { page: 'road-users', query };
     case 'methodology':
       return { page: 'methodology' };
     case 'sources':

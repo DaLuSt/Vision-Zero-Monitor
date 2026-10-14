@@ -47,7 +47,11 @@ export function EuTrend({ data }: { data: Dataset }) {
           baselinePeriod={target?.baseline_period}
         />
       )}
-      <p className="small"><a href="#/charts">Build your own chart for the EU total and any Member State →</a></p>
+      <p className="small">
+        <a href="#/road-users">Who dies on EU roads: pedestrians, cyclists, motorcyclists… →</a>
+        {' · '}
+        <a href="#/charts">Build your own chart for the EU total and any Member State →</a>
+      </p>
       {mode === 'rate' && (
         <p className="muted small">The 2030 benchmark is defined for the number of deaths, so it is shown only in the "Deaths" view.</p>
       )}

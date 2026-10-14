@@ -22,7 +22,7 @@
           "publisher": {"type": "string"},
           "title": {"type": "string"},
           "dataset": {"type": ["string", "null"]},
-          "role": {"enum": ["primary", "denominator", "cross_check", "derived"]},
+          "role": {"enum": ["primary", "breakdown", "denominator", "cross_check", "derived"]},
           "url": {"type": "string", "pattern": "^https://"},
           "api_url": {"type": ["string", "null"]},
           "metadata_url": {"type": ["string", "null"]},

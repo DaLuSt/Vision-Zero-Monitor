@@ -34,3 +34,13 @@ test('chart builder plots a comparison and exports a PNG', async ({ page }) => {
   await expect(fig3.locator('.recharts-line')).toHaveCount(3);
   await expect(page).toHaveURL(/geo=EU27_2020,BE,NL/);
 });
+
+test('road users page shows both breakdowns for a country', async ({ page }) => {
+  await page.goto('/#/road-users?geo=NL');
+  await expect(page.getByRole('heading', { name: 'By road user' })).toBeVisible();
+  const vehicle = page.getByRole('region', { name: 'By mode of transport' });
+  await expect(vehicle.getByRole('rowheader', { name: /Cyclists/ })).toBeVisible();
+  await expect(vehicle.locator('.recharts-bar-rectangle')).toHaveCount(8);
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+});

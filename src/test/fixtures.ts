@@ -2,7 +2,7 @@
  * SYNTHETIC test fixtures for frontend unit tests only.
  * Values are invented and must never be used as, or copied into, production data.
  */
-import type { Dataset, Observation, Status, IndicatorId } from '../types/data';
+import type { Breakdowns, BreakdownSeries, Dataset, Observation, Status, IndicatorId } from '../types/data';
 
 const SRC = 'https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table';
 
@@ -39,6 +39,8 @@ export function makeDataset(overrides: Partial<Dataset> = {}): Dataset {
     obs('MT', 'road_fatalities', '2019', 10),
     obs('MT', 'road_fatalities', '2022', 12),
     obs('MT', 'road_fatalities', '2023', null),
+    obs('NL', 'population_average', '2022', 17_700_000),
+    obs('NL', 'population_average', '2023', 17_800_000, 'provisional', 'p'),
   ];
   return {
     observations,
@@ -70,10 +72,64 @@ export function makeDataset(overrides: Partial<Dataset> = {}): Dataset {
       validation: { passed: true, errors: [], warnings: [{ level: 'warning', code: 'coverage', message: '2023: no data for MT' }] },
       revisions: { compared_with: null, changed: 0, added: 0, removed: 0 },
     },
+    breakdowns: makeBreakdowns(),
     pipelineStatus: {
       schema_version: '1.0.0', last_attempt_at: '2026-10-14T06:00:00Z', last_outcome: 'success',
       last_success_at: '2026-10-14T06:00:00Z', message: 'ok', run_url: null,
     },
     ...overrides,
+  };
+}
+
+const PERIODS = ['2018', '2019', '2020', '2021', '2022', '2023'];
+
+function bs(geo: string, dimension: 'road_user' | 'vehicle', category: string, values: (number | null)[]): BreakdownSeries {
+  return { geo, dimension, category, values, statuses: values.map((v) => (v == null ? 'missing' : 'unknown')) };
+}
+
+/** SYNTHETIC breakdowns. EU 2018 coverage is deliberately incomplete; MT has a high "unknown" share. */
+export function makeBreakdowns(): Breakdowns {
+  const dim = (id: 'road_user' | 'vehicle', label: string, cats: [string, string][]) => ({
+    id, label, description: `${label} description`, unit: 'persons' as const,
+    source_id: id === 'road_user' ? 'eurostat:tran_sf_roadus' : 'eurostat:tran_sf_roadve',
+    source_url: `https://ec.europa.eu/eurostat/databrowser/view/${id === 'road_user' ? 'tran_sf_roadus' : 'tran_sf_roadve'}/default/table`,
+    source_published_at: '2026-08-25T21:00:00Z', retrieved_at: '2026-10-14T06:00:00Z',
+    categories: cats.map(([cid, clabel]) => ({ id: cid, label: clabel, description: `${clabel} description`, source_categories: [cid] })),
+    eu_members_reporting: [26, 27, 27, 27, 27, 27],
+  });
+  return {
+    schema_version: '1.1.0',
+    generated_at: '2026-10-14T06:00:00Z',
+    periods: PERIODS,
+    dimensions: [
+      dim('road_user', 'Road user', [['DRIV', 'Drivers and riders'], ['PAS', 'Passengers'], ['PED', 'Pedestrians'], ['UNK', 'Unknown']]),
+      dim('vehicle', 'Mode of transport', [['CAR', 'Car occupants'], ['CYCLE', 'Cyclists'], ['PED', 'Pedestrians'], ['OTHER', 'Other and unknown']]),
+    ],
+    series: [
+      bs('EU27_2020', 'road_user', 'DRIV', [700, 650, 600, null, 560, 530]),
+      bs('EU27_2020', 'road_user', 'PAS', [150, 150, 130, null, 120, 110]),
+      bs('EU27_2020', 'road_user', 'PED', [150, 190, 160, null, 160, 150]),
+      bs('EU27_2020', 'road_user', 'UNK', [100, 10, 10, null, 10, 10]),
+      bs('EU27_2020', 'vehicle', 'CAR', [500, 450, 400, null, 380, 360]),
+      bs('EU27_2020', 'vehicle', 'CYCLE', [200, 200, 180, null, 170, 160]),
+      bs('EU27_2020', 'vehicle', 'PED', [150, 190, 160, null, 160, 150]),
+      bs('EU27_2020', 'vehicle', 'OTHER', [250, 160, 160, null, 140, 130]),
+      bs('NL', 'road_user', 'DRIV', [null, 70, null, null, 65, 60]),
+      bs('NL', 'road_user', 'PAS', [null, 10, null, null, 10, 8]),
+      bs('NL', 'road_user', 'PED', [null, 15, null, null, 10, 9]),
+      bs('NL', 'road_user', 'UNK', [null, 5, null, null, 5, 3]),
+      bs('NL', 'vehicle', 'CAR', [null, 40, null, null, 35, 30]),
+      bs('NL', 'vehicle', 'CYCLE', [null, 40, null, null, 40, 36]),
+      bs('NL', 'vehicle', 'PED', [null, 15, null, null, 10, 9]),
+      bs('NL', 'vehicle', 'OTHER', [null, 5, null, null, 5, 5]),
+      bs('MT', 'road_user', 'DRIV', [null, 6, null, null, 6, null]),
+      bs('MT', 'road_user', 'PAS', [null, 1, null, null, 1, null]),
+      bs('MT', 'road_user', 'PED', [null, 1, null, null, 1, null]),
+      bs('MT', 'road_user', 'UNK', [null, 2, null, null, 4, null]),
+      bs('MT', 'vehicle', 'CAR', [null, 5, null, null, 6, null]),
+      bs('MT', 'vehicle', 'CYCLE', [null, 1, null, null, 1, null]),
+      bs('MT', 'vehicle', 'PED', [null, 1, null, null, 1, null]),
+      bs('MT', 'vehicle', 'OTHER', [null, 3, null, null, 4, null]),
+    ],
   };
 }

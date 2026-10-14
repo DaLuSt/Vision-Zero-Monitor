@@ -20,7 +20,7 @@ def test_normalizes_real_data(raw_sources):
     assert eu["frequency"] == "annual"
     assert eu["source_id"] == "eurostat:tran_sf_roadus"
     assert eu["source_published_at"] == "2026-08-25T21:00:00Z"
-    assert eu["retrieved_at"] == "2026-10-14T18:28:40Z"
+    assert eu["retrieved_at"] == "2026-10-14T19:31:12Z"
     assert eu["source_url"].startswith("https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus")
     # Greece uses the Eurostat code EL.
     assert idx[("EL", "road_fatalities", "2024")]["geo_name"] == "Greece"
