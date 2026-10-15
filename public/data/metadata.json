@@ -1,7 +1,7 @@
 {
  "schema_version": "1.1.0",
- "generated_at": "2026-10-15T05:30:24Z",
- "content_hash": "sha256:047ffccfbbcba43406e68a9b8618a5880db34041f2d976ecb18b63a6cbe9a455",
+ "generated_at": "2026-10-15T19:46:19Z",
+ "content_hash": "sha256:4c4910e773cb7d1816d0b28e9bd6eaee51411bee8f038fb1f0c3ef8c16899fea",
  "frequency_notice": "Official fatality statistics are published periodically. This dashboard checks for updated data weekly; the underlying figures are not necessarily weekly.",
  "status_vocabulary": {
   "final": "Published by the source as final.",
@@ -21,7 +21,7 @@
    "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&sex=T&age=TOTAL&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
    "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-15T05:30:25Z",
+   "retrieved_at": "2026-10-15T19:46:19Z",
    "latest_period_in_source": "2024",
    "status_flag_labels": {},
    "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source"
@@ -36,7 +36,7 @@
    "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadve?format=JSON&lang=EN&unit=NR&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
    "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-15T05:30:26Z",
+   "retrieved_at": "2026-10-15T19:46:20Z",
    "latest_period_in_source": "2024",
    "status_flag_labels": {},
    "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source"
@@ -51,7 +51,7 @@
    "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?format=JSON&lang=EN&indic_de=AVG&sinceTimePeriod=1999&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
    "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/demo_gind_esms.htm",
    "source_published_at": "2026-09-30T21:00:00Z",
-   "retrieved_at": "2026-10-15T05:30:27Z",
+   "retrieved_at": "2026-10-15T19:46:20Z",
    "latest_period_in_source": "2026",
    "status_flag_labels": {
     "b": "break in time series",
@@ -73,7 +73,7 @@
    "api_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/sdg_11_40?format=JSON&lang=EN&tra_infr=TOTAL&unit=NR&unit=RT&geo=EU27_2020&geo=BE&geo=BG&geo=CZ&geo=DK&geo=DE&geo=EE&geo=IE&geo=EL&geo=ES&geo=FR&geo=HR&geo=IT&geo=CY&geo=LV&geo=LT&geo=LU&geo=HU&geo=MT&geo=NL&geo=AT&geo=PL&geo=PT&geo=RO&geo=SI&geo=SK&geo=FI&geo=SE",
    "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/sdg_11_40_esmsip2.htm",
    "source_published_at": "2026-09-30T21:00:00Z",
-   "retrieved_at": "2026-10-15T05:30:28Z",
+   "retrieved_at": "2026-10-15T19:46:21Z",
    "latest_period_in_source": "2024",
    "status_flag_labels": {
     "b": "break in time series",
@@ -95,7 +95,7 @@
    "api_url": null,
    "metadata_url": "https://github.com/DaLuSt/Vision-Zero-Monitor/blob/main/docs/METHODOLOGY.md#rates-per-million-inhabitants",
    "source_published_at": null,
-   "retrieved_at": "2026-10-15T05:30:27Z",
+   "retrieved_at": "2026-10-15T19:46:20Z",
    "latest_period_in_source": null,
    "status_flag_labels": {},
    "license": "Derived from Eurostat data; same reuse terms apply"
@@ -111,8 +111,8 @@
    "target_period": "2030",
    "reduction_fraction": 0.5,
    "policy_reference": "EU Road Safety Policy Framework 2021-2030 – Next steps towards 'Vision Zero' (SWD(2019) 283)",
-   "policy_url": "https://transport.ec.europa.eu/transport-themes/road-safety_en",
-   "note": "The EU objective is to halve both road deaths and serious injuries by 2030 compared with 2019. This benchmark covers road deaths only and does not by itself measure the serious-injury objective. Vision Zero is the long-term ambition of moving close to zero road deaths by 2050.",
+   "policy_url": "https://op.europa.eu/en/publication-detail/-/publication/d7ee4b58-4bc5-11ea-8aa5-01aa75ed71a1",
+   "note": "The EU Road Safety Policy Framework 2021-2030 sets the objective of halving road deaths and serious injuries between 2020 and 2030. The European Commission's own progress charts measure the road-death target against 2019, and this benchmark does the same (see the commitments page for both baselines). It covers road deaths only and does not by itself measure the serious-injury objective. Vision Zero is the long-term ambition of moving close to zero road deaths by 2050.",
    "baseline_value": 22757,
    "baseline_status": "unknown",
    "target_value": 11378.5
@@ -146,7 +146,7 @@
   ]
  },
  "revisions": {
-  "compared_with": "2026-10-14T19:36:07Z",
+  "compared_with": "2026-10-15T05:30:24Z",
   "changed": 0,
   "added": 0,
   "removed": 0,

@@ -1,6 +1,6 @@
 {
  "schema_version": "1.1.0",
- "generated_at": "2026-10-15T05:30:24Z",
+ "generated_at": "2026-10-15T19:46:19Z",
  "periods": [
   "1999",
   "2000",
@@ -38,7 +38,7 @@
    "source_id": "eurostat:tran_sf_roadus",
    "source_url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-15T05:30:25Z",
+   "retrieved_at": "2026-10-15T19:46:19Z",
    "categories": [
     {
      "id": "DRIV",
@@ -110,7 +110,7 @@
    "source_id": "eurostat:tran_sf_roadve",
    "source_url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-15T05:30:26Z",
+   "retrieved_at": "2026-10-15T19:46:20Z",
    "categories": [
     {
      "id": "CAR",
