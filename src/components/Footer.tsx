@@ -18,7 +18,7 @@ export function Footer() {
         </p>
         <p>
           Vision Zero Monitor is an independent open-source project, not an official publication of the European Union.
-          No tracking or analytics. <a href={REPO_URL}>Source code (MIT)</a>.
+          No tracking or analytics. <a href="#/about">About this project</a> · <a href={REPO_URL}>Source code (MIT)</a>.
         </p>
       </div>
     </footer>

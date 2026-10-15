@@ -9,6 +9,7 @@ export type Route =
   | { page: 'road-users'; query: string }
   | { page: 'legislation' }
   | { page: 'methodology' }
+  | { page: 'about' }
   | { page: 'sources' }
   | { page: 'notfound' };
 
@@ -29,6 +30,8 @@ export function parseHash(hash: string): Route {
       return { page: 'road-users', query };
     case 'legislation':
       return { page: 'legislation' };
+    case 'about':
+      return { page: 'about' };
     case 'methodology':
       return { page: 'methodology' };
     case 'sources':

@@ -1,0 +1,73 @@
+import { DOCS_URL, ISSUES_URL, MAINTAINER_URL, REPO_URL } from '../../lib/site';
+
+export function About() {
+  return (
+    <article className="panel prose" aria-labelledby="about-heading">
+      <h2 id="about-heading">About Vision Zero Monitor</h2>
+      <p>
+        Vision Zero Monitor follows Europe's progress towards Vision Zero: the EU objective of halving road deaths and
+        serious injuries by 2030 compared with 2019, and moving close to zero road deaths by 2050. It brings official
+        road safety statistics and EU legislation together in one place, so anyone can see where Europe stands and check
+        every figure against its source.
+      </p>
+
+      <h3>Who is behind it</h3>
+      <p>
+        Vision Zero Monitor is an independent, non-commercial open-source project, built and maintained by{' '}
+        <a href={MAINTAINER_URL}>DaLuSt</a>. It is not affiliated with, funded by or endorsed by the European Commission,
+        Eurostat or any other organisation.
+      </p>
+
+      <h3>How it works</h3>
+      <ul>
+        <li>Data come only from official sources: Eurostat for statistics and EUR-Lex for legislation.</li>
+        <li>
+          An automated pipeline checks for new data every week, validates it, and publishes it only if all checks pass.
+          Otherwise the last valid data stay online.
+        </li>
+        <li>
+          Missing values stay missing. Nothing is estimated, interpolated or labelled “on track” on the project's own
+          judgement.
+        </li>
+        <li>
+          All code, data files and earlier versions are public on <a href={REPO_URL}>GitHub</a>. Methods are described on
+          the <a href="#/methodology">methodology page</a>; sources and data checks on the{' '}
+          <a href="#/sources">sources page</a>.
+        </li>
+      </ul>
+
+      <h3>Report an error or give feedback</h3>
+      <p>
+        Found a figure that does not match the official source, a broken link, or something unclear? Please{' '}
+        <a href={ISSUES_URL}>open an issue on GitHub</a> with the page, the figure and, if possible, the source value. Ideas
+        and contributions are welcome too.
+      </p>
+
+      <h3>Citing this site</h3>
+      <p>
+        Cite the official source of a figure first (for example Eurostat, dataset <code>tran_sf_roadus</code>). To refer to
+        this site:
+      </p>
+      <blockquote className="citation">
+        Vision Zero Monitor. <em>EU road safety statistics and legislation</em>.
+        https://dalust.github.io/Vision-Zero-Monitor/ (accessed [date]).
+      </blockquote>
+
+      <h3>Privacy</h3>
+      <p>
+        This site sets no cookies and uses no analytics or tracking. It is hosted on GitHub Pages; GitHub may process
+        technical data such as IP addresses to deliver and secure the site, as described in the{' '}
+        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">
+          GitHub privacy statement
+        </a>.
+      </p>
+
+      <h3>Licence</h3>
+      <p>
+        Code: <a href={`${REPO_URL}/blob/main/LICENSE`}>MIT licence</a>. Data: © European Union; reuse is subject to the{' '}
+        <a href="https://ec.europa.eu/eurostat/about-us/policies/copyright">Eurostat copyright notice</a> and, for
+        legislation, Commission Decision 2011/833/EU. Scope and roadmap: <a href={`${DOCS_URL}/SCOPE.md`}>SCOPE.md</a>.
+      </p>
+    </article>
+  );
+}

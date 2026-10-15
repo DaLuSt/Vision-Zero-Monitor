@@ -13,6 +13,7 @@ const NAV: { href: string; label: string; pages: Route['page'][] }[] = [
   { href: '#/legislation', label: 'Legislation', pages: ['legislation'] },
   { href: '#/methodology', label: 'Methodology', pages: ['methodology'] },
   { href: '#/sources', label: 'Sources & freshness', pages: ['sources'] },
+  { href: '#/about', label: 'About', pages: ['about'] },
 ];
 
 export function latestRetrieval(data: Dataset | null): string | null {
@@ -24,23 +25,20 @@ export function latestRetrieval(data: Dataset | null): string | null {
 function StatusIndicator({ data }: { data: Dataset | null }) {
   if (!data) return null;
   const ps = data.pipelineStatus;
-  const warnings = data.metadata.validation.warnings.length;
   let label: string;
-  let tone: 'ok' | 'warn' | 'fail';
+  let tone: 'ok' | 'fail';
   if (ps?.last_outcome === 'failure') {
     tone = 'fail';
     label = 'Latest update check failed – showing last valid data';
   } else if (!data.metadata.validation.passed) {
     tone = 'fail';
     label = 'Validation errors';
-  } else if (warnings) {
-    tone = 'warn';
-    label = `Validated with ${warnings} warning${warnings === 1 ? '' : 's'}`;
   } else {
+    // Validation warnings are notes on the source data (see the sources page), not errors.
     tone = 'ok';
     label = 'Validated';
   }
-  const icon = tone === 'ok' ? '✓' : tone === 'warn' ? '!' : '✕';
+  const icon = tone === 'ok' ? '✓' : '✕';
   return (
     <a className={`status-pill status-pill--${tone}`} href="#/sources">
       <span aria-hidden="true">{icon}</span> {label}
