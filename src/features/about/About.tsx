@@ -13,8 +13,8 @@ export function About() {
 
       <h3>Who is behind it</h3>
       <p>
-        Vision Zero Monitor is an independent, non-commercial open-source project, built and maintained by{' '}
-        <a href={MAINTAINER_URL}>DaLuSt</a>. It is not affiliated with, funded by or endorsed by the European Commission,
+        Vision Zero Monitor is an independent, non-commercial open-source project, built and maintained by Daan Steur
+        (<a href={MAINTAINER_URL}>DaLuSt on GitHub</a>). It is not affiliated with, funded by or endorsed by the European Commission,
         Eurostat or any other organisation.
       </p>
 
