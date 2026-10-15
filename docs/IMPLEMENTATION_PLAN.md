@@ -84,6 +84,11 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * 🔜 R8: serious injuries and EU road safety KPIs, where comparable official data exist.
 * 🔜 R9: EFTA and candidate countries in the statistics pillar.
 
+## Milestone 10 — Country pages ✅ (first release)
+
+* ✅ Country pages bring the pillars together: deaths and rate with the EU comparison and rank, who dies (road user, mode of transport), EU commitments covering the country (national strategies not yet covered), upcoming EU transposition deadlines (dates only, no compliance verdict).
+* 🔜 National strategies and targets (issue: national road safety strategies).
+
 ## Outstanding decisions
 
 | Decision | Current assumption | Who decides |

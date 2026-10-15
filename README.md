@@ -50,6 +50,7 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 | --- | --- |
 | How many people die on EU roads? | Overview KPI cards (latest reference year, EU27) |
 | How has this changed? | EU trend chart (1999→), deaths or per million inhabitants |
+| What is the picture for one country? | Country pages (e.g. [Netherlands](https://dalust.github.io/Vision-Zero-Monitor/#/countries/NL)): deaths and rate with the EU comparison and rank, who dies, EU commitments covering the country, upcoming transposition deadlines |
 | Which Member States have the highest rates? | Countries: sortable table + per-country detail |
 | Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users): deaths by road user and by mode of transport, latest year and trends, per country |
 | How does my country compare? | [Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts): graphs for the EU total and any Member States, for all deaths or one group (e.g. cyclists), as deaths, per million or index 2019 = 100; PNG/CSV download; shareable link |
