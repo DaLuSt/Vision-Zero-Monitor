@@ -48,7 +48,7 @@ export default function App({ load = loadDataset, loadRegister = loadLegislation
     switch (route.page) {
       case 'overview': content = <Overview data={d} />; break;
       case 'countries': content = <CountryTable data={d} />; break;
-      case 'country': content = <CountryDetail data={d} geo={route.geo} />; break;
+      case 'country': content = <CountryDetail data={d} geo={route.geo} loadRegister={loadRegister} loadPledges={loadPledges} />; break;
       case 'explorer': content = <DataExplorer data={d} />; break;
       case 'road-users': content = <RoadUsers key={route.query} data={d} query={route.query} />; break;
       case 'charts': content = <ChartBuilder key={route.query} data={d} query={route.query} />; break;

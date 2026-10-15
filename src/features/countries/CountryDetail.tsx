@@ -1,11 +1,15 @@
 import { useMemo } from 'react';
-import type { Dataset } from '../../types/data';
+import type { Commitments, Dataset, Legislation } from '../../types/data';
 import { countryRows, latestPoint, missingPeriods, pointAt, series } from '../../lib/indicators';
 import { fmtDate, fmtInt, fmtPct, fmtRate } from '../../lib/format';
 import { SeriesChart } from '../trends/SeriesChart';
 import { EmptyState } from '../../components/States';
+import { loadCommitments, loadLegislation } from '../../lib/data';
+import { CountryCommitments, CountryDeadlines, EuComparisonText, WhoDies } from './CountrySections';
 
-export function CountryDetail({ data, geo }: { data: Dataset; geo: string }) {
+export function CountryDetail({ data, geo, loadRegister = loadLegislation, loadPledges = loadCommitments }: {
+  data: Dataset; geo: string; loadRegister?: () => Promise<Legislation>; loadPledges?: () => Promise<Commitments>;
+}) {
   const country = data.countries.find((c) => c.geo === geo);
   const baseline = data.metadata.targets[0]?.baseline_period ?? '2019';
   const counts = useMemo(() => series(data.observations, geo, 'road_fatalities'), [data, geo]);
@@ -58,6 +62,7 @@ export function CountryDetail({ data, geo }: { data: Dataset; geo: string }) {
             <dd>{fmtPct(row.baselinePct)}{base?.value != null ? ` (from ${fmtInt(base.value)})` : ''}</dd>
           </div>
         </dl>
+        <EuComparisonText data={data} geo={geo} name={country.name} />
         <p>
           <a href={`#/charts?geo=EU27_2020,${geo}&measure=rate`}>Compare {country.name} with the EU total in the chart builder</a>
           {' · '}
@@ -79,6 +84,9 @@ export function CountryDetail({ data, geo }: { data: Dataset; geo: string }) {
           subject={`Road deaths per million inhabitants in ${country.name}`} points={rates}
           unitLabel="per million" format={fmtRate} baselinePeriod={baseline} height={280} />
       </section>
+      <WhoDies data={data} geo={geo} name={country.name} />
+      <CountryCommitments load={loadPledges} name={country.name} />
+      <CountryDeadlines load={loadRegister} />
       <section className="panel" aria-labelledby="availability-heading">
         <h2 id="availability-heading">Data availability and sources</h2>
         <ul>

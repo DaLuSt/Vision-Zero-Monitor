@@ -376,6 +376,7 @@ tbody th { font-weight: 500; }
 .badge--curated, .badge--upcoming { border-color: var(--accent); color: var(--accent); }
 .row-note--warn { color: var(--warn); }
 .unclear { margin-top: 12px; }
+.deadline-list li { margin-bottom: 8px; }
 .panel code { overflow-wrap: anywhere; }
 @media (max-width: 480px) {
   .lifecycle > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }

@@ -19,7 +19,13 @@ test('navigation to countries and a country detail works', async ({ page, isMobi
   await page.getByRole('link', { name: 'Countries', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Member State comparison' })).toBeVisible();
   await page.getByRole('link', { name: 'Netherlands' }).click();
-  await expect(page.getByRole('heading', { name: 'Netherlands', level: 2 })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Netherlands', level: 2, exact: true })).toBeVisible();
+  await expect(page.getByText(/road deaths per million inhabitants, against .* for the EU as a whole/)).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Who dies on the roads in the Netherlands' }).getByRole('table')).toHaveCount(2);
+  await expect(page.getByRole('region', { name: 'Commitments covering the Netherlands' }).getByRole('link').first()).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Upcoming EU transposition deadlines' }).getByRole('listitem').first()).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
 });
 
 test('chart builder plots a comparison and exports a PNG', async ({ page }) => {
