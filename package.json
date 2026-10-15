@@ -1,8 +1,8 @@
 {
-  "name": "eu-road-safety-observatory",
+  "name": "vision-zero-monitor",
   "private": true,
   "version": "1.0.0",
-  "description": "EU Road Safety Vision Zero Observatory – open, static dashboard of official EU road fatality statistics",
+  "description": "Vision Zero Monitor – open-source platform monitoring Europe's road safety progress, legislation, policy commitments, and progress towards Vision Zero",
   "license": "MIT",
   "type": "module",
   "engines": {

@@ -1,7 +1,7 @@
 [project]
-name = "eu-road-safety-observatory-pipeline"
+name = "vision-zero-monitor-pipeline"
 version = "1.0.0"
-description = "Data pipeline for the EU Road Safety Vision Zero Observatory"
+description = "Data pipeline for Vision Zero Monitor"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 dependencies = [

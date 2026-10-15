@@ -20,7 +20,7 @@ EXPECTED_DIMENSIONS = {
     "eurostat:sdg_11_40": {"freq", "tra_infr", "unit", "geo", "time"},
 }
 
-METHODOLOGY_URL = "https://github.com/DaLuSt/eu-road-safety-observatory/blob/main/docs/METHODOLOGY.md#rates-per-million-inhabitants"
+METHODOLOGY_URL = "https://github.com/DaLuSt/Vision-Zero-Monitor/blob/main/docs/METHODOLOGY.md#rates-per-million-inhabitants"
 
 
 @dataclass
@@ -223,7 +223,7 @@ def transform(raw: dict[str, RawSource]) -> TransformResult:
         })
     sources.append({
         "id": "derived:road_fatalities_per_million",
-        "publisher": "EU Road Safety Vision Zero Observatory (derived from Eurostat data)",
+        "publisher": "Vision Zero Monitor (derived from Eurostat data)",
         "title": "Road fatalities per million inhabitants (derived)",
         "dataset": None,
         "role": "derived",

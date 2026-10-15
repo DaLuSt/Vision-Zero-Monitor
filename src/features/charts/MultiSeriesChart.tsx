@@ -33,11 +33,11 @@ interface Props {
 }
 
 export const SOURCE_LINE =
-  'Source: Eurostat (tran_sf_roadus, demo_gind) · EU Road Safety Vision Zero Observatory';
+  'Source: Eurostat (tran_sf_roadus, demo_gind) · Vision Zero Monitor';
 
 /** Source line naming the Eurostat datasets a chart actually uses. */
 export function sourceLine(datasets: string[]): string {
-  return `Source: Eurostat (${[...new Set(datasets)].join(', ')}) · EU Road Safety Vision Zero Observatory`;
+  return `Source: Eurostat (${[...new Set(datasets)].join(', ')}) · Vision Zero Monitor`;
 }
 
 export function formatFor(measure: Measure): (v: number) => string {

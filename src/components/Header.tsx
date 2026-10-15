@@ -59,10 +59,10 @@ export function Header({ route, data }: { route: Route; data: Dataset | null }) 
       <div className="site-header__inner">
         <div className="brand">
           <p className="brand__eyebrow">Independent public-interest data</p>
-          <h1 className="brand__title"><a href="#/">EU Road Safety Vision Zero Observatory</a></h1>
+          <h1 className="brand__title"><a href="#/">Vision Zero Monitor</a></h1>
           <p className="brand__mission">
-            Tracking official road fatality statistics across the 27 EU Member States and progress towards halving road
-            deaths by 2030, on the way to Vision Zero by 2050.
+            Open-source platform monitoring Europe's road safety progress, legislation, policy commitments, and progress
+            towards Vision Zero.
           </p>
         </div>
         {data && (

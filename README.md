@@ -1,38 +1,56 @@
-# EU Road Safety Vision Zero Observatory
+# Vision Zero Monitor
 
-**🌐 Live dashboard: [dalust.github.io/eu-road-safety-observatory](https://dalust.github.io/eu-road-safety-observatory/)**
+**Open-source platform monitoring Europe's road safety progress, legislation, policy commitments, and progress towards Vision Zero.**
 
-[![Deploy to GitHub Pages](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/deploy.yml/badge.svg)](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/deploy.yml)
-[![Update data](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/update-data.yml/badge.svg)](https://github.com/DaLuSt/eu-road-safety-observatory/actions/workflows/update-data.yml)
+**🌐 Live site: [dalust.github.io/Vision-Zero-Monitor](https://dalust.github.io/Vision-Zero-Monitor/)**
 
-An independent, open-source dashboard that tracks **official road fatality statistics**
-for the 27 EU Member States and progress towards the EU's 2030 road-death benchmark,
-on the way to Vision Zero (close to zero road deaths by 2050).
+[![Deploy to GitHub Pages](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/deploy.yml/badge.svg)](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/deploy.yml)
+[![Update data](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/update-data.yml/badge.svg)](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/update-data.yml)
+
+Vision Zero is the EU's long-term ambition of moving close to zero road deaths by 2050, with an
+interim objective of halving road deaths and serious injuries by 2030 compared with 2019.
+Vision Zero Monitor brings together the evidence needed to follow that journey: what is
+happening on the roads, which rules apply, and what governments have committed to. Every
+figure and every claim links back to an official source.
 
 * **Static site** (React + TypeScript + Vite + Recharts) on GitHub Pages: no backend, no API keys, no analytics.
-* **Reproducible data pipeline** (Python) pulls Eurostat's dissemination API every Monday, validates, and commits versioned JSON.
-* **Every figure is traceable**: each observation carries its source, Eurostat status flag, publication date and retrieval date.
+* **Reproducible data pipeline** (Python) pulls official data every Monday, validates it, and commits versioned JSON.
+* **Every figure is traceable**: each observation carries its source, status flag, publication date and retrieval date.
 
 > Official fatality statistics are published periodically. This dashboard checks for
 > updated data weekly; the underlying figures are not necessarily weekly.
 
-Direct links: [Overview](https://dalust.github.io/eu-road-safety-observatory/) ·
-[Countries](https://dalust.github.io/eu-road-safety-observatory/#/countries) ·
-[Road users](https://dalust.github.io/eu-road-safety-observatory/#/road-users) ·
-[Chart builder](https://dalust.github.io/eu-road-safety-observatory/#/charts) ·
-[Data explorer](https://dalust.github.io/eu-road-safety-observatory/#/explorer) ·
-[Methodology](https://dalust.github.io/eu-road-safety-observatory/#/methodology) ·
-[Sources & freshness](https://dalust.github.io/eu-road-safety-observatory/#/sources)
+## Scope and status
 
-## What it shows
+| Pillar | What it covers | Status |
+| --- | --- | --- |
+| **Road safety progress** | Official road deaths for the 27 EU Member States, rates per million, trends since 1999, deaths by road user and mode of transport | ✅ Live |
+| **Progress towards Vision Zero** | 2019 baseline, 2030 fatality benchmark (−50 %), progress share and an analytical straight-line path | ✅ Live (fatalities only; serious injuries not yet covered) |
+| **Legislation** | EU road safety legislation and its status (proposed, adopted, in force, transposition deadlines), linked to official texts | 🔜 Planned |
+| **Policy commitments** | EU and national strategies, targets and declarations, compared with the measured outcomes | 🔜 Planned |
+
+Geographic coverage today is the **EU-27**. Extending it to other European countries
+(EFTA, candidate countries) is planned where comparable official data exist. Planned
+pillars follow the same rules as the statistics: official sources only, provenance on
+every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SCOPE.md).
+
+### Live pages
+
+[Overview](https://dalust.github.io/Vision-Zero-Monitor/) ·
+[Countries](https://dalust.github.io/Vision-Zero-Monitor/#/countries) ·
+[Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users) ·
+[Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts) ·
+[Data explorer](https://dalust.github.io/Vision-Zero-Monitor/#/explorer) ·
+[Methodology](https://dalust.github.io/Vision-Zero-Monitor/#/methodology) ·
+[Sources & freshness](https://dalust.github.io/Vision-Zero-Monitor/#/sources)
 
 | Question | Where |
 | --- | --- |
 | How many people die on EU roads? | Overview KPI cards (latest reference year, EU27) |
 | How has this changed? | EU trend chart (1999→), deaths or per million inhabitants |
 | Which Member States have the highest rates? | Countries: sortable table + per-country detail |
-| Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/eu-road-safety-observatory/#/road-users): deaths by road user and by mode of transport, latest year and trends, per country |
-| How does my country compare? | [Chart builder](https://dalust.github.io/eu-road-safety-observatory/#/charts): graphs for the EU total and any Member States (deaths, per million, or index 2019 = 100), combined or one per selection, downloadable as PNG/CSV, shareable by link |
+| Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users): deaths by road user and by mode of transport, latest year and trends, per country |
+| How does my country compare? | [Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts): graphs for the EU total and any Member States, for all deaths or one group (e.g. cyclists), as deaths, per million or index 2019 = 100; PNG/CSV download; shareable link |
 | Is the EU on course for 2030? | 2019 baseline, 2030 benchmark (−50 %), progress share, linear analytical path |
 | Where are data incomplete or uncertain? | Status badges, data freshness panel, validation warnings, data explorer + CSV |
 
@@ -40,14 +58,15 @@ Direct links: [Overview](https://dalust.github.io/eu-road-safety-observatory/) �
 
 | Dataset | Use |
 | --- | --- |
-| Eurostat [`tran_sf_roadus`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table) (CARE / DG MOVE) | Road deaths, EU27 + Member States |
+| Eurostat [`tran_sf_roadus`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table) (CARE / DG MOVE) | Road deaths, EU27 + Member States; deaths by road user |
 | Eurostat [`tran_sf_roadve`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table) | Deaths by mode of transport |
 | Eurostat [`demo_gind`](https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table) (`AVG`) | Average population → rates per million |
 | Eurostat [`sdg_11_40`](https://ec.europa.eu/eurostat/databrowser/view/sdg_11_40/default/table) | Independent cross-check |
 
-Details: [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md). Definitions and calculations:
-[docs/METHODOLOGY.md](docs/METHODOLOGY.md). Design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-Plan and status: [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+Details: [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) (including candidate sources for the
+planned pillars). Definitions and calculations: [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
+Design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Scope and roadmap:
+[docs/SCOPE.md](docs/SCOPE.md). Plan and status: [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
 
 ## Requirements
 
@@ -86,10 +105,10 @@ never replaced by partial or invalid output.
 
 ```
 .github/workflows/   ci.yml · update-data.yml (weekly) · deploy.yml (Pages)
-docs/                ARCHITECTURE · DATA_SOURCES · METHODOLOGY · IMPLEMENTATION_PLAN
+docs/                SCOPE · ARCHITECTURE · DATA_SOURCES · METHODOLOGY · IMPLEMENTATION_PLAN
 schemas/             JSON Schemas for every public data file
 scripts/data_pipeline/
-  config.py          sources, geography, indicators, target, thresholds
+  config.py          sources, geography, indicators, target, breakdown mapping, thresholds
   fetch.py           HTTP retrieval (retries, size limit)
   jsonstat.py        defensive JSON-stat parser
   transform.py       normalisation, derived rates, status mapping, summaries
@@ -97,6 +116,7 @@ scripts/data_pipeline/
   validate.py        schema, statistical, cross-source and revision checks
   export.py          atomic file writes
   run.py             orchestration / CLI
+scripts/ci/          failure-alert script used by the weekly workflow
 public/data/         published, validated JSON (versioned in Git)
 src/                 React app (components/, features/, lib/, types/)
 tests/               pytest suite + saved Eurostat responses
@@ -114,21 +134,21 @@ One-time repository settings:
    update job to open a pull request instead. The alert job needs `issues: write`
    (declared in the workflow) to open the failure issue.
 3. Merge to `main`. `deploy.yml` runs on every push to `main`: it runs the Python and
-   frontend tests, builds with the base path reported by `actions/configure-pages`
-   (`/eu-road-safety-observatory/`), and deploys.
+   frontend tests, builds the site and deploys it.
 4. Optional: **Actions → Update data → Run workflow** to trigger a refresh manually.
 
-A validated dataset is committed in `public/data/`, so the first deployment works
-before any scheduled run. For a custom domain, configure it in Settings → Pages; the
-base path then becomes `/` automatically. For other hosts, build with
-`VITE_BASE_PATH=/your/path/ npm run build` (default `./`, relative URLs).
+The build uses relative asset URLs, so the same build works at
+`https://dalust.github.io/Vision-Zero-Monitor/`, on a custom domain, or under any
+other repository name, without reconfiguration. A validated dataset is committed in
+`public/data/`, so a first deployment works before any scheduled run. To force an
+absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
 
 ## How the weekly refresh works
 
 `update-data.yml` runs every **Monday 06:00 UTC** and on demand:
 
-1. Fetch the three Eurostat datasets (raw responses uploaded as a 30-day artifact).
-2. Parse JSON-stat, normalise to observations, derive rates, map status flags.
+1. Fetch the four Eurostat datasets (raw responses uploaded as a 30-day artifact).
+2. Parse JSON-stat, normalise to observations and breakdowns, derive rates, map status flags.
 3. Validate (schemas, invariants, cross-checks, revisions vs. the last published data).
 4. If the content hash is unchanged → no commit, no deploy.
 5. If changed and valid → run the test suite, commit `public/data/`, push to `main`,
@@ -144,16 +164,28 @@ base path then becomes `/` automatically. For other hosts, build with
 * Statistics are annual with a lag; the latest reference year (2024 as of Oct 2026)
   is ~20 months old. The Commission's preliminary figures for the most recent year
   are not machine-readable and are not shown.
+* Coverage is the EU-27 only; other European countries are not yet included.
 * Eurostat publishes no status flags for death counts, so they display as
   “No status flag” rather than “final”.
 * The fatality benchmark does not cover the serious-injury half of the 2030 objective.
 * Eurostat's published EU per-million rate in `tran_sf_roadus` is inconsistent with its
   counts; rates are derived instead (see DATA_SOURCES.md).
+* EU breakdowns by road user and mode of transport are comparable only from 2016.
 * The dashboard shows the most recent *recorded* pipeline run; unchanged runs are not
   committed (full history is in GitHub Actions).
+* Legislation and policy-commitment tracking are not implemented yet.
+
+## Contributing
+
+Issues and pull requests are welcome. New data sources need a source assessment in
+[docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) and, for the planned pillars, must follow the
+principles in [docs/SCOPE.md](docs/SCOPE.md).
 
 ## License
 
 Code: [MIT](LICENSE). Data: © European Union, Eurostat — reuse subject to the
 [Eurostat copyright notice](https://ec.europa.eu/eurostat/about-us/policies/copyright).
-This project is not affiliated with or endorsed by the European Commission.
+Vision Zero Monitor is an independent project, not affiliated with or endorsed by the
+European Commission.
+
+*Formerly “EU Road Safety Vision Zero Observatory”; the old repository URL redirects here.*
