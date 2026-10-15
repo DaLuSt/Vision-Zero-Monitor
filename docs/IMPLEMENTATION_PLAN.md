@@ -60,13 +60,15 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ Road users page; chart builder "Who" filter (e.g. cyclists per million across countries).
 * 🔜 Breakdown rows in the data explorer; age and sex breakdowns (`tran_sf_roadus` `age`, `sex`); road type (`tran_sf_roadro`).
 
-## Milestone 7 — Legislation pillar 🔜
+## Milestone 7 — Legislation pillar ✅ (first release)
 
-* 🔜 R1: source assessment for EU legal acts (machine-readable access, identifiers, lifecycle dates, reuse terms).
-* 🔜 R2: schema for legal acts and lifecycle events; validation rules.
-* 🔜 R3: curated register of core EU road safety acts, each linked to its official text.
-* 🔜 R4: "Legislation" page (register, timeline, filters).
-* Acceptance: every act has an official identifier and source link; lifecycle dates are sourced; no compliance judgements without an official source.
+* ✅ R1: source assessment — Publications Office Cellar SPARQL endpoint (DATA_SOURCES.md §6).
+* ✅ R2: schema for legal acts, proposals and their lifecycle (`schemas/legislation.schema.json`); validation rules.
+* ✅ R3: register built automatically from EuroVoc "road safety" plus three curated additions with stated reasons; weekly refresh in `update-data.yml`, independent of the statistics; failures alert via the same issue.
+* ✅ R4: "Legislation" page: acts in force, pending proposals (with unclear statuses separated), upcoming transposition deadlines, filterable register with lifecycle dates and related acts, links to EUR-Lex.
+* ✅ Pytest (replay of saved SPARQL responses), Vitest and Playwright tests.
+* Acceptance met: every act has a CELEX identifier and EUR-Lex link; dates and statuses are as recorded by the source; no compliance judgements.
+* 🔜 Next: timeline view per act; stage of pending proposals in Parliament and Council (needs a source assessment of the Legislative Observatory); national transposition measures (only as published by EUR-Lex, never as a compliance verdict).
 
 ## Milestone 8 — Policy commitments pillar 🔜
 
@@ -88,6 +90,7 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 | Inclusion of Commission preliminary figures | Not shown (not machine-readable) | Maintainer |
 | Linear benchmark path 2019→2030 | Shown, labelled "analytical benchmark, not official forecast" | Maintainer |
 | Custom domain | None; relative base path works for both | Owner |
-| Legislation scope | EU-level road safety acts first; national legislation later, if sources allow | Maintainer |
+| Legislation scope | EU-level acts indexed "road safety" + curated additions; national legislation later, if sources allow | Maintainer |
+| Stale pending proposals | Flagged as "unclear status" after 5 years without a recorded outcome | Maintainer |
 | Curated vs automated sources | Automate where machine-readable; otherwise reviewed, version-controlled files | Maintainer |
 | Data license notice | Eurostat reuse policy cited; code MIT | Owner |

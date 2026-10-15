@@ -5,7 +5,7 @@ safety progress, legislation, policy commitments, and progress towards Vision Ze
 (see [SCOPE.md](SCOPE.md)). It has no backend server, database, API keys or paid services.
 
 Sections 1–7 describe the live system (road safety statistics and the 2030 benchmark).
-Section 8 describes how the planned legislation and policy-commitment pillars fit in.
+Section 8 describes the legislation pillar and how the planned policy-commitment pillar fits in.
 
 The project was created as “EU Road Safety Vision Zero Observatory” and renamed to
 Vision Zero Monitor on 2026-10-15; the old repository URL redirects to the new one.
@@ -58,6 +58,22 @@ Vision Zero Monitor on 2026-10-15; the old repository URL redirects to the new o
           ▼
  Public static dashboard  (React; reads ./data/*.json at runtime)
 ```
+
+The legislation register runs as a separate, independent step in the same workflow:
+
+```
+ Publications Office Cellar SPARQL endpoint (EUR-Lex metadata, no key)
+          │
+          ▼
+ scripts/legislation/queries.py   SPARQL: discover acts → details → relations → proposals
+ scripts/legislation/sparql.py    HTTP POST, retries, JSON results → rows
+ scripts/legislation/build.py     register: acts, lifecycle dates, relations, proposal status
+ scripts/legislation/validate.py  JSON Schema + register rules + diff vs last published
+ scripts/legislation/run.py       atomic write of public/data/legislation.json (only if changed)
+```
+
+A failure in one step never blocks or corrupts the other; each keeps its last valid files.
+The legislation page loads `legislation.json` only when opened.
 
 Ingestion, transformation, validation, export and rendering are separate
 modules. The frontend never talks to Eurostat; it only reads the committed,
@@ -164,32 +180,43 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
 * Serious injuries (part of the 2030 target) are not covered.
 * Pipeline status shown on the site is the last *recorded* outcome; runs whose
   outcome and data did not change are not committed (see METHODOLOGY.md).
-* Coverage is the EU-27; legislation and policy commitments are not implemented yet.
+* Coverage is the EU-27; the legislation register covers EU-level acts only; policy
+  commitments are not implemented yet.
 
-## 8. Planned pillars: legislation and policy commitments
+## 8. Legislation (implemented) and policy commitments (planned)
 
-The planned pillars reuse the same architecture: sources → pipeline → validated,
-versioned JSON in `public/data/` → static pages. No server or database is needed.
+### Legislation
 
-* **Ingestion.** Machine-readable sources (for example official legal-act metadata
-  services, if the source assessment confirms they are suitable) are fetched by new
-  pipeline modules alongside the Eurostat ones. Information that is only published as
-  documents is curated in reviewed, version-controlled files (for example
-  `data/curated/legislation/*.yaml`), each entry carrying source URL, identifier,
-  publication date and review date.
-* **Data model (draft).**
-  * *Legal act:* identifier (e.g. CELEX number), title, type (regulation, directive,
-    decision), subject tags, lifecycle events (proposed, adopted, entry into force,
-    application, transposition deadline) each with a date and source, and the link to the
-    official text.
-  * *Commitment:* issuing body, document, date, scope (EU or country), type (binding,
-    indicative, aspirational, as stated by the source), and optional measurable target
-    (indicator, baseline year, target year, reduction) that can be linked to an outcome
-    series from pillar 1.
-* **Validation.** JSON Schemas plus rules such as: every entry has an official source
-  URL; event dates are ordered consistently; targets reference an existing indicator.
-* **Presentation.** New pages ("Legislation", "Commitments") and target-versus-outcome
-  views that reuse the existing chart components and benchmark logic.
+Implemented as described in section 2 and METHODOLOGY.md ("Legislation register").
 
-The data model will be finalised after the source assessments in the roadmap
-(SCOPE.md, steps R1 and R5).
+* **Data model** (`schemas/legislation.schema.json`): a `source` block (publisher,
+  endpoint, selection rule, EuroVoc concept, curated additions with reasons, retrieval
+  time, licence), a `summary`, `acts[]` and `proposals[]`.
+  * *Act:* CELEX, title, type, adoption date, entry-into-force dates, transposition
+    deadlines, in-force flag, end of validity, ELI, EUR-Lex URL, inclusion basis
+    (`eurovoc` or `curated` with reason), originating proposal, and related acts
+    (amended by, amends, repealed by, repeals, replaced by, replaces, pending amendment
+    proposals).
+  * *Proposal:* CELEX, COM reference, title, type, date sent, status
+    (`adopted`/`open`/`closed_without_act`), `status_note` for doubtful statuses,
+    adopting acts and acts it would amend.
+* **Tests** replay saved SPARQL responses (`tests/fixtures/legislation_2026-10-15/`),
+  so the suite runs offline.
+
+### Policy commitments (planned)
+
+Same architecture: sources → pipeline → validated, versioned JSON in `public/data/` →
+static pages. Information that is only published as documents will be curated in
+reviewed, version-controlled files, each entry carrying source URL, identifier,
+publication date and review date.
+
+* *Commitment (draft):* issuing body, document, date, scope (EU or country), type
+  (binding, indicative, aspirational, as stated by the source), and optional measurable
+  target (indicator, baseline year, target year, reduction) that can be linked to an
+  outcome series from pillar 1.
+* **Validation:** every entry has an official source URL; targets reference an existing
+  indicator.
+* **Presentation:** a "Commitments" page and target-versus-outcome views that reuse the
+  existing chart components and benchmark logic.
+
+The data model will be finalised after the source assessment (SCOPE.md, step R5).

@@ -351,6 +351,35 @@ tbody th { font-weight: 500; }
 .status-list dd { margin: 0; }
 .source-card { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px; }
 
+/* Legislation */
+.mono { font-family: var(--mono); font-size: 0.875em; }
+.nowrap { white-space: nowrap; }
+.act-list { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 12px; }
+.act-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; min-width: 0; }
+.act-card__head { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: space-between; align-items: baseline; }
+.act-card__title { font-size: 1.0625rem; margin: 0; overflow-wrap: anywhere; }
+.act-card__badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.act-card__subject { margin: 6px 0 0; color: var(--text-secondary); overflow-wrap: anywhere; }
+.act-card__pending { margin: 8px 0 0; font-size: 0.875rem; }
+.act-card__details { margin-top: 8px; }
+.act-card__details summary, .unclear summary { cursor: pointer; color: var(--accent); font-size: 0.875rem; }
+.lifecycle { display: grid; gap: 8px; margin: 10px 0 0; font-size: 0.875rem; }
+.lifecycle > div { display: grid; grid-template-columns: minmax(150px, 200px) minmax(0, 1fr); gap: 12px; }
+.lifecycle dt { color: var(--muted); }
+.lifecycle dd { margin: 0; overflow-wrap: anywhere; }
+.related-list, .inline-list { list-style: none; padding: 0; margin: 0; }
+.inline-list { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.badge--act-in-force { border-color: var(--ok); color: var(--ok); }
+.badge--act-ended { border-style: dashed; }
+.badge--act-unknown { border-style: dotted; }
+.badge--curated, .badge--upcoming { border-color: var(--accent); color: var(--accent); }
+.row-note--warn { color: var(--warn); }
+.unclear { margin-top: 12px; }
+.panel code { overflow-wrap: anywhere; }
+@media (max-width: 480px) {
+  .lifecycle > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+
 /* Footer */
 .site-footer { border-top: 1px solid var(--border); background: var(--surface); font-size: 0.875rem; color: var(--text-secondary); }
 .site-footer__inner { padding-top: 20px; padding-bottom: 20px; }

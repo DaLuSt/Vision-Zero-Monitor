@@ -26,7 +26,7 @@ figure and every claim links back to an official source.
 | --- | --- | --- |
 | **Road safety progress** | Official road deaths for the 27 EU Member States, rates per million, trends since 1999, deaths by road user and mode of transport | ✅ Live |
 | **Progress towards Vision Zero** | 2019 baseline, 2030 fatality benchmark (−50 %), progress share and an analytical straight-line path | ✅ Live (fatalities only; serious injuries not yet covered) |
-| **Legislation** | EU road safety legislation and its status (proposed, adopted, in force, transposition deadlines), linked to official texts | 🔜 Planned |
+| **Legislation** | EU road safety acts and pending Commission proposals: adoption, entry into force, in-force status, transposition deadlines, amendments and repeals, linked to EUR-Lex | ✅ Live (EU acts) |
 | **Policy commitments** | EU and national strategies, targets and declarations, compared with the measured outcomes | 🔜 Planned |
 
 Geographic coverage today is the **EU-27**. Extending it to other European countries
@@ -41,6 +41,7 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 [Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users) ·
 [Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts) ·
 [Data explorer](https://dalust.github.io/Vision-Zero-Monitor/#/explorer) ·
+[Legislation](https://dalust.github.io/Vision-Zero-Monitor/#/legislation) ·
 [Methodology](https://dalust.github.io/Vision-Zero-Monitor/#/methodology) ·
 [Sources & freshness](https://dalust.github.io/Vision-Zero-Monitor/#/sources)
 
@@ -52,6 +53,7 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 | Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users): deaths by road user and by mode of transport, latest year and trends, per country |
 | How does my country compare? | [Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts): graphs for the EU total and any Member States, for all deaths or one group (e.g. cyclists), as deaths, per million or index 2019 = 100; PNG/CSV download; shareable link |
 | Is the EU on course for 2030? | 2019 baseline, 2030 benchmark (−50 %), progress share, linear analytical path |
+| Which EU road safety rules apply, and what is in the pipeline? | [Legislation](https://dalust.github.io/Vision-Zero-Monitor/#/legislation): acts in force, pending Commission proposals, upcoming transposition deadlines, searchable register with links to EUR-Lex |
 | Where are data incomplete or uncertain? | Status badges, data freshness panel, validation warnings, data explorer + CSV |
 
 ## Data sources
@@ -62,6 +64,7 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 | Eurostat [`tran_sf_roadve`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table) | Deaths by mode of transport |
 | Eurostat [`demo_gind`](https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table) (`AVG`) | Average population → rates per million |
 | Eurostat [`sdg_11_40`](https://ec.europa.eu/eurostat/databrowser/view/sdg_11_40/default/table) | Independent cross-check |
+| Publications Office of the EU, [Cellar SPARQL endpoint](https://publications.europa.eu/webapi/rdf/sparql) (EUR-Lex metadata) | Legislation register: acts indexed EuroVoc “road safety” + curated additions |
 
 Details: [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) (including candidate sources for the
 planned pillars). Definitions and calculations: [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
@@ -95,11 +98,15 @@ python -m pytest                                   # offline, uses saved real AP
 python -m scripts.data_pipeline.run                # fetch live data → public/data/
 python -m scripts.data_pipeline.run --save-raw data/raw     # also keep raw responses
 python -m scripts.data_pipeline.run --from-raw tests/fixtures/eurostat_2026-10-14  # offline replay
+
+# Legislation register (EUR-Lex metadata via SPARQL)
+python -m scripts.legislation.run                  # query live → public/data/legislation.json
+python -m scripts.legislation.run --from-raw tests/fixtures/legislation_2026-10-15  # offline replay
 ```
 
-The pipeline exits `0` when data were updated or unchanged and `1` on failure. On
-failure it only writes `public/data/pipeline_status.json`; existing data files are
-never replaced by partial or invalid output.
+Both pipelines exit `0` when data were updated or unchanged and `1` on failure. On
+failure existing data files are never replaced by partial or invalid output (the
+statistics pipeline records the failure in `public/data/pipeline_status.json`).
 
 ## Repository layout
 
@@ -116,10 +123,11 @@ scripts/data_pipeline/
   validate.py        schema, statistical, cross-source and revision checks
   export.py          atomic file writes
   run.py             orchestration / CLI
+scripts/legislation/ EUR-Lex metadata → legislation.json (SPARQL queries, register, validation, CLI)
 scripts/ci/          failure-alert script used by the weekly workflow
 public/data/         published, validated JSON (versioned in Git)
 src/                 React app (components/, features/, lib/, types/)
-tests/               pytest suite + saved Eurostat responses
+tests/               pytest suite + saved Eurostat and SPARQL responses
 e2e/                 Playwright smoke tests
 ```
 
@@ -147,7 +155,8 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
 
 `update-data.yml` runs every **Monday 06:00 UTC** and on demand:
 
-1. Fetch the four Eurostat datasets (raw responses uploaded as a 30-day artifact).
+1. Fetch the four Eurostat datasets and query EUR-Lex metadata for the legislation
+   register (raw responses uploaded as a 30-day artifact).
 2. Parse JSON-stat, normalise to observations and breakdowns, derive rates, map status flags.
 3. Validate (schemas, invariants, cross-checks, revisions vs. the last published data).
 4. If the content hash is unchanged → no commit, no deploy.
@@ -155,6 +164,8 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
    then call `deploy.yml`.
 6. If anything fails → previous data kept, failure recorded in
    `pipeline_status.json` (committed and deployed so the site shows it), job fails red.
+   The statistics and the legislation register are independent: a failure in one does
+   not stop the other from updating.
 7. A failed refresh or deploy opens a GitHub issue labelled `data-refresh-failure`
    (or comments on the one already open); the next successful run closes it.
    Watch the repository's issues to get these alerts by email.
@@ -173,7 +184,11 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
 * EU breakdowns by road user and mode of transport are comparable only from 2016.
 * The dashboard shows the most recent *recorded* pipeline run; unchanged runs are not
   committed (full history is in GitHub Actions).
-* Legislation and policy-commitment tracking are not implemented yet.
+* The legislation register covers EU-level acts only. It shows dates and statuses as
+  recorded in EUR-Lex metadata, not the stage of a proposal in Parliament or Council, and
+  it does not assess Member State compliance. Its selection follows the Publications
+  Office's “road safety” indexing plus a short curated list.
+* Policy-commitment tracking is not implemented yet.
 
 ## Contributing
 
@@ -185,6 +200,7 @@ principles in [docs/SCOPE.md](docs/SCOPE.md).
 
 Code: [MIT](LICENSE). Data: © European Union, Eurostat — reuse subject to the
 [Eurostat copyright notice](https://ec.europa.eu/eurostat/about-us/policies/copyright).
+Legislation metadata: © European Union, EUR-Lex — reuse under Commission Decision 2011/833/EU.
 Vision Zero Monitor is an independent project, not affiliated with or endorsed by the
 European Commission.
 

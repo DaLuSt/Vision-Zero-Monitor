@@ -1,4 +1,4 @@
-import type { Breakdowns, Dataset, Metadata, Observation, PipelineStatus, Country, Indicator } from '../types/data';
+import type { Breakdowns, Dataset, Legislation, Metadata, Observation, PipelineStatus, Country, Indicator } from '../types/data';
 
 export const DATA_BASE = `${import.meta.env.BASE_URL}data/`;
 
@@ -40,4 +40,13 @@ export async function loadDataset(fetchImpl: typeof fetch = fetch): Promise<Data
     pipelineStatus,
     breakdowns,
   };
+}
+
+/** The legislation register is loaded only on the legislation page (it is larger than the statistics). */
+export async function loadLegislation(fetchImpl: typeof fetch = fetch): Promise<Legislation> {
+  const doc = await getJson<Legislation>('legislation.json', fetchImpl);
+  if (!Array.isArray(doc?.acts) || !Array.isArray(doc?.proposals) || !doc.summary || !doc.source) {
+    throw new DataLoadError('legislation.json has an unexpected structure.');
+  }
+  return doc;
 }

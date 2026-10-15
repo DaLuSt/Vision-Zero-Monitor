@@ -35,6 +35,15 @@ export function Sources({ data }: { data: Dataset }) {
             </p>
           </div>
         ))}
+        <div className="source-card">
+          <h3>EUR-Lex metadata (legislation)</h3>
+          <p>
+            Publications Office of the European Union, Cellar SPARQL endpoint{' '}
+            <code>https://publications.europa.eu/webapi/rdf/sparql</code>, queried weekly. Used for the{' '}
+            <a href="#/legislation">legislation register</a>; every act links to its official text on{' '}
+            <a href="https://eur-lex.europa.eu/">EUR-Lex</a>. Reuse under Commission Decision 2011/833/EU, © European Union.
+          </p>
+        </div>
         <h3>Not used</h3>
         <p>
           The European Commission publishes preliminary figures for the most recent year (e.g. 2025) on its road safety

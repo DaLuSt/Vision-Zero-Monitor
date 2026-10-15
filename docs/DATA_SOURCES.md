@@ -1,8 +1,9 @@
 # Data sources
 
-Source inventory as verified on **2026-10-14** against the live endpoints. Values
-quoted below come from that day's API responses, which are saved in
-`tests/fixtures/eurostat_2026-10-14/`.
+Source inventory as verified on **2026-10-14** (statistics) and **2026-10-15**
+(legislation) against the live endpoints. Values quoted below come from those days'
+responses, which are saved in `tests/fixtures/eurostat_2026-10-14/` and
+`tests/fixtures/legislation_2026-10-15/`.
 
 ## Summary
 
@@ -15,6 +16,7 @@ quoted below come from that day's API responses, which are saved in
 | DG MOVE "Road safety statistics 2025" page | ❌ (figures are images/HTML) | ✅ | **Preliminary** | Annual (spring) | Partly | Not used |
 | ERSO "Data and analysis" `.xlsx` (`fatalities_per_pop_2010-24_public`) | ⚠️ manual download | ✅ | Final (CARE) | Annual | ✅ | Not used (duplicates CARE data in Eurostat) |
 | CARE database (raw) | ❌ restricted access | ✅ | — | — | — | Not used |
+| Publications Office Cellar SPARQL (EUR-Lex metadata) | ✅ SPARQL (JSON results) | ✅ | Lifecycle status as recorded | Updated continuously | n/a (EU law) | **Legislation register** |
 
 ## 1. Eurostat — `tran_sf_roadus` (primary)
 
@@ -129,6 +131,45 @@ quoted below come from that day's API responses, which are saved in
 `preliminary_fatalities` series (source id `ec:dgmove_preliminary_<year>`), with its
 own provenance and `status: "provisional"`, never merged into the Eurostat series.
 
+## 6. Publications Office of the EU — Cellar SPARQL endpoint (legislation)
+
+* **Endpoint:** `https://publications.europa.eu/webapi/rdf/sparql` (HTTP POST, no key,
+  `Accept: application/sparql-results+json`). It exposes the metadata behind EUR-Lex in
+  the Common Data Model (CDM) ontology, `http://publications.europa.eu/ontology/cdm#`.
+* **Assessment (R1), 2026-10-15:** suitable. Every query used by the pipeline answers in
+  under 3 seconds. Identifiers (CELEX, ELI), adoption dates, entry-into-force dates,
+  transposition deadlines, the EUR-Lex "in force" flag, end of validity, and the links
+  between acts (proposal adopted, amends, repeals, replaces, proposes to amend) are all
+  machine-readable. English titles are available as expressions of each work.
+* **Selection:** legal acts (directives, regulations, decisions and their delegated and
+  implementing forms, and recommendations) and Commission proposals indexed with EuroVoc
+  concept **4047 "road safety"** (`http://eurovoc.europa.eu/4047`). On 2026-10-15 this
+  gave 163 acts and the related proposals. Corrigenda are excluded.
+* **Known gap and curation:** the EuroVoc indexing misses some core road safety acts that
+  are indexed under narrower subjects. These are added from a short, reviewed list in
+  `scripts/legislation/config.py` (`CURATED_ADDITIONS`), each with a stated reason, and
+  are labelled *curated addition* on the site: Directive 2006/126/EC (driving licences),
+  Directive 91/671/EEC (safety belts) and Directive 92/6/EEC (speed limiters). The
+  pipeline warns when a curated act becomes indexed as "road safety" (the entry can then
+  be removed) and fails if a curated act disappears from the source.
+* **Indexing breadth:** EuroVoc indexing is done by the Publications Office, not by this
+  project. It includes some acts whose link to road safety is indirect (for example
+  type-approval rules for non-road mobile machinery). They are listed as indexed; the
+  project does not second-guess the indexing.
+* **Proposal status:** the metadata records when a proposal was adopted (an act
+  "adopts" it) and an end-of-validity date when a procedure ended (for example a
+  withdrawal). It does **not** record the stage reached in Parliament and Council. A
+  proposal with neither is shown as pending; when that has been the case for more than
+  five years the site flags the status as unclear (see METHODOLOGY.md).
+* **Source inconsistencies seen:** one act (32016R0130) has an end-of-validity date
+  before its adoption date. Such cases are published as recorded and reported as
+  validation warnings.
+* **Reuse:** EUR-Lex content and metadata may be reused under Commission Decision
+  2011/833/EU, with acknowledgement of the source (© European Union).
+* **Not used:** the EUR-Lex web pages themselves (HTML, not for scraping) and the
+  EUR-Lex SOAP web service (requires registration). National transposition measures
+  (also in EUR-Lex) are not yet assessed.
+
 ## Candidate sources for planned pillars (not yet assessed)
 
 Listed for the roadmap in [SCOPE.md](SCOPE.md). **None of these is used yet.** Each needs a
@@ -137,7 +178,8 @@ and claims about them below are to be verified in that assessment.
 
 | Pillar | Candidate source | What to assess |
 | --- | --- | --- |
-| Legislation | EUR-Lex / Publications Office of the EU (legal-act metadata and texts) | Machine-readable access (e.g. SPARQL or web services), identifiers, lifecycle dates, reuse terms |
+| Legislation | National transposition measures (EUR-Lex "national implementing measures") | Coverage and meaning; must not be presented as a compliance assessment |
+| Legislation | Legislative Observatory of the European Parliament (OEIL) | Procedure stages of pending proposals; machine-readable access and reuse terms |
 | Legislation | European Commission road safety pages (DG MOVE) | Which acts are listed as road-safety relevant; suitability as a curation reference |
 | Policy commitments | EU Road Safety Policy Framework 2021–2030 (SWD(2019) 283) | Targets and KPIs, their definitions and baselines |
 | Policy commitments | Ministerial declarations on road safety (e.g. Valletta 2017, Stockholm 2020) | Exact wording of commitments; binding vs aspirational |
@@ -152,5 +194,8 @@ and claims about them below are to be verified in that assessment.
 * `metadata.json → sources[]` records publisher, dataset id, browser URL, the exact
   API request URL, metadata URL, publication and retrieval timestamps, latest
   period in source, Eurostat flag labels and reuse terms.
-* Raw API responses of each scheduled run are uploaded as a workflow artifact
-  (30-day retention).
+* `legislation.json → source` records the publisher, SPARQL endpoint, selection rule,
+  EuroVoc concept, curated additions with reasons, retrieval time and reuse terms; every
+  act and proposal carries its CELEX number and EUR-Lex link (and ELI where available).
+* Raw API and SPARQL responses (and the SPARQL queries) of each scheduled run are
+  uploaded as a workflow artifact (30-day retention).

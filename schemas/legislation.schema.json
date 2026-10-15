@@ -1,0 +1,389 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "legislation.schema.json",
+  "title": "Legislation register",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "source",
+    "summary",
+    "acts",
+    "proposals"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "celex": {
+      "type": "string",
+      "pattern": "^[0-9][0-9]{4}[A-Z]{1,3}[0-9]{4,6}(\\([0-9]{2}\\))?$"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https://eur-lex\\.europa\\.eu/"
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "celex",
+          "title",
+          "date",
+          "url"
+        ],
+        "properties": {
+          "celex": {
+            "$ref": "#/$defs/ref"
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "date": {
+            "$ref": "#/$defs/date"
+          },
+          "url": {
+            "$ref": "#/$defs/url"
+          }
+        }
+      }
+    },
+    "ref": {
+      "type": "string",
+      "pattern": "^[0-9A-Z][0-9A-Za-z()/._-]{4,40}$",
+      "description": "Any CELEX identifier (incl. treaty and corrigendum forms); used for referenced documents"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "publisher",
+        "endpoint",
+        "selection",
+        "eurovoc",
+        "curated_additions",
+        "retrieved_at",
+        "licence"
+      ],
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "curated_additions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "celex",
+              "reason"
+            ],
+            "properties": {
+              "celex": {
+                "$ref": "#/$defs/celex"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 10
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "acts_total",
+        "acts_in_force",
+        "acts_in_force_by_type",
+        "proposals_open",
+        "proposals_open_unclear"
+      ],
+      "properties": {
+        "acts_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "acts_in_force": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "proposals_open": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "proposals_open_unclear": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "acts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "celex",
+          "title",
+          "type",
+          "type_label",
+          "date_adopted",
+          "entry_into_force",
+          "transposition_deadlines",
+          "in_force",
+          "end_of_validity",
+          "eli",
+          "url",
+          "responsible",
+          "inclusion",
+          "proposal",
+          "amended_by",
+          "amends",
+          "repealed_by",
+          "repeals",
+          "replaced_by",
+          "replaces",
+          "amendment_proposals"
+        ],
+        "properties": {
+          "celex": {
+            "$ref": "#/$defs/celex"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 5
+          },
+          "type": {
+            "type": "string"
+          },
+          "type_label": {
+            "type": "string"
+          },
+          "date_adopted": {
+            "$ref": "#/$defs/date"
+          },
+          "entry_into_force": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/date"
+            }
+          },
+          "transposition_deadlines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/date"
+            }
+          },
+          "in_force": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "end_of_validity": {
+            "$ref": "#/$defs/date"
+          },
+          "eli": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^http://data\\.europa\\.eu/eli/"
+          },
+          "url": {
+            "$ref": "#/$defs/url"
+          },
+          "responsible": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "inclusion": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "basis",
+              "reason"
+            ],
+            "properties": {
+              "basis": {
+                "enum": [
+                  "eurovoc",
+                  "curated"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          },
+          "proposal": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "required": [
+              "celex",
+              "reference",
+              "date_sent",
+              "url"
+            ],
+            "properties": {
+              "celex": {
+                "$ref": "#/$defs/ref"
+              },
+              "reference": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "date_sent": {
+                "$ref": "#/$defs/date"
+              },
+              "url": {
+                "$ref": "#/$defs/url"
+              }
+            }
+          },
+          "amended_by": {
+            "$ref": "#/$defs/related"
+          },
+          "amends": {
+            "$ref": "#/$defs/related"
+          },
+          "repealed_by": {
+            "$ref": "#/$defs/related"
+          },
+          "repeals": {
+            "$ref": "#/$defs/related"
+          },
+          "replaced_by": {
+            "$ref": "#/$defs/related"
+          },
+          "replaces": {
+            "$ref": "#/$defs/related"
+          },
+          "amendment_proposals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ref"
+            }
+          }
+        }
+      }
+    },
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "celex",
+          "reference",
+          "title",
+          "type",
+          "type_label",
+          "date_sent",
+          "status",
+          "end_of_validity",
+          "adopted_by",
+          "proposes_to_amend",
+          "indexed_road_safety",
+          "url",
+          "status_note"
+        ],
+        "properties": {
+          "celex": {
+            "$ref": "#/$defs/ref"
+          },
+          "reference": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type_label": {
+            "type": "string"
+          },
+          "date_sent": {
+            "$ref": "#/$defs/date"
+          },
+          "status": {
+            "enum": [
+              "open",
+              "adopted",
+              "closed_without_act"
+            ]
+          },
+          "end_of_validity": {
+            "$ref": "#/$defs/date"
+          },
+          "adopted_by": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ref"
+            }
+          },
+          "proposes_to_amend": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ref"
+            }
+          },
+          "indexed_road_safety": {
+            "type": "boolean"
+          },
+          "url": {
+            "$ref": "#/$defs/url"
+          },
+          "status_note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

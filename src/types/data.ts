@@ -143,3 +143,78 @@ export interface Dataset {
   metadata: Metadata;
   pipelineStatus: PipelineStatus | null;
 }
+
+/** legislation.json: EU road safety legal acts and proposals from EUR-Lex metadata. */
+export interface RelatedDocument {
+  celex: string;
+  title: string | null;
+  date: string | null;
+  url: string;
+}
+
+export interface LegalAct {
+  celex: string;
+  title: string | null;
+  type: string;
+  type_label: string;
+  date_adopted: string | null;
+  entry_into_force: string[];
+  transposition_deadlines: string[];
+  /** As recorded by EUR-Lex; null when the source has no flag. */
+  in_force: boolean | null;
+  end_of_validity: string | null;
+  eli: string | null;
+  url: string;
+  responsible: string | null;
+  inclusion: { basis: 'eurovoc' | 'curated'; reason: string };
+  proposal: { celex: string; reference: string | null; date_sent: string | null; url: string } | null;
+  amended_by: RelatedDocument[];
+  amends: RelatedDocument[];
+  repealed_by: RelatedDocument[];
+  repeals: RelatedDocument[];
+  replaced_by: RelatedDocument[];
+  replaces: RelatedDocument[];
+  amendment_proposals: string[];
+}
+
+export type ProposalStatus = 'adopted' | 'open' | 'closed_without_act';
+
+export interface Proposal {
+  celex: string;
+  reference: string | null;
+  title: string | null;
+  type: string | null;
+  type_label: string;
+  date_sent: string | null;
+  status: ProposalStatus;
+  /** Set when an "open" status is doubtful (e.g. no decision recorded for many years). */
+  status_note: string | null;
+  end_of_validity: string | null;
+  adopted_by: string[];
+  proposes_to_amend: string[];
+  indexed_road_safety: boolean;
+  url: string;
+}
+
+export interface Legislation {
+  schema_version: string;
+  generated_at: string;
+  source: {
+    publisher: string;
+    endpoint: string;
+    selection: string;
+    eurovoc: { id: string; label: string };
+    curated_additions: { celex: string; reason: string }[];
+    retrieved_at: string;
+    licence: string;
+  };
+  summary: {
+    acts_total: number;
+    acts_in_force: number;
+    acts_in_force_by_type: Record<string, number>;
+    proposals_open: number;
+    proposals_open_unclear: number;
+  };
+  acts: LegalAct[];
+  proposals: Proposal[];
+}

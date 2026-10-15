@@ -44,3 +44,21 @@ test('road users page shows both breakdowns for a country', async ({ page }) => 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test('legislation page lists acts with links to EUR-Lex and filters them', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/#/legislation');
+  await expect(page.getByRole('heading', { name: 'EU road safety legislation' })).toBeVisible();
+  const register = page.getByRole('region', { name: 'Register of legal acts' });
+  await expect(register.getByRole('article').first()).toBeVisible();
+  await register.getByLabel('Search').fill('2015/413');
+  const act = register.getByRole('article', { name: /Directive \(EU\) 2015\/413/ });
+  await expect(act).toBeVisible();
+  await expect(act.getByRole('link').first()).toHaveAttribute('href', /eur-lex\.europa\.eu.*CELEX:32015L0413/);
+  await act.getByText('Lifecycle and related acts').click();
+  await expect(act.getByText('COM(2014) 476')).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+  expect(errors).toEqual([]);
+});

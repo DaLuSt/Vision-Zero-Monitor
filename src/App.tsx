@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { Dataset } from './types/data';
-import { loadDataset } from './lib/data';
+import type { Dataset, Legislation as LegislationRegister } from './types/data';
+import { loadDataset, loadLegislation } from './lib/data';
 import { useRoute } from './lib/router';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -11,12 +11,16 @@ import { CountryDetail } from './features/countries/CountryDetail';
 import { DataExplorer } from './features/data-explorer/DataExplorer';
 import { ChartBuilder } from './features/charts/ChartBuilder';
 import { RoadUsers } from './features/breakdowns/RoadUsers';
+import { Legislation } from './features/legislation/Legislation';
 import { Methodology } from './features/about/Methodology';
 import { Sources } from './features/about/Sources';
 
 type State = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; data: Dataset };
 
-export default function App({ load = loadDataset }: { load?: () => Promise<Dataset> }) {
+export default function App({ load = loadDataset, loadRegister = loadLegislation }: {
+  load?: () => Promise<Dataset>;
+  loadRegister?: () => Promise<LegislationRegister>;
+}) {
   const route = useRoute();
   const [state, setState] = useState<State>({ kind: 'loading' });
 
@@ -30,7 +34,9 @@ export default function App({ load = loadDataset }: { load?: () => Promise<Datas
 
   const data = state.kind === 'ready' ? state.data : null;
   let content;
-  if (state.kind === 'loading') content = <LoadingState />;
+  // The legislation register has its own data file and does not depend on the statistics.
+  if (route.page === 'legislation') content = <Legislation load={loadRegister} />;
+  else if (state.kind === 'loading') content = <LoadingState />;
   else if (state.kind === 'error') content = <ErrorState message={state.message} />;
   else if (!state.data.observations.length) content = <ErrorState message="The dataset contains no observations." />;
   else {

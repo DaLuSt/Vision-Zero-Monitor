@@ -1,8 +1,9 @@
 # Methodology and data dictionary
 
-Methods used by Vision Zero Monitor for the live pillars (road safety statistics and the
-2030 benchmark). Methods for the planned legislation and policy-commitment pillars will be
-added here when those pillars are built (see [SCOPE.md](SCOPE.md)).
+Methods used by Vision Zero Monitor for the live pillars: road safety statistics, the
+2030 benchmark and the legislation register ([last section](#legislation-register)).
+Methods for the planned policy-commitment pillar will be added when it is built (see
+[SCOPE.md](SCOPE.md)).
 
 ## Road fatality
 
@@ -184,3 +185,61 @@ on the first successful run after a failure). Runs that succeed with unchanged d
 are not committed, to avoid weekly no-op commits and deployments; the site
 therefore labels the field “most recent *recorded* pipeline run” and links to the
 full run history on GitHub Actions.
+
+## Legislation register
+
+Built by `scripts/legislation/` from EUR-Lex metadata (Publications Office SPARQL endpoint;
+see DATA_SOURCES.md §6) and published as `public/data/legislation.json`.
+
+**What is listed.** Legal acts and Commission proposals indexed with EuroVoc "road safety",
+plus a short list of curated additions, each with its reason. Every entry links to the
+official text on EUR-Lex by CELEX number.
+
+**Fields are as recorded by the source.** Adoption date (date of the document), entry into
+force, transposition deadlines (directives; several dates when provisions apply in stages),
+the EUR-Lex "in force" flag and the end-of-validity date. Open-ended dates (`9999-12-31`)
+are stored as `null`. If the source has no in-force flag, the site says "Status not
+recorded" rather than guessing.
+
+* **In force** means the act has entered into force according to EUR-Lex. Some
+  provisions may apply later; this is not split out.
+* **No longer in force** means EUR-Lex records it as no longer in force (for example after
+  repeal). A repealed act can still show "in force" until the repeal takes effect, as
+  recorded by EUR-Lex.
+* **Transposition deadline passed / upcoming** compares the recorded deadline with the
+  viewer's current date. It says nothing about whether any Member State has transposed
+  the directive.
+
+**Relations.** For each act: the Commission proposal it adopted (with its COM number and
+the date it was sent), acts that amend, repeal or replace it and acts it amends, repeals or
+replaces, and pending proposals to amend it.
+
+**Proposal status.** Derived from the metadata only:
+
+| Status | Rule |
+| --- | --- |
+| adopted | An act in EUR-Lex adopts the proposal |
+| pending (`open`) | No adopting act and no end-of-validity date recorded |
+| closed without act | An end-of-validity date is recorded (for example withdrawal) and no act adopts it |
+
+A pending proposal sent more than five years before the register was built gets a
+`status_note` and is shown separately as "unclear status": EUR-Lex does not always record
+the end of a procedure. Only Commission proposals (`PROP_DIR`, `PROP_REG`, `PROP_DEC`)
+are listed; other preparatory documents are ignored. The COM number comes from the
+document's internal number or, failing that, from its CELEX number (`5YYYYPCNNNN` →
+`COM(YYYY) NNNN`).
+
+**Validation.** Errors block publication (the previous file is kept): schema violations,
+duplicate entries, fewer than 50 acts, a curated act missing from the source, a proposal
+marked adopted without an adopting act, a proposal closed before it was sent, or more than
+20 % of acts disappearing compared with the last published register. Warnings are logged
+for review: curated acts that are now indexed (and can be removed from the list), acts
+without an in-force flag, acts removed since the last run, and inconsistent dates at the
+source (end of validity before adoption).
+
+**Change detection.** The register is rewritten only when its content changes; build and
+retrieval timestamps are ignored in that comparison.
+
+**What the register does not do.** It does not assess compliance, give legal advice, or
+show the stage of a proposal in Parliament or Council. National legislation is not
+covered.

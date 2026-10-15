@@ -74,6 +74,17 @@ export function Methodology({ data }: { data: Dataset }) {
         run compares new values with the previous dataset and flags large revisions. Every published version is kept in
         the Git history.
       </p>
+
+      <h3 id="legislation">Legislation register</h3>
+      <p>
+        The <a href="#/legislation">legislation register</a> lists EU legal acts and Commission proposals that the
+        Publications Office of the EU indexes under the subject “road safety” (EuroVoc 4047), plus a few core acts indexed
+        elsewhere, each marked as a curated addition with its reason. Dates and the in-force status are shown as recorded
+        in EUR-Lex. A proposal counts as pending when no adopting act and no end date are recorded; after five years
+        without either, its status is shown as unclear. Transposition deadlines are marked passed or upcoming by date
+        only: the register does not assess whether Member States comply. Details in the{' '}
+        <a href={`${DOCS_URL}/METHODOLOGY.md#legislation-register`}>methodology document</a>.
+      </p>
     </article>
   );
 }
