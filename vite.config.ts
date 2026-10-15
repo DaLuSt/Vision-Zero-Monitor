@@ -2,9 +2,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// VITE_BASE_PATH lets the same build work on a GitHub project site
-// (e.g. "/eu-road-safety-observatory/") or a custom domain ("/").
-// The default "./" produces relative URLs that work in both cases.
+// The default "./" produces relative URLs, so one build works on a GitHub project site
+// under any repository name, on a custom domain, or from a sub-folder. Routing is
+// hash-based, so the page itself never needs to know its path. Set VITE_BASE_PATH
+// only to force an absolute base.
 export default defineConfig({
   base: process.env.VITE_BASE_PATH || './',
   plugins: [react()],

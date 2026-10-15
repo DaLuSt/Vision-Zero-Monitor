@@ -6,13 +6,18 @@ export function Footer() {
       <div className="site-footer__inner">
         <p>
           Source: Eurostat (<a href="https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table">tran_sf_roadus</a>,{' '}
+          <a href="https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table">tran_sf_roadve</a>,{' '}
           <a href="https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table">demo_gind</a>), based on the
           European Commission's CARE database. Reuse of Eurostat data is subject to the{' '}
           <a href="https://ec.europa.eu/eurostat/about-us/policies/copyright">Eurostat copyright notice</a>.
         </p>
         <p>
-          This is an independent open-source project, not an official publication of the European Union. No tracking or
-          analytics. <a href={REPO_URL}>Source code (MIT)</a>.
+          Currently published: official road-death statistics for the 27 EU Member States. Legislation and
+          policy-commitment tracking are in development (<a href={`${REPO_URL}/blob/main/docs/SCOPE.md`}>scope and roadmap</a>).
+        </p>
+        <p>
+          Vision Zero Monitor is an independent open-source project, not an official publication of the European Union.
+          No tracking or analytics. <a href={REPO_URL}>Source code (MIT)</a>.
         </p>
       </div>
     </footer>

@@ -1,5 +1,9 @@
 # Methodology and data dictionary
 
+Methods used by Vision Zero Monitor for the live pillars (road safety statistics and the
+2030 benchmark). Methods for the planned legislation and policy-commitment pillars will be
+added here when those pillars are built (see [SCOPE.md](SCOPE.md)).
+
 ## Road fatality
 
 A person killed immediately or dying within **30 days** as a result of a road

@@ -45,10 +45,9 @@ jobs:
         id: pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - name: Build
+        # Relative asset URLs (vite base "./"): the site keeps working if the repository
+        # is renamed or a custom domain is added, without rebuilding for a new path.
         run: npm run build
-        env:
-          # "/eu-road-safety-observatory/" on a project site, "/" on a custom domain.
-          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
       - name: Check data files are in the build
         run: |
           for f in observations breakdowns countries indicators metadata latest; do

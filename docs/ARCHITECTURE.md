@@ -1,7 +1,14 @@
 # Architecture
 
-EU Road Safety Vision Zero Observatory is a static-first, open-source dashboard.
-It has no backend server, database, API keys or paid services.
+Vision Zero Monitor is a static-first, open-source platform monitoring Europe's road
+safety progress, legislation, policy commitments, and progress towards Vision Zero
+(see [SCOPE.md](SCOPE.md)). It has no backend server, database, API keys or paid services.
+
+Sections 1–7 describe the live system (road safety statistics and the 2030 benchmark).
+Section 8 describes how the planned legislation and policy-commitment pillars fit in.
+
+The project was created as “EU Road Safety Vision Zero Observatory” and renamed to
+Vision Zero Monitor on 2026-10-15; the old repository URL redirects to the new one.
 
 ## 1. Repository assessment (2026-10-14)
 
@@ -111,9 +118,11 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
 
 * **Hosting:** GitHub Pages via the official Actions flow
   (`configure-pages` → `upload-pages-artifact` → `deploy-pages`).
-* **Base path:** `VITE_BASE_PATH` (defaults to `./`, i.e. relative URLs, which work
-  for both project sites and custom domains). The deploy workflow passes the
-  base path reported by `configure-pages`.
+* **Base path:** relative (`./`, the Vite default here). One build works at
+  `https://dalust.github.io/Vision-Zero-Monitor/`, on a custom domain, or under any
+  repository name. (Builds with an absolute base broke briefly when the repository was
+  renamed, because asset URLs still pointed at the old path; relative URLs prevent that.)
+  `VITE_BASE_PATH` can still force an absolute base for other hosts.
 * **Routing:** hash-based (`#/countries/NL`) so deep links never 404 on Pages.
 * **Ordering:** data are committed to `main` first; the site is then built from
   that commit. The `update-data` workflow calls `deploy.yml` as a reusable
@@ -155,3 +164,32 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
 * Serious injuries (part of the 2030 target) are not covered.
 * Pipeline status shown on the site is the last *recorded* outcome; runs whose
   outcome and data did not change are not committed (see METHODOLOGY.md).
+* Coverage is the EU-27; legislation and policy commitments are not implemented yet.
+
+## 8. Planned pillars: legislation and policy commitments
+
+The planned pillars reuse the same architecture: sources → pipeline → validated,
+versioned JSON in `public/data/` → static pages. No server or database is needed.
+
+* **Ingestion.** Machine-readable sources (for example official legal-act metadata
+  services, if the source assessment confirms they are suitable) are fetched by new
+  pipeline modules alongside the Eurostat ones. Information that is only published as
+  documents is curated in reviewed, version-controlled files (for example
+  `data/curated/legislation/*.yaml`), each entry carrying source URL, identifier,
+  publication date and review date.
+* **Data model (draft).**
+  * *Legal act:* identifier (e.g. CELEX number), title, type (regulation, directive,
+    decision), subject tags, lifecycle events (proposed, adopted, entry into force,
+    application, transposition deadline) each with a date and source, and the link to the
+    official text.
+  * *Commitment:* issuing body, document, date, scope (EU or country), type (binding,
+    indicative, aspirational, as stated by the source), and optional measurable target
+    (indicator, baseline year, target year, reduction) that can be linked to an outcome
+    series from pillar 1.
+* **Validation.** JSON Schemas plus rules such as: every entry has an official source
+  URL; event dates are ordered consistently; targets reference an existing indicator.
+* **Presentation.** New pages ("Legislation", "Commitments") and target-versus-outcome
+  views that reuse the existing chart components and benchmark logic.
+
+The data model will be finalised after the source assessments in the roadmap
+(SCOPE.md, steps R1 and R5).

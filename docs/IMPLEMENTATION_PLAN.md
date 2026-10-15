@@ -1,5 +1,8 @@
 # Implementation plan
 
+Vision Zero Monitor (formerly “EU Road Safety Vision Zero Observatory”, renamed 2026-10-15).
+Scope and pillars: [SCOPE.md](SCOPE.md).
+
 Status legend: ✅ done in this repository · ⏳ requires a repository owner action · 🔜 planned
 
 ## Milestone 1 — Repository and source assessment ✅
@@ -47,7 +50,8 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * 🔜 Manual accessibility audit with a screen reader (NVDA/VoiceOver) and axe.
 * 🔜 Manual mobile review on real devices.
 * 🔜 Independent data-integrity review of displayed figures against Eurostat data browser.
-* ✅ Public URL `https://dalust.github.io/eu-road-safety-observatory/` serves the site (checked in Chromium).
+* ✅ Public URL `https://dalust.github.io/Vision-Zero-Monitor/` serves the site (checked in Chromium after the rename).
+* ✅ Relative asset URLs, so renames and custom domains do not require reconfiguration.
 
 ## Milestone 6 — Breakdowns ✅
 
@@ -55,6 +59,26 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ Coverage-aware EU figures (complete from 2016), unknown-share warnings, partition and pedestrian cross-checks.
 * ✅ Road users page; chart builder "Who" filter (e.g. cyclists per million across countries).
 * 🔜 Breakdown rows in the data explorer; age and sex breakdowns (`tran_sf_roadus` `age`, `sex`); road type (`tran_sf_roadro`).
+
+## Milestone 7 — Legislation pillar 🔜
+
+* 🔜 R1: source assessment for EU legal acts (machine-readable access, identifiers, lifecycle dates, reuse terms).
+* 🔜 R2: schema for legal acts and lifecycle events; validation rules.
+* 🔜 R3: curated register of core EU road safety acts, each linked to its official text.
+* 🔜 R4: "Legislation" page (register, timeline, filters).
+* Acceptance: every act has an official identifier and source link; lifecycle dates are sourced; no compliance judgements without an official source.
+
+## Milestone 8 — Policy commitments pillar 🔜
+
+* 🔜 R5: source assessment for EU and national commitments (policy framework, declarations, national strategies).
+* 🔜 R6: schema for commitments and targets; measurable targets linked to outcome series.
+* 🔜 R7: "Commitments" page and target-versus-outcome charts.
+* Acceptance: each commitment cites its document; target type (binding, indicative, aspirational) is taken from the source.
+
+## Milestone 9 — Wider coverage 🔜
+
+* 🔜 R8: serious injuries and EU road safety KPIs, where comparable official data exist.
+* 🔜 R9: EFTA and candidate countries in the statistics pillar.
 
 ## Outstanding decisions
 
@@ -64,4 +88,6 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 | Inclusion of Commission preliminary figures | Not shown (not machine-readable) | Maintainer |
 | Linear benchmark path 2019→2030 | Shown, labelled "analytical benchmark, not official forecast" | Maintainer |
 | Custom domain | None; relative base path works for both | Owner |
+| Legislation scope | EU-level road safety acts first; national legislation later, if sources allow | Maintainer |
+| Curated vs automated sources | Automate where machine-readable; otherwise reviewed, version-controlled files | Maintainer |
 | Data license notice | Eurostat reuse policy cited; code MIT | Owner |

@@ -207,4 +207,4 @@ PEDESTRIAN_TOLERANCE = 0.02      # road-user PED vs vehicle OTH: warn above max(
 HTTP_TIMEOUT_SECONDS = 60
 HTTP_MAX_BYTES = 20 * 1024 * 1024
 HTTP_RETRIES = 3
-USER_AGENT = "eu-road-safety-observatory/1.0 (+https://github.com/DaLuSt/eu-road-safety-observatory)"
+USER_AGENT = "vision-zero-monitor/1.0 (+https://github.com/DaLuSt/Vision-Zero-Monitor)"

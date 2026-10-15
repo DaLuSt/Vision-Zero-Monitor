@@ -41,7 +41,7 @@ describe('buildExportSvg', () => {
   it('is wide enough for a long source line on a small chart', () => {
     const small = chartSvg();
     small.setAttribute('width', '300');
-    const source = 'Source: Eurostat (tran_sf_roadus, demo_gind) · EU Road Safety Vision Zero Observatory';
+    const source = 'Source: Eurostat (tran_sf_roadus, demo_gind) · Vision Zero Monitor';
     const { width } = buildExportSvg(small, { title: 't', legend: [], source });
     expect(width).toBeGreaterThanOrEqual(source.length * 6.4 + 48);
   });

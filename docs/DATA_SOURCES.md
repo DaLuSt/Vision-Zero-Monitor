@@ -129,6 +129,22 @@ quoted below come from that day's API responses, which are saved in
 `preliminary_fatalities` series (source id `ec:dgmove_preliminary_<year>`), with its
 own provenance and `status: "provisional"`, never merged into the Eurostat series.
 
+## Candidate sources for planned pillars (not yet assessed)
+
+Listed for the roadmap in [SCOPE.md](SCOPE.md). **None of these is used yet.** Each needs a
+full assessment (access method, licence, update cadence, coverage, reliability) before use,
+and claims about them below are to be verified in that assessment.
+
+| Pillar | Candidate source | What to assess |
+| --- | --- | --- |
+| Legislation | EUR-Lex / Publications Office of the EU (legal-act metadata and texts) | Machine-readable access (e.g. SPARQL or web services), identifiers, lifecycle dates, reuse terms |
+| Legislation | European Commission road safety pages (DG MOVE) | Which acts are listed as road-safety relevant; suitability as a curation reference |
+| Policy commitments | EU Road Safety Policy Framework 2021–2030 (SWD(2019) 283) | Targets and KPIs, their definitions and baselines |
+| Policy commitments | Ministerial declarations on road safety (e.g. Valletta 2017, Stockholm 2020) | Exact wording of commitments; binding vs aspirational |
+| Policy commitments | National road safety strategies of Member States | Availability, languages, targets, comparability |
+| Vision Zero progress | Serious injuries (MAIS3+) and EU road safety KPIs | Which countries report, definitions, machine-readable availability |
+| Coverage | Eurostat data for EFTA and candidate countries (same datasets) | Completeness and comparability per country |
+
 ## Provenance in the published files
 
 * Every observation carries `source_id`, `source_url`, `source_published_at` and
