@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Vision Zero Monitor">
+  <title>Vision Zero Monitor</title>
+  <defs>
+    <clipPath id="inside"><circle cx="256" cy="256" r="150"/></clipPath>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#1c5cab"/>
+  <!-- a road running to the horizon, seen through the zero -->
+  <g clip-path="url(#inside)">
+    <rect x="96" y="96" width="320" height="160" fill="#2f74c8"/>
+    <path d="M140 420 L250 256 H262 L372 420 Z" fill="#ffffff"/>
+    <path d="M256 284 V306 M256 332 V364 M256 394 V420" stroke="#1c5cab" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <!-- the zero -->
+  <circle cx="256" cy="256" r="168" fill="none" stroke="#ffffff" stroke-width="44"/>
+</svg>
