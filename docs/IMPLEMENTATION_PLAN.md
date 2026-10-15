@@ -49,7 +49,7 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ Playwright smoke test (optional, local).
 * 🔜 Manual accessibility audit with a screen reader (NVDA/VoiceOver) and axe.
 * 🔜 Manual mobile review on real devices.
-* 🔜 Independent data-integrity review of displayed figures against Eurostat data browser.
+* 🔜 Independent data-integrity review of displayed figures against Eurostat data browser ([checklist](DATA_REVIEW_CHECKLIST.md)).
 * ✅ Public URL `https://dalust.github.io/Vision-Zero-Monitor/` serves the site (checked in Chromium after the rename).
 * ✅ Relative asset URLs, so renames and custom domains do not require reconfiguration.
 
