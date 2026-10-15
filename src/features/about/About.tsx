@@ -1,4 +1,4 @@
-import { DOCS_URL, ISSUES_URL, MAINTAINER_URL, REPO_URL } from '../../lib/site';
+import { DOCS_URL, ISSUES_URL, MAINTAINER_LINKEDIN_URL, MAINTAINER_URL, REPO_URL } from '../../lib/site';
 
 export function About() {
   return (
@@ -14,7 +14,7 @@ export function About() {
       <h3>Who is behind it</h3>
       <p>
         Vision Zero Monitor is an independent, non-commercial open-source project, built and maintained by Daan Steur
-        (<a href={MAINTAINER_URL}>DaLuSt on GitHub</a>). It is not affiliated with, funded by or endorsed by the European Commission,
+        (<a href={MAINTAINER_LINKEDIN_URL}>LinkedIn</a> · <a href={MAINTAINER_URL}>DaLuSt on GitHub</a>). It is not affiliated with, funded by or endorsed by the European Commission,
         Eurostat or any other organisation.
       </p>
 

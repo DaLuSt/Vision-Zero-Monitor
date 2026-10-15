@@ -89,6 +89,7 @@ describe('App', () => {
     expect(screen.getByText(/not affiliated with, funded by or endorsed by/)).toBeInTheDocument();
     expect(screen.getByText(/built and maintained by Daan Steur/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'DaLuSt on GitHub' })).toHaveAttribute('href', 'https://github.com/DaLuSt');
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('href', 'https://www.linkedin.com/in/daansteur');
     expect(screen.getByText(/sets no cookies/)).toBeInTheDocument();
     const nav = screen.getByRole('navigation', { name: 'Main' });
     expect(within(nav).getByRole('link', { name: 'About' })).toHaveAttribute('aria-current', 'page');
