@@ -1,0 +1,11 @@
+PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?celex WHERE {
+  ?w cdm:work_is_about_concept_eurovoc <http://eurovoc.europa.eu/4047> ;
+     cdm:resource_legal_id_celex ?celex ;
+     cdm:resource_legal_id_sector "3"^^xsd:string ;
+     cdm:work_has_resource-type ?rtu .
+  FILTER(STRAFTER(STR(?rtu), "resource-type/") IN ("DEC", "DEC_DEL", "DEC_ENTSCHEID", "DEC_IMPL", "DIR", "DIR_DEL", "DIR_IMPL", "RECO", "REG", "REG_DEL", "REG_IMPL"))
+  FILTER(!REGEX(STR(?celex), "R\\([0-9]+\\)$"))
+}

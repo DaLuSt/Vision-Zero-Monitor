@@ -1,0 +1,22 @@
+PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?celex (SAMPLE(?rt) AS ?type) (SAMPLE(?sent) AS ?date_sent) (SAMPLE(?eov) AS ?end_of_validity)
+       (SAMPLE(?prefix) AS ?number_prefix) (SAMPLE(?year) AS ?number_year) (SAMPLE(?seq) AS ?number_seq)
+       (SAMPLE(?title) AS ?title)
+       (GROUP_CONCAT(DISTINCT STR(?actc); separator="|") AS ?adopted_by)
+       (GROUP_CONCAT(DISTINCT STR(?targetc); separator="|") AS ?proposes_to_amend)
+WHERE {
+  VALUES ?celex { "51988PC0339"^^xsd:string "51988PC0544"^^xsd:string "51989PC0377"^^xsd:string "51991PC0239"^^xsd:string "51991PC0291"^^xsd:string "51992PC0421"^^xsd:string "51993PC0348"^^xsd:string "51994PC0520"^^xsd:string "51996PC0196"^^xsd:string "51998PC0117"^^xsd:string "51998PC0285"^^xsd:string "51998PC0662(02)"^^xsd:string "52000PC0815"^^xsd:string "52001PC0318"^^xsd:string "52001PC0573"^^xsd:string "52001PC0789(02)"^^xsd:string "52002PC0769"^^xsd:string "52003PC0067"^^xsd:string "52003PC0350"^^xsd:string "52003PC0361"^^xsd:string "52003PC0362"^^xsd:string "52003PC0586"^^xsd:string "52003PC0621"^^xsd:string "52003PC0628"^^xsd:string "52006PC0569"^^xsd:string "52006PC0570"^^xsd:string "52007PC0560"^^xsd:string "52008PC0071"^^xsd:string "52008PC0151"^^xsd:string "52008PC0316"^^xsd:string "52008PC0650"^^xsd:string "52008PC0887"^^xsd:string "52010PC0377"^^xsd:string "52011PC0435"^^xsd:string "52011PC0451"^^xsd:string "52011PC0710"^^xsd:string "52011PC0856"^^xsd:string "52012PC0380"^^xsd:string "52012PC0381"^^xsd:string "52012PC0382"^^xsd:string "52013AG0013"^^xsd:string "52013PC0051"^^xsd:string "52013PC0057"^^xsd:string "52013PC0315"^^xsd:string "52013PC0316"^^xsd:string "52013PC0816"^^xsd:string "52014PC0476"^^xsd:string "52015PC0537"^^xsd:string "52016PC0031"^^xsd:string "52017PC0047"^^xsd:string "52017PC0136"^^xsd:string "52017PC0277"^^xsd:string "52017PC0602"^^xsd:string "52018PC0274"^^xsd:string "52018PC0275"^^xsd:string "52018PC0286"^^xsd:string "52018PC0664"^^xsd:string "52020PC0216"^^xsd:string "52020PC0656"^^xsd:string "52021PC0026"^^xsd:string "52021PC0034"^^xsd:string "52021PC0206"^^xsd:string "52021PC0243"^^xsd:string "52021PC0657"^^xsd:string "52021PC0769"^^xsd:string "52021PC0813"^^xsd:string "52022PC0313"^^xsd:string "52022PC0532"^^xsd:string "52023PC0126"^^xsd:string "52023PC0127"^^xsd:string "52023PC0128"^^xsd:string "52023PC0144"^^xsd:string "52023PC0160"^^xsd:string "52023PC0178"^^xsd:string "52023PC0256"^^xsd:string "52023PC0264"^^xsd:string "52023PC0445"^^xsd:string "52023PC0451"^^xsd:string "52023PC0591"^^xsd:string "52024PC0061"^^xsd:string "52024PC0219"^^xsd:string "52024PC0486"^^xsd:string "52025PC0031"^^xsd:string "52025PC0057"^^xsd:string "52025PC0179"^^xsd:string "52025PC0180"^^xsd:string "52025PC0251"^^xsd:string "52025PC0499"^^xsd:string "52025PC0993"^^xsd:string "52025PC0999"^^xsd:string "52026PC0015"^^xsd:string "52026PC0087"^^xsd:string "52026PC0243"^^xsd:string "52026PC0548"^^xsd:string }
+  ?p cdm:resource_legal_id_celex ?celex .
+  OPTIONAL { ?p cdm:work_has_resource-type ?rtu . BIND(STRAFTER(STR(?rtu), "resource-type/") AS ?rt) }
+  OPTIONAL { ?p cdm:resource_legal_date_dispatch ?sent }
+  OPTIONAL { ?p cdm:resource_legal_date_end-of-validity ?eov }
+  OPTIONAL { ?p cdm:resource_legal_internal_number_prefix ?prefix }
+  OPTIONAL { ?p cdm:resource_legal_internal_number_year ?year }
+  OPTIONAL { ?p cdm:resource_legal_internal_number_sequential_number ?seq }
+  OPTIONAL { ?a cdm:resource_legal_adopts_resource_legal ?p ; cdm:resource_legal_id_celex ?actc .
+             FILTER(!REGEX(STR(?actc), "R\\([0-9]+\\)$")) }
+  OPTIONAL { ?p cdm:resource_legal_proposes_to_amend_resource_legal ?t . ?t cdm:resource_legal_id_celex ?targetc }
+  OPTIONAL { ?e cdm:expression_belongs_to_work ?p ; cdm:expression_uses_language <http://publications.europa.eu/resource/authority/language/ENG> ; cdm:expression_title ?title }
+} GROUP BY ?celex

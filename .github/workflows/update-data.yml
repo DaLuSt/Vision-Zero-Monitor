@@ -22,6 +22,7 @@ jobs:
       changed: ${{ steps.commit.outputs.changed }}
       outcome: ${{ steps.pipeline.outputs.outcome }}
       message: ${{ steps.pipeline.outputs.message }}
+      legislation: ${{ steps.legislation.outputs.legislation_outcome }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -55,15 +56,24 @@ jobs:
           print("message=" + " ".join(str(msg).split())[:500])
           PY
 
+      - name: Update legislation register (EUR-Lex metadata, Publications Office SPARQL)
+        id: legislation
+        # Independent of the statistics: a failure keeps the previous legislation.json
+        # and is reported below, without blocking a statistics update.
+        run: |
+          set +e
+          python -m scripts.legislation.run --save-raw data/raw/legislation
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
       - name: Run tests against the new data
-        if: steps.pipeline.outputs.outcome == 'success'
+        if: steps.pipeline.outputs.outcome == 'success' || steps.legislation.outputs.legislation_outcome == 'success'
         run: python -m pytest -q
 
       - name: Upload raw source responses
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: raw-eurostat-${{ github.run_id }}
+          name: raw-sources-${{ github.run_id }}
           path: data/raw
           retention-days: 30
           if-no-files-found: ignore
@@ -79,7 +89,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/data
-          git commit -m "data: ${{ steps.pipeline.outputs.outcome }} – Eurostat refresh $(date -u +%Y-%m-%d)" \
+          git commit -m "data: statistics ${{ steps.pipeline.outputs.outcome }}, legislation ${{ steps.legislation.outputs.legislation_outcome || 'error' }} – refresh $(date -u +%Y-%m-%d)" \
                      -m "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -88,7 +98,7 @@ jobs:
         if: always()
         run: |
           {
-            echo "### Data update: ${{ steps.pipeline.outputs.outcome || 'error' }}"
+            echo "### Data update: statistics ${{ steps.pipeline.outputs.outcome || 'error' }}, legislation ${{ steps.legislation.outputs.legislation_outcome || 'error' }}"
             echo ""
             echo '```json'
             cat public/data/pipeline_status.json 2>/dev/null || echo "{}"
@@ -99,6 +109,12 @@ jobs:
         if: steps.pipeline.outputs.outcome != 'success' && steps.pipeline.outputs.outcome != 'unchanged'
         run: |
           echo "::error::Data pipeline failed; previous valid data were kept. See pipeline_status.json and the log above."
+          exit 1
+
+      - name: Fail if the legislation register failed
+        if: steps.legislation.outputs.legislation_outcome != 'success' && steps.legislation.outputs.legislation_outcome != 'unchanged'
+        run: |
+          echo "::error::Legislation register update failed; the previous legislation.json was kept. See the log above."
           exit 1
 
   deploy:
@@ -134,4 +150,5 @@ jobs:
           DEPLOY_RESULT: ${{ needs.deploy.result }}
           OUTCOME: ${{ needs.update.outputs.outcome }}
           MESSAGE: ${{ needs.update.outputs.message }}
+          LEGISLATION_OUTCOME: ${{ needs.update.outputs.legislation }}
         run: bash scripts/ci/refresh-alert.sh
