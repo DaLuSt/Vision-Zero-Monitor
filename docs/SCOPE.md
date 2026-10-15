@@ -14,7 +14,7 @@ source belongs in the project.
 | 1. Road safety progress | What is happening on Europe's roads? | ✅ Live |
 | 2. Progress towards Vision Zero | Are outcomes moving fast enough towards the agreed targets? | ✅ Live (fatalities) |
 | 3. Legislation | Which rules apply, and where are they in the legislative cycle? | ✅ Live (EU acts) |
-| 4. Policy commitments | What have governments committed to, and how do outcomes compare? | 🔜 Planned |
+| 4. Policy commitments | What have governments committed to, and how do outcomes compare? | ✅ Live (EU and global) |
 
 ### 1. Road safety progress (live)
 
@@ -28,9 +28,10 @@ comparable), and coverage of EFTA and candidate countries.
 
 ### 2. Progress towards Vision Zero (live, fatalities only)
 
-The EU objective of halving road deaths **and** serious injuries by 2030 compared with
-2019, on the way to close to zero road deaths by 2050. Live today: the 2019 baseline, the
-2030 fatality benchmark, progress made and a clearly labelled analytical straight-line path.
+The EU objective of halving road deaths **and** serious injuries between 2020 and 2030,
+on the way to close to zero road deaths by 2050. Live today: the fatality benchmark measured
+from 2019 as in the European Commission's own monitoring (the commitments page also shows
+the 2020 baseline stated in the policy framework), progress made and a clearly labelled analytical straight-line path.
 Not yet covered: the serious-injury half of the objective and national targets.
 
 ### 3. Legislation (live, EU acts)
@@ -48,12 +49,17 @@ Council, and national transposition measures as published by EUR-Lex.
 Out of scope: legal advice, and any assessment of whether a Member State complies with a
 law unless an official body has published that assessment (which is then cited).
 
-### 4. Policy commitments (planned)
+### 4. Policy commitments (live, EU and global)
 
-Strategies, targets and declarations adopted by the EU and by Member States, such as the
-EU Road Safety Policy Framework 2021–2030, ministerial declarations, and national road
-safety strategies with their targets. Where a commitment has a measurable target, the
-platform shows it next to the official outcome data, using the same methods as pillar 2.
+Targets and goals adopted by the EU institutions and the international community: the EU
+Road Safety Policy Framework 2021–2030 and earlier EU targets for 2010 and 2020, the Council's
+Valletta conclusions, the 2050 Vision Zero goal, the Stockholm Declaration and UN resolution
+74/299. Each is quoted word for word with a link to the official text. Where a target can be
+measured with the official statistics, the target value and the recorded figures are shown
+next to it, with a chart of EU road deaths against every measurable target.
+
+Next candidates: national road safety strategies and their targets, and serious-injury
+targets once comparable MAIS3+ data are covered.
 
 ## Principles (apply to every pillar)
 
@@ -81,9 +87,9 @@ platform shows it next to the official outcome data, using the same methods as p
 | R2 ✅ | Data model and schema for legal acts and their lifecycle events | R1 |
 | R3 ✅ | Register of EU road safety acts (EuroVoc selection + curated additions), with pipeline validation | R2 |
 | R4 ✅ | "Legislation" page: register, proposals, deadlines, links to official texts (timeline view to follow) | R3 |
-| R5 | Source assessment for policy commitments (EU framework, declarations, national strategies) | — |
-| R6 | Data model for commitments and targets; link measurable targets to outcome series | R5 |
-| R7 | "Commitments" page and target-versus-outcome views | R6 |
+| R5 ✅ | Source assessment for policy commitments (EU framework, declarations; national strategies to follow) | — |
+| R6 ✅ | Data model for commitments and targets; link measurable targets to outcome series | R5 |
+| R7 ✅ | "Commitments" page and target-versus-outcome views | R6 |
 | R8 | Serious injuries and EU KPI data, where comparable official data exist | Source assessment |
 | R9 | Coverage beyond the EU-27 (EFTA, candidate countries) | Source assessment |
 

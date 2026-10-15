@@ -5,7 +5,7 @@ safety progress, legislation, policy commitments, and progress towards Vision Ze
 (see [SCOPE.md](SCOPE.md)). It has no backend server, database, API keys or paid services.
 
 Sections 1–7 describe the live system (road safety statistics and the 2030 benchmark).
-Section 8 describes the legislation pillar and how the planned policy-commitment pillar fits in.
+Section 8 describes the legislation and policy-commitment pillars.
 
 The project was created as “EU Road Safety Vision Zero Observatory” and renamed to
 Vision Zero Monitor on 2026-10-15; the old repository URL redirects to the new one.
@@ -180,10 +180,10 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
 * Serious injuries (part of the 2030 target) are not covered.
 * Pipeline status shown on the site is the last *recorded* outcome; runs whose
   outcome and data did not change are not committed (see METHODOLOGY.md).
-* Coverage is the EU-27; the legislation register covers EU-level acts only; policy
-  commitments are not implemented yet.
+* Coverage is the EU-27; the legislation register covers EU-level acts only; commitments
+  cover EU and global documents (national strategies not yet).
 
-## 8. Legislation (implemented) and policy commitments (planned)
+## 8. Legislation and policy commitments
 
 ### Legislation
 
@@ -203,20 +203,27 @@ Implemented as described in section 2 and METHODOLOGY.md ("Legislation register"
 * **Tests** replay saved SPARQL responses (`tests/fixtures/legislation_2026-10-15/`),
   so the suite runs offline.
 
-### Policy commitments (planned)
+### Policy commitments (implemented: EU and global)
 
-Same architecture: sources → pipeline → validated, versioned JSON in `public/data/` →
-static pages. Information that is only published as documents will be curated in
-reviewed, version-controlled files, each entry carrying source URL, identifier,
-publication date and review date.
+Commitments are published as documents, not data, so they are curated by hand in
+`data/curated/commitments.json` (schema `commitments_curated`). Each entry carries a
+verbatim quote, its location and a link to the official document;
+`scripts/commitments/verify_sources.py` (manual, needs network) re-checks every quote.
 
-* *Commitment (draft):* issuing body, document, date, scope (EU or country), type
-  (binding, indicative, aspirational, as stated by the source), and optional measurable
-  target (indicator, baseline year, target year, reduction) that can be linked to an
-  outcome series from pillar 1.
-* **Validation:** every entry has an official source URL; targets reference an existing
-  indicator.
-* **Presentation:** a "Commitments" page and target-versus-outcome views that reuse the
-  existing chart components and benchmark logic.
+```
+ data/curated/commitments.json   (reviewed by hand)      public/data/observations.json
+                 └──────────────┬───────────────────────────────┘
+                                ▼
+ scripts/commitments/build.py    rules + schema, target values and outcomes
+                                ▼
+ public/data/commitments.json    (schema `commitments`; rewritten only when content changes)
+```
 
-The data model will be finalised after the source assessment (SCOPE.md, step R5).
+* *Commitment:* id, title, issuer, level (eu/global/national), scope, form, nature (text,
+  incl. legal force), date, sources[] (role, reference, date, URL, location, quote),
+  targets[].
+* *Target:* indicator, reduction, baseline year, target year, measure (geo + indicator in
+  `observations.json`) or a reason why it is not measured, scope note, monitoring baselines
+  used by the Commission, and the calculated `outcomes[]`.
+* The build runs in `update-data.yml` after the statistics step, so outcomes always use
+  the latest published figures. The page loads `commitments.json` only when opened.

@@ -218,3 +218,76 @@ export interface Legislation {
   acts: LegalAct[];
   proposals: Proposal[];
 }
+
+/** commitments.json: curated policy commitments with outcomes calculated from official statistics. */
+export type CommitmentLevel = 'eu' | 'global' | 'national';
+export type CommitmentForm =
+  | 'commission_policy' | 'council_conclusions' | 'ministerial_declaration' | 'un_resolution' | 'national_strategy';
+
+export interface CommitmentSource {
+  role: 'primary' | 'first_set_out' | 'reaffirmed';
+  title: string;
+  reference: string;
+  publisher: string;
+  /** YYYY or YYYY-MM-DD */
+  date: string;
+  url: string;
+  location: string;
+  /** Verbatim from the official document. */
+  quote: string;
+}
+
+export interface TargetOutcome {
+  basis: 'as_stated' | 'commission_monitoring';
+  baseline_year: number;
+  baseline_value: number | null;
+  baseline_status: Status | null;
+  target_year: number;
+  target_value: number | null;
+  required_change_pct: number;
+  compare_year: number | null;
+  compare_value: number | null;
+  compare_status: Status | null;
+  deadline_passed: boolean;
+  change_pct: number | null;
+  share_of_required_reduction: number | null;
+  above_target_value: boolean | null;
+}
+
+export interface CommitmentTarget {
+  id: string;
+  indicator: 'road_deaths' | 'serious_injuries';
+  description: string;
+  reduction: number | null;
+  baseline_year: number | null;
+  target_year: number;
+  measure: { geo: string; indicator: string } | null;
+  not_measured_reason: string | null;
+  scope_note: string | null;
+  monitoring_baselines: { year: number; note: string; source: { title: string; publisher: string; url: string } }[];
+  outcomes: TargetOutcome[];
+  reference: { period: number | null; value: number | null; status: Status | null } | null;
+}
+
+export interface Commitment {
+  id: string;
+  title: string;
+  issuer: string;
+  level: CommitmentLevel;
+  scope: string;
+  form: CommitmentForm;
+  nature: string;
+  date: string;
+  sources: CommitmentSource[];
+  targets: CommitmentTarget[];
+}
+
+export interface Commitments {
+  schema_version: string;
+  generated_at: string;
+  reviewed_at: string;
+  review_note: string;
+  statistics_source: string;
+  summary: { commitments: number; targets: number; targets_measured: number };
+  commitments: Commitment[];
+}

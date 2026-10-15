@@ -6,9 +6,9 @@ export function About() {
       <h2 id="about-heading">About Vision Zero Monitor</h2>
       <p>
         Vision Zero Monitor follows Europe's progress towards Vision Zero: the EU objective of halving road deaths and
-        serious injuries by 2030 compared with 2019, and moving close to zero road deaths by 2050. It brings official
-        road safety statistics and EU legislation together in one place, so anyone can see where Europe stands and check
-        every figure against its source.
+        serious injuries between 2020 and 2030, and moving close to zero road deaths by 2050. It brings official road
+        safety statistics, EU legislation and policy commitments together in one place, so anyone can see where Europe
+        stands and check every figure against its source.
       </p>
 
       <h3>Who is behind it</h3>
@@ -20,7 +20,10 @@ export function About() {
 
       <h3>How it works</h3>
       <ul>
-        <li>Data come only from official sources: Eurostat for statistics and EUR-Lex for legislation.</li>
+        <li>
+          Data come only from official sources: Eurostat for statistics, EUR-Lex for legislation, and the official
+          documents themselves for policy commitments (quoted word for word).
+        </li>
         <li>
           An automated pipeline checks for new data every week, validates it, and publishes it only if all checks pass.
           Otherwise the last valid data stay online.

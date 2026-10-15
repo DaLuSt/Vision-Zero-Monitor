@@ -8,7 +8,7 @@
 [![Update data](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/update-data.yml/badge.svg)](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/update-data.yml)
 
 Vision Zero is the EU's long-term ambition of moving close to zero road deaths by 2050, with an
-interim objective of halving road deaths and serious injuries by 2030 compared with 2019.
+interim objective of halving road deaths and serious injuries between 2020 and 2030.
 Vision Zero Monitor brings together the evidence needed to follow that journey: what is
 happening on the roads, which rules apply, and what governments have committed to. Every
 figure and every claim links back to an official source.
@@ -25,9 +25,9 @@ figure and every claim links back to an official source.
 | Pillar | What it covers | Status |
 | --- | --- | --- |
 | **Road safety progress** | Official road deaths for the 27 EU Member States, rates per million, trends since 1999, deaths by road user and mode of transport | ✅ Live |
-| **Progress towards Vision Zero** | 2019 baseline, 2030 fatality benchmark (−50 %), progress share and an analytical straight-line path | ✅ Live (fatalities only; serious injuries not yet covered) |
+| **Progress towards Vision Zero** | 2030 fatality benchmark (−50 %) measured from 2019 as in the Commission's own monitoring, progress share and an analytical straight-line path | ✅ Live (fatalities only; serious injuries not yet covered) |
 | **Legislation** | EU road safety acts and pending Commission proposals: adoption, entry into force, in-force status, transposition deadlines, amendments and repeals, linked to EUR-Lex | ✅ Live (EU acts) |
-| **Policy commitments** | EU and national strategies, targets and declarations, compared with the measured outcomes | 🔜 Planned |
+| **Policy commitments** | EU and global targets and declarations, quoted from the official texts and compared with the official figures | ✅ Live (EU and global; national strategies planned) |
 
 Geographic coverage today is the **EU-27**. Extending it to other European countries
 (EFTA, candidate countries) is planned where comparable official data exist. Planned
@@ -42,6 +42,7 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 [Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts) ·
 [Data explorer](https://dalust.github.io/Vision-Zero-Monitor/#/explorer) ·
 [Legislation](https://dalust.github.io/Vision-Zero-Monitor/#/legislation) ·
+[Commitments](https://dalust.github.io/Vision-Zero-Monitor/#/commitments) ·
 [Methodology](https://dalust.github.io/Vision-Zero-Monitor/#/methodology) ·
 [Sources & freshness](https://dalust.github.io/Vision-Zero-Monitor/#/sources)
 
@@ -52,8 +53,9 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 | Which Member States have the highest rates? | Countries: sortable table + per-country detail |
 | Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users): deaths by road user and by mode of transport, latest year and trends, per country |
 | How does my country compare? | [Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts): graphs for the EU total and any Member States, for all deaths or one group (e.g. cyclists), as deaths, per million or index 2019 = 100; PNG/CSV download; shareable link |
-| Is the EU on course for 2030? | 2019 baseline, 2030 benchmark (−50 %), progress share, linear analytical path |
+| Is the EU on course for 2030? | 2030 benchmark (−50 %) from 2019, progress share, linear analytical path; both baselines (2019 and the stated 2020) on the commitments page |
 | Which EU road safety rules apply, and what is in the pipeline? | [Legislation](https://dalust.github.io/Vision-Zero-Monitor/#/legislation): acts in force, pending Commission proposals, upcoming transposition deadlines, searchable register with links to EUR-Lex |
+| What has the EU committed to, and how do the figures compare? | [Commitments](https://dalust.github.io/Vision-Zero-Monitor/#/commitments): EU and global targets quoted word for word, target values next to official figures, chart of EU road deaths against every measurable target |
 | Where are data incomplete or uncertain? | Status badges, data freshness panel, validation warnings, data explorer + CSV |
 
 ## Data sources
@@ -64,6 +66,7 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 | Eurostat [`tran_sf_roadve`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table) | Deaths by mode of transport |
 | Eurostat [`demo_gind`](https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table) (`AVG`) | Average population → rates per million |
 | Eurostat [`sdg_11_40`](https://ec.europa.eu/eurostat/databrowser/view/sdg_11_40/default/table) | Independent cross-check |
+| Official policy documents (Commission, Council, UN; listed in [DATA_SOURCES.md §7](docs/DATA_SOURCES.md)) | Policy commitments: verbatim quotes and targets, curated in `data/curated/commitments.json` |
 | Publications Office of the EU, [Cellar SPARQL endpoint](https://publications.europa.eu/webapi/rdf/sparql) (EUR-Lex metadata) | Legislation register: acts indexed EuroVoc “road safety” + curated additions |
 
 Details: [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) (including candidate sources for the
@@ -103,6 +106,10 @@ python -m scripts.data_pipeline.run --from-raw tests/fixtures/eurostat_2026-10-1
 # Legislation register (EUR-Lex metadata via SPARQL)
 python -m scripts.legislation.run                  # query live → public/data/legislation.json
 python -m scripts.legislation.run --from-raw tests/fixtures/legislation_2026-10-15  # offline replay
+
+# Policy commitments (curated) → targets measured against the official figures
+python -m scripts.commitments.build
+python -m scripts.commitments.verify_sources       # re-check every quote (network, needs pdftotext)
 ```
 
 Both pipelines exit `0` when data were updated or unchanged and `1` on failure. On
@@ -125,6 +132,8 @@ scripts/data_pipeline/
   export.py          atomic file writes
   run.py             orchestration / CLI
 scripts/legislation/ EUR-Lex metadata → legislation.json (SPARQL queries, register, validation, CLI)
+scripts/commitments/ curated commitments + observations → commitments.json; quote verification
+data/curated/        hand-curated, reviewed inputs (commitments.json)
 scripts/ci/          failure-alert script used by the weekly workflow
 public/data/         published, validated JSON (versioned in Git)
 src/                 React app (components/, features/, lib/, types/)
@@ -189,7 +198,8 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
   recorded in EUR-Lex metadata, not the stage of a proposal in Parliament or Council, and
   it does not assess Member State compliance. Its selection follows the Publications
   Office's “road safety” indexing plus a short curated list.
-* Policy-commitment tracking is not implemented yet.
+* Policy commitments cover EU and global documents; national road safety strategies are not
+  yet included, and serious-injury targets cannot be measured until MAIS3+ data are covered.
 
 ## Contributing
 

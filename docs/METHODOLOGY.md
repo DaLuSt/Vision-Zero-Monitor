@@ -1,9 +1,8 @@
 # Methodology and data dictionary
 
-Methods used by Vision Zero Monitor for the live pillars: road safety statistics, the
-2030 benchmark and the legislation register ([last section](#legislation-register)).
-Methods for the planned policy-commitment pillar will be added when it is built (see
-[SCOPE.md](SCOPE.md)).
+Methods used by Vision Zero Monitor for its pillars: road safety statistics, the 2030
+benchmark, the [legislation register](#legislation-register) and
+[policy commitments](#policy-commitments) (see [SCOPE.md](SCOPE.md)).
 
 ## Road fatality
 
@@ -140,9 +139,13 @@ their status. The selection is stored in the URL so a chart can be shared.
 
 ## 2030 target and Vision Zero
 
-The EU Road Safety Policy Framework 2021–2030 sets the objective of halving road
-deaths **and serious injuries** by 2030 compared with 2019, as a step towards
-Vision Zero — close to zero road deaths by 2050. This dashboard tracks only the
+The EU Road Safety Policy Framework 2021–2030 (SWD(2019) 283, section 3.2) sets the
+objective of reducing road deaths **and serious injuries** by 50 % “between 2020 and
+2030”, as a step towards Vision Zero — close to zero road deaths by 2050. The European
+Commission's own progress charts measure the road-death target from **2019** (its 2025
+road safety statistics show the 2030 target as 11 400 deaths, half of the 22 800 recorded
+in 2019), and the overview page does the same. The commitments page shows the target
+against both baselines (see “Policy commitments” below). This dashboard tracks only the
 fatality component. The straight-line path from 2019 to 2030 is an **analytical
 benchmark**, not an official trajectory or forecast; no claim of being “on track”
 or “off track” is made from a single year. Comparisons involving provisional
@@ -243,3 +246,56 @@ retrieval timestamps are ignored in that comparison.
 **What the register does not do.** It does not assess compliance, give legal advice, or
 show the stage of a proposal in Parliament or Council. National legislation is not
 covered.
+
+## Policy commitments
+
+Built by `scripts/commitments/build.py` from the curated file
+`data/curated/commitments.json` and the published `observations.json`, and published as
+`public/data/commitments.json`. Sources and their assessment: DATA_SOURCES.md §7.
+
+**Curation.** Commitments are published as documents, so each entry is written by hand:
+issuer, date, form (Commission policy, Council conclusions, ministerial declaration, UN
+resolution), scope, a short description of its nature, and one or more sources. Every
+source has a **verbatim quote**, its location in the document (section, point, page) and a
+link to the official text. `python -m scripts.commitments.verify_sources` downloads each
+document and checks that every quote occurs in it word for word (ignoring line breaks,
+hyphenation, quote-mark style and the spacing in “50 %”). The date of the last successful
+check is stored as `reviewed_at` and shown on the page.
+
+**Nature.** All commitments currently listed are political or policy commitments; none is
+legally binding. The text says so for each entry, in the source's own terms (for example
+“Council conclusions”, “UN General Assembly resolution”).
+
+**Targets.** Each commitment lists its targets as stated: indicator (road deaths or serious
+injuries), reduction, baseline year and target year. A target is **measured** only when it
+can be compared with the official statistics on this site: road deaths, EU-27, with an
+official figure for the baseline year. Otherwise the reason is shown (for example: serious
+injuries are not yet covered; a global goal; no baseline year stated).
+
+| Quantity | Definition |
+| --- | --- |
+| Target value | official baseline figure × (1 − stated reduction), kept unrounded in the data (e.g. 9 415.0) |
+| Comparison year | the target year if its figure is published, otherwise the latest year with a figure |
+| Change | (figure in comparison year − baseline figure) ÷ baseline figure × 100 |
+| Share of the required reduction | (baseline − figure) ÷ (baseline − target value); negative when deaths rose |
+
+When a deadline has passed, the page states whether the recorded figure is above or below
+the target value. That is arithmetic on official figures, not an assessment. No judgement
+such as “on track” is made for targets whose deadline has not passed.
+
+**Baselines.** A target is computed from the baseline year stated in the document. Where
+the European Commission monitors a target against a different year, that baseline is added
+as a second, labelled row with its source (currently: the 2030 road-death target, stated as
+2020–2030 and monitored by the Commission from 2019).
+
+**Scope.** Targets set for the EU of an earlier date (for example the 2010–2020 target, set
+when the EU had 27 Member States including the United Kingdom and without Croatia) are
+compared with today's EU-27 figures; this is noted on each such target. The 2003 target
+(“by 2010”, EU of 15 Member States, no baseline year stated) is listed but not measured.
+
+**Validation.** Errors block publication and keep the previous file: schema violations,
+duplicate identifiers, a commitment without a primary source, a baseline year not before
+the target year, a measured target without an official baseline figure, an unmeasured
+target without a stated reason, or a review date in the future. The build runs after every
+statistics refresh, so outcomes always use the latest published figures.
+

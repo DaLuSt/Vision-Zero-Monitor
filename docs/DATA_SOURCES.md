@@ -170,6 +170,42 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   EUR-Lex SOAP web service (requires registration). National transposition measures
   (also in EUR-Lex) are not yet assessed.
 
+## 7. Policy commitments: official documents (curated)
+
+* **Assessment (R5), 2026-10-15:** there is no machine-readable register of road safety
+  commitments. Targets are stated in policy documents, Council conclusions, declarations
+  and resolutions. The commitments pillar therefore uses a **curated file**
+  (`data/curated/commitments.json`) with a verbatim quote and link for every entry.
+* **Access used to verify the texts:** EU documents through the Publications Office
+  (Cellar content negotiation on `http://publications.europa.eu/resource/celex/{CELEX}`;
+  EUR-Lex web pages themselves block automated access); Council documents from
+  `data.consilium.europa.eu`; UN resolutions from `documents.un.org`; the Stockholm
+  Declaration from the conference website. `scripts/commitments/verify_sources.py`
+  re-checks every quote against these documents.
+* **Documents in the first release:**
+
+  | Document | Date | Used for |
+  | --- | --- | --- |
+  | COM(2003) 311 — European Road Safety Action Programme | 2 Jun 2003 | −50 % road deaths by 2010 (listed, not measured) |
+  | COM(2010) 389 — Policy orientations on road safety 2011–2020 | 20 Jul 2010 | −50 % road deaths 2010–2020 |
+  | COM(2011) 144 — White Paper on transport | 28 Mar 2011 | Close to zero road deaths by 2050 |
+  | Council conclusions 9994/17 (Valletta Declaration) | 8 Jun 2017 | Member States: −50 % deaths 2010–2020; set a −50 % serious-injury target 2020–2030 |
+  | COM(2018) 293 — Europe on the Move | 17 May 2018 | −50 % deaths and serious injuries 2020–2030; Vision Zero reaffirmed |
+  | SWD(2019) 283 — EU Road Safety Policy Framework 2021–2030 | 2019 | −50 % deaths and serious injuries 2020–2030 |
+  | Stockholm Declaration (3rd Global Ministerial Conference) | 20 Feb 2020 | At least −50 % road deaths 2020–2030 (global) |
+  | UN General Assembly resolution A/RES/74/299 | 31 Aug 2020 | At least −50 % deaths and injuries 2021–2030 (global) |
+  | Commission “Road safety statistics 2025 in more detail”, Figure 1 | 2026 | Monitoring baseline 2019 for the 2030 target |
+
+* **Finding: two baselines for the 2030 target.** The Policy Framework states the
+  target as −50 % “between 2020 and 2030”, while the Commission's progress charts measure
+  it from 2019 (22 800 → 11 400). Both are shown, each with its source.
+* **Reuse:** EU documents under Commission Decision 2011/833/EU (© European Union); UN
+  documents are public. Only short quotes are reproduced, with links to the full texts.
+* **Not yet included:** national road safety strategies (27 documents in many languages;
+  to be assessed country by country), the European Parliament resolution of 6 October
+  2021 on the policy framework, and serious-injury figures (MAIS3+) needed to measure the
+  serious-injury targets.
+
 ## Candidate sources for planned pillars (not yet assessed)
 
 Listed for the roadmap in [SCOPE.md](SCOPE.md). **None of these is used yet.** Each needs a
@@ -181,8 +217,6 @@ and claims about them below are to be verified in that assessment.
 | Legislation | National transposition measures (EUR-Lex "national implementing measures") | Coverage and meaning; must not be presented as a compliance assessment |
 | Legislation | Legislative Observatory of the European Parliament (OEIL) | Procedure stages of pending proposals; machine-readable access and reuse terms |
 | Legislation | European Commission road safety pages (DG MOVE) | Which acts are listed as road-safety relevant; suitability as a curation reference |
-| Policy commitments | EU Road Safety Policy Framework 2021–2030 (SWD(2019) 283) | Targets and KPIs, their definitions and baselines |
-| Policy commitments | Ministerial declarations on road safety (e.g. Valletta 2017, Stockholm 2020) | Exact wording of commitments; binding vs aspirational |
 | Policy commitments | National road safety strategies of Member States | Availability, languages, targets, comparability |
 | Vision Zero progress | Serious injuries (MAIS3+) and EU road safety KPIs | Which countries report, definitions, machine-readable availability |
 | Coverage | Eurostat data for EFTA and candidate countries (same datasets) | Completeness and comparability per country |

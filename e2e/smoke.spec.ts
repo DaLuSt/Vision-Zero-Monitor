@@ -72,3 +72,19 @@ test('about page explains who is behind the site and how to report errors', asyn
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test('commitments page quotes official documents and draws targets against official data', async ({ page, isMobile }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/');
+  if (isMobile) await page.getByRole('button', { name: /menu/i }).click();
+  await page.getByRole('link', { name: 'Commitments', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Policy commitments' })).toBeVisible();
+  const card = page.getByRole('article', { name: /Halve road deaths and serious injuries between 2020 and 2030/ });
+  await expect(card.getByText(/between 2020 and 2030/).first()).toBeVisible();
+  await expect(card.getByRole('link', { name: 'SWD(2019) 283 final' })).toHaveAttribute('href', /op\.europa\.eu/);
+  await expect(page.locator('figure .recharts-line')).toHaveCount(4);
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+  expect(errors).toEqual([]);
+});

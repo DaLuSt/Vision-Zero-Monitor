@@ -75,8 +75,10 @@ export function KpiCards({ data }: { data: Dataset }) {
         </Card>
       </div>
       <p className="small muted">
-        The EU objective is to halve both road deaths <em>and</em> serious injuries by 2030 compared with 2019. These
-        figures cover deaths only and do not measure the serious-injury objective. Status “No status flag” means Eurostat
+        The EU objective is to halve both road deaths <em>and</em> serious injuries between 2020 and 2030. Like the
+        European Commission's own progress charts, this page measures the road-death target from 2019 (both baselines
+        are compared on the <a href="#/commitments">commitments page</a>). These figures cover deaths only and do not
+        measure the serious-injury objective. Status “No status flag” means Eurostat
         did not mark the value as provisional or estimated; official figures can still be revised.
       </p>
     </section>
