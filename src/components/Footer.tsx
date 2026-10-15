@@ -14,7 +14,7 @@ export function Footer() {
         </p>
         <p>
           Currently published: official road-death statistics for the 27 EU Member States and a register of EU road
-          safety legislation. Policy-commitment tracking is in development (<a href={`${REPO_URL}/blob/main/docs/SCOPE.md`}>scope and roadmap</a>).
+          safety legislation and policy commitments. National strategies are in development (<a href={`${REPO_URL}/blob/main/docs/SCOPE.md`}>scope and roadmap</a>).
         </p>
         <p>
           Vision Zero Monitor is an independent open-source project, not an official publication of the European Union.

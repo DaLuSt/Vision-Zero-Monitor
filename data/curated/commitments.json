@@ -1,0 +1,323 @@
+{
+ "schema_version": "1.0.0",
+ "reviewed_at": "2026-10-15",
+ "review_note": "Every quote was checked word for word against the official document on the review date (scripts/commitments/verify_sources.py). Edit this file only with a new review.",
+ "commitments": [
+  {
+   "id": "eu-2030-interim-targets",
+   "title": "Halve road deaths and serious injuries between 2020 and 2030",
+   "issuer": "European Commission",
+   "level": "eu",
+   "scope": "European Union",
+   "form": "commission_policy",
+   "nature": "Policy objective of the European Commission, part of the EU Road Safety Policy Framework 2021–2030. Not legally binding.",
+   "date": "2019",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "EU Road Safety Policy Framework 2021–2030 – Next steps towards ‘Vision Zero’",
+     "reference": "SWD(2019) 283 final",
+     "publisher": "European Commission",
+     "date": "2019",
+     "url": "https://op.europa.eu/en/publication-detail/-/publication/d7ee4b58-4bc5-11ea-8aa5-01aa75ed71a1",
+     "location": "Section 3.2, p. 11",
+     "quote": "It also proposed new interim targets of reducing the number of road deaths by 50% between 2020 and 2030 as well as reducing the number of serious injuries by 50% in the same period, as recommended in the Valletta Declaration."
+    },
+    {
+     "role": "first_set_out",
+     "title": "Europe on the Move – Sustainable Mobility for Europe: safe, connected, and clean",
+     "reference": "COM(2018) 293 final",
+     "publisher": "European Commission",
+     "date": "2018-05-17",
+     "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52018DC0293",
+     "location": "Section 2 (Safe mobility)",
+     "quote": "The EU will also pursue new interim targets to reduce the number of road deaths by 50 per cent between 2020 and 2030 as well as to reduce the number of serious injuries by 50 per cent in the same period (using the new common definition of serious injury agreed with all Member States)."
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % between 2020 and 2030",
+     "reduction": 0.5,
+     "baseline_year": 2020,
+     "target_year": 2030,
+     "measure": {"geo": "EU27_2020", "indicator": "road_fatalities"},
+     "not_measured_reason": null,
+     "scope_note": null,
+     "monitoring_baselines": [
+      {
+       "year": 2019,
+       "note": "The European Commission's own progress charts measure this target against 2019: its 2025 road safety statistics show the 2030 target as 11 400 deaths, half of the 22 800 recorded in 2019. The overview page of this dashboard uses the same 2019 baseline.",
+       "source": {
+        "title": "Road safety statistics 2025 in more detail, Figure 1 “EU target: halving road deaths by 2030”",
+        "publisher": "European Commission, DG Mobility and Transport",
+        "url": "https://transport.ec.europa.eu/background/road-safety-statistics-2025_en"
+       }
+      }
+     ]
+    },
+    {
+     "id": "serious-injuries",
+     "indicator": "serious_injuries",
+     "description": "Serious injuries (MAIS3+) −50 % between 2020 and 2030",
+     "reduction": 0.5,
+     "baseline_year": 2020,
+     "target_year": 2030,
+     "measure": null,
+     "not_measured_reason": "Comparable serious-injury (MAIS3+) figures are not yet included in this dashboard.",
+     "scope_note": null,
+     "monitoring_baselines": []
+    }
+   ]
+  },
+  {
+   "id": "eu-2050-vision-zero",
+   "title": "Move close to zero road deaths by 2050 (“Vision Zero”)",
+   "issuer": "European Commission",
+   "level": "eu",
+   "scope": "European Union",
+   "form": "commission_policy",
+   "nature": "Long-term goal of the European Commission. Not legally binding and not quantified as a number.",
+   "date": "2011-03-28",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "White Paper: Roadmap to a Single European Transport Area – Towards a competitive and resource efficient transport system",
+     "reference": "COM(2011) 144 final",
+     "publisher": "European Commission",
+     "date": "2011-03-28",
+     "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52011DC0144",
+     "location": "Section 2.5, goal 9",
+     "quote": "By 2050, move close to zero fatalities in road transport. In line with this goal, the EU aims at halving road casualties by 2020."
+    },
+    {
+     "role": "reaffirmed",
+     "title": "Europe on the Move – Sustainable Mobility for Europe: safe, connected, and clean",
+     "reference": "COM(2018) 293 final",
+     "publisher": "European Commission",
+     "date": "2018-05-17",
+     "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52018DC0293",
+     "location": "Section 2 (Safe mobility)",
+     "quote": "The EU's long-term goal will remain moving as close as possible to zero fatalities in road transport by 2050 (\"Vision Zero\"). The same should be achieved for serious injuries."
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Close to zero road deaths by 2050",
+     "reduction": null,
+     "baseline_year": null,
+     "target_year": 2050,
+     "measure": {"geo": "EU27_2020", "indicator": "road_fatalities"},
+     "not_measured_reason": "The goal is not expressed as a number, so no target value is calculated. The latest official figure is shown for reference.",
+     "scope_note": null,
+     "monitoring_baselines": []
+    }
+   ]
+  },
+  {
+   "id": "council-valletta-2017",
+   "title": "Valletta Declaration: Member States commit to halving road deaths by 2020 and to a 2030 serious-injury target",
+   "issuer": "Council of the European Union (transport ministers of the Member States)",
+   "level": "eu",
+   "scope": "European Union",
+   "form": "council_conclusions",
+   "nature": "Political commitment by the Member States, adopted as Council conclusions. Not legally binding.",
+   "date": "2017-06-08",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Council conclusions on road safety – endorsing the Valletta Declaration of March 2017",
+     "reference": "Council document 9994/17",
+     "publisher": "Council of the European Union",
+     "date": "2017-06-08",
+     "url": "https://data.consilium.europa.eu/doc/document/ST-9994-2017-INIT/en/pdf",
+     "location": "Annex to the annex (Valletta Declaration), point 8(a)",
+     "quote": "Member States will undertake to: a) continue and reinforce measures necessary to halve the number of road deaths in the EU by 2020 from the 2010 baseline;"
+    },
+    {
+     "role": "primary",
+     "title": "Council conclusions on road safety – endorsing the Valletta Declaration of March 2017",
+     "reference": "Council document 9994/17",
+     "publisher": "Council of the European Union",
+     "date": "2017-06-08",
+     "url": "https://data.consilium.europa.eu/doc/document/ST-9994-2017-INIT/en/pdf",
+     "location": "Annex to the annex (Valletta Declaration), point 8(i)",
+     "quote": "set a target of halving the number of serious injuries in the EU by 2030 from the 2020 baseline using this common definition and in the framework of an overall road safety strategy for this period;"
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths-2020",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % from 2010 to 2020",
+     "reduction": 0.5,
+     "baseline_year": 2010,
+     "target_year": 2020,
+     "measure": {"geo": "EU27_2020", "indicator": "road_fatalities"},
+     "not_measured_reason": null,
+     "scope_note": "Set for the EU as it was in 2010 (27 Member States including the United Kingdom, without Croatia). The figures shown are for the current EU-27, so they approximate the original scope.",
+     "monitoring_baselines": []
+    },
+    {
+     "id": "serious-injuries-2030",
+     "indicator": "serious_injuries",
+     "description": "Set a target to halve serious injuries (MAIS3+) from 2020 to 2030",
+     "reduction": 0.5,
+     "baseline_year": 2020,
+     "target_year": 2030,
+     "measure": null,
+     "not_measured_reason": "Comparable serious-injury (MAIS3+) figures are not yet included in this dashboard.",
+     "scope_note": null,
+     "monitoring_baselines": []
+    }
+   ]
+  },
+  {
+   "id": "eu-2020-halving",
+   "title": "Halve road deaths between 2010 and 2020",
+   "issuer": "European Commission",
+   "level": "eu",
+   "scope": "European Union",
+   "form": "commission_policy",
+   "nature": "Strategic target of the European Commission's Policy Orientations on Road Safety 2011–2020. Not legally binding.",
+   "date": "2010-07-20",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Towards a European road safety area: policy orientations on road safety 2011–2020",
+     "reference": "COM(2010) 389 final",
+     "publisher": "European Commission",
+     "date": "2010-07-20",
+     "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52010DC0389",
+     "location": "Section 3.2",
+     "quote": "the Commission proposes to continue with the target of halving the overall number of road deaths in the European Union by 2020 starting from 2010."
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % from 2010 to 2020",
+     "reduction": 0.5,
+     "baseline_year": 2010,
+     "target_year": 2020,
+     "measure": {"geo": "EU27_2020", "indicator": "road_fatalities"},
+     "not_measured_reason": null,
+     "scope_note": "Set for the EU as it was in 2010 (27 Member States including the United Kingdom, without Croatia). The figures shown are for the current EU-27, so they approximate the original scope.",
+     "monitoring_baselines": []
+    }
+   ]
+  },
+  {
+   "id": "eu-2010-halving",
+   "title": "Halve road deaths by 2010",
+   "issuer": "European Commission",
+   "level": "eu",
+   "scope": "European Union (15 Member States at the time)",
+   "form": "commission_policy",
+   "nature": "Target of the third European Road Safety Action Programme. Not legally binding.",
+   "date": "2003-06-02",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "European Road Safety Action Programme – Halving the number of road accident victims in the European Union by 2010: A shared responsibility",
+     "reference": "COM(2003) 311 final",
+     "publisher": "European Commission",
+     "date": "2003-06-02",
+     "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52003DC0311",
+     "location": "Section 2.2 (Monitoring the target)",
+     "quote": "Reduce the number of road deaths by 50% by 2010."
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % by 2010",
+     "reduction": 0.5,
+     "baseline_year": null,
+     "target_year": 2010,
+     "measure": null,
+     "not_measured_reason": "The document does not state a baseline year, and the target was set for the EU of 15 Member States, so it cannot be compared reliably with the current EU-27 figures.",
+     "scope_note": null,
+     "monitoring_baselines": []
+    }
+   ]
+  },
+  {
+   "id": "un-ga-74-299",
+   "title": "Second Decade of Action for Road Safety: at least 50 % fewer road deaths and injuries from 2021 to 2030",
+   "issuer": "United Nations General Assembly",
+   "level": "global",
+   "scope": "World",
+   "form": "un_resolution",
+   "nature": "UN General Assembly resolution. Not legally binding; it invites action by UN Member States, including all EU Member States.",
+   "date": "2020-08-31",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Improving global road safety (resolution A/RES/74/299)",
+     "reference": "A/RES/74/299",
+     "publisher": "United Nations General Assembly",
+     "date": "2020-08-31",
+     "url": "https://undocs.org/A/RES/74/299",
+     "location": "Operative paragraph 3",
+     "quote": "Proclaims the period 2021–2030 as the Second Decade of Action for Road Safety, with a goal of reducing road traffic deaths and injuries by at least 50 per cent from 2021 to 2030"
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths-injuries",
+     "indicator": "road_deaths",
+     "description": "Road traffic deaths and injuries at least −50 % from 2021 to 2030 (global goal)",
+     "reduction": 0.5,
+     "baseline_year": 2021,
+     "target_year": 2030,
+     "measure": null,
+     "not_measured_reason": "A global goal; this dashboard covers the EU only.",
+     "scope_note": null,
+     "monitoring_baselines": []
+    }
+   ]
+  },
+  {
+   "id": "stockholm-declaration-2020",
+   "title": "Stockholm Declaration: at least 50 % fewer road deaths from 2020 to 2030",
+   "issuer": "Third Global Ministerial Conference on Road Safety",
+   "level": "global",
+   "scope": "World",
+   "form": "ministerial_declaration",
+   "nature": "Declaration of ministers and heads of delegation, later endorsed by the UN General Assembly (A/RES/74/299). Not legally binding.",
+   "date": "2020-02-20",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Stockholm Declaration – Third Global Ministerial Conference on Road Safety: Achieving Global Goals 2030",
+     "reference": "Stockholm Declaration, 19–20 February 2020",
+     "publisher": "Third Global Ministerial Conference on Road Safety (hosted by the Government of Sweden)",
+     "date": "2020-02-20",
+     "url": "https://www.roadsafetysweden.com/contentassets/b37f0951c837443eb9661668d5be439e/stockholm-declaration-english.pdf",
+     "location": "Point 3 (\"we hereby resolve to\")",
+     "quote": "Call upon Member States to contribute to reducing road traffic deaths by at least 50% from 2020 to 2030"
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road traffic deaths at least −50 % from 2020 to 2030 (global)",
+     "reduction": 0.5,
+     "baseline_year": 2020,
+     "target_year": 2030,
+     "measure": null,
+     "not_measured_reason": "A global goal; this dashboard covers the EU only.",
+     "scope_note": null,
+     "monitoring_baselines": []
+    }
+   ]
+  }
+ ]
+}

@@ -70,11 +70,13 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * Acceptance met: every act has a CELEX identifier and EUR-Lex link; dates and statuses are as recorded by the source; no compliance judgements.
 * 🔜 Next: timeline view per act; stage of pending proposals in Parliament and Council (needs a source assessment of the Legislative Observatory); national transposition measures (only as published by EUR-Lex, never as a compliance verdict).
 
-## Milestone 8 — Policy commitments pillar 🔜
+## Milestone 8 — Policy commitments pillar ✅ (first release: EU and global)
 
-* 🔜 R5: source assessment for EU and national commitments (policy framework, declarations, national strategies).
-* 🔜 R6: schema for commitments and targets; measurable targets linked to outcome series.
-* 🔜 R7: "Commitments" page and target-versus-outcome charts.
+* ✅ R5: source assessment (DATA_SOURCES.md §7): no machine-readable register exists, so commitments are curated with verbatim quotes; 10 quotes from 8 documents verified by `scripts/commitments/verify_sources.py`.
+* ✅ R6: schemas for curated input and published output; targets with indicator, reduction, baseline and target year; outcomes calculated from `observations.json` after every refresh.
+* ✅ R7: "Commitments" page: quotes and links, target values next to official figures, both baselines for the 2030 target, chart of EU road deaths against every measurable target.
+* ✅ Corrected the 2030 baseline wording across the site: the policy framework says 2020–2030; the Commission's monitoring (and the overview benchmark) uses 2019.
+* 🔜 National road safety strategies; serious-injury targets once MAIS3+ data are covered.
 * Acceptance: each commitment cites its document; target type (binding, indicative, aspirational) is taken from the source.
 
 ## Milestone 9 — Wider coverage 🔜

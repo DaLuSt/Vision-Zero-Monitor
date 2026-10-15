@@ -23,6 +23,7 @@ jobs:
       outcome: ${{ steps.pipeline.outputs.outcome }}
       message: ${{ steps.pipeline.outputs.message }}
       legislation: ${{ steps.legislation.outputs.legislation_outcome }}
+      commitments: ${{ steps.commitments.outputs.commitments_outcome }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -65,8 +66,16 @@ jobs:
           python -m scripts.legislation.run --save-raw data/raw/legislation
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
+      - name: Recalculate commitment targets from the official figures
+        id: commitments
+        # Curated commitments (data/curated/commitments.json) compared with the latest observations.
+        run: |
+          set +e
+          python -m scripts.commitments.build
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
       - name: Run tests against the new data
-        if: steps.pipeline.outputs.outcome == 'success' || steps.legislation.outputs.legislation_outcome == 'success'
+        if: steps.pipeline.outputs.outcome == 'success' || steps.legislation.outputs.legislation_outcome == 'success' || steps.commitments.outputs.commitments_outcome == 'success'
         run: python -m pytest -q
 
       - name: Upload raw source responses
@@ -98,7 +107,7 @@ jobs:
         if: always()
         run: |
           {
-            echo "### Data update: statistics ${{ steps.pipeline.outputs.outcome || 'error' }}, legislation ${{ steps.legislation.outputs.legislation_outcome || 'error' }}"
+            echo "### Data update: statistics ${{ steps.pipeline.outputs.outcome || 'error' }}, legislation ${{ steps.legislation.outputs.legislation_outcome || 'error' }}, commitments ${{ steps.commitments.outputs.commitments_outcome || 'error' }}"
             echo ""
             echo '```json'
             cat public/data/pipeline_status.json 2>/dev/null || echo "{}"
@@ -109,6 +118,12 @@ jobs:
         if: steps.pipeline.outputs.outcome != 'success' && steps.pipeline.outputs.outcome != 'unchanged'
         run: |
           echo "::error::Data pipeline failed; previous valid data were kept. See pipeline_status.json and the log above."
+          exit 1
+
+      - name: Fail if the commitments failed
+        if: steps.commitments.outputs.commitments_outcome != 'success' && steps.commitments.outputs.commitments_outcome != 'unchanged'
+        run: |
+          echo "::error::Commitments build failed; the previous commitments.json was kept. See the log above."
           exit 1
 
       - name: Fail if the legislation register failed
@@ -151,4 +166,5 @@ jobs:
           OUTCOME: ${{ needs.update.outputs.outcome }}
           MESSAGE: ${{ needs.update.outputs.message }}
           LEGISLATION_OUTCOME: ${{ needs.update.outputs.legislation }}
+          COMMITMENTS_OUTCOME: ${{ needs.update.outputs.commitments }}
         run: bash scripts/ci/refresh-alert.sh

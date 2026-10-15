@@ -118,7 +118,8 @@ def build_documents(raw: dict[str, RawSource], generated_at: str, previous_obs: 
     docs["metadata"] = {
         "schema_version": config.SCHEMA_VERSION,
         "generated_at": generated_at,
-        "content_hash": content_hash(observations, result.sources, breakdowns),
+        "content_hash": content_hash(observations, result.sources, breakdowns,
+                                     {"targets": targets, "indicators": config.INDICATORS, "notice": FREQUENCY_NOTICE}),
         "frequency_notice": FREQUENCY_NOTICE,
         "status_vocabulary": STATUS_VOCABULARY,
         "sources": result.sources,

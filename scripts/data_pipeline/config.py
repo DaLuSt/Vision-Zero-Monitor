@@ -132,10 +132,12 @@ TARGETS: list[dict] = [
         "target_period": "2030",
         "reduction_fraction": 0.5,
         "policy_reference": "EU Road Safety Policy Framework 2021-2030 – Next steps towards 'Vision Zero' (SWD(2019) 283)",
-        "policy_url": "https://transport.ec.europa.eu/transport-themes/road-safety_en",
+        "policy_url": "https://op.europa.eu/en/publication-detail/-/publication/d7ee4b58-4bc5-11ea-8aa5-01aa75ed71a1",
         "note": (
-            "The EU objective is to halve both road deaths and serious injuries by 2030 compared with 2019. "
-            "This benchmark covers road deaths only and does not by itself measure the serious-injury objective. "
+            "The EU Road Safety Policy Framework 2021-2030 sets the objective of halving road deaths and serious "
+            "injuries between 2020 and 2030. The European Commission's own progress charts measure the road-death "
+            "target against 2019, and this benchmark does the same (see the commitments page for both baselines). "
+            "It covers road deaths only and does not by itself measure the serious-injury objective. "
             "Vision Zero is the long-term ambition of moving close to zero road deaths by 2050."
         ),
     }

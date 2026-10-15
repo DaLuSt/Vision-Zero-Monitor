@@ -11,8 +11,9 @@ const NAV: { href: string; label: string; pages: Route['page'][] }[] = [
   { href: '#/charts', label: 'Chart builder', pages: ['charts'] },
   { href: '#/explorer', label: 'Data explorer', pages: ['explorer'] },
   { href: '#/legislation', label: 'Legislation', pages: ['legislation'] },
+  { href: '#/commitments', label: 'Commitments', pages: ['commitments'] },
   { href: '#/methodology', label: 'Methodology', pages: ['methodology'] },
-  { href: '#/sources', label: 'Sources & freshness', pages: ['sources'] },
+  { href: '#/sources', label: 'Sources', pages: ['sources'] },
   { href: '#/about', label: 'About', pages: ['about'] },
 ];
 

@@ -355,8 +355,13 @@ def build_latest(observations: list[dict], targets: list[dict], generated_at: st
     }
 
 
-def content_hash(observations: list[dict], sources: list[dict], breakdowns: dict | None = None) -> str:
-    """Hash of the substantive content, ignoring retrieval timestamps."""
+def content_hash(observations: list[dict], sources: list[dict], breakdowns: dict | None = None,
+                 published_config: dict | None = None) -> str:
+    """Hash of the substantive content, ignoring retrieval timestamps.
+
+    `published_config` (targets, indicator definitions, notices) is included so that a change in
+    methodology text or targets is exported even when the source data are unchanged.
+    """
     stable_obs = [{k: v for k, v in o.items() if k != "retrieved_at"} for o in observations]
     stable_src = [{k: v for k, v in s.items() if k not in ("retrieved_at",)} for s in sources]
     stable_bd = None
@@ -367,5 +372,7 @@ def content_hash(observations: list[dict], sources: list[dict], breakdowns: dict
             "series": breakdowns["series"],
         }
     payload = {"o": stable_obs, "s": stable_src} if stable_bd is None else {"o": stable_obs, "s": stable_src, "b": stable_bd}
+    if published_config is not None:
+        payload["c"] = published_config
     blob = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
     return "sha256:" + hashlib.sha256(blob).hexdigest()

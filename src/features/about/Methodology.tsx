@@ -45,7 +45,7 @@ export function Methodology({ data }: { data: Dataset }) {
         Eurostat's own SDG indicator (sdg_11_40).
       </p>
 
-      <h3>2019 baseline and 2030 benchmark</h3>
+      <h3>2030 target and benchmark</h3>
       <p>
         {t?.note} The fatality benchmark is the official 2019 EU27 total × 0.5
         {t?.baseline_value != null && t.target_value != null && <> = {fmtInt(t.baseline_value)} × 0.5 = {t.target_value} deaths (shown rounded as {fmtInt(t.target_value)})</>}.
@@ -55,6 +55,16 @@ export function Methodology({ data }: { data: Dataset }) {
         The straight-line path from 2019 to 2030 shown in the chart is an <strong>analytical benchmark</strong>, not an
         official forecast or trajectory. A single year's change does not show whether the EU is on or off track.
         Comparisons using provisional values may change when final data are published.
+      </p>
+
+      <h3 id="commitments">Policy commitments</h3>
+      <p>
+        The <a href="#/commitments">commitments page</a> quotes each commitment word for word from the official
+        document, with a link to it. The EU Road Safety Policy Framework 2021–2030 states its targets as −50 % “between
+        2020 and 2030”, while the European Commission's own progress charts measure the road-death target from 2019;
+        both baselines are shown. A target value is the official baseline figure × (1 − the stated reduction). Targets
+        set for the EU of an earlier date are compared with today's EU-27 figures, which is noted where it applies.
+        Details in the <a href={`${DOCS_URL}/METHODOLOGY.md#policy-commitments`}>methodology document</a>.
       </p>
 
       <h3>Road users and modes of transport</h3>

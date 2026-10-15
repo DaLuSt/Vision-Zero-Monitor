@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { Dataset, Legislation as LegislationRegister } from './types/data';
-import { loadDataset, loadLegislation } from './lib/data';
+import type { Commitments as CommitmentsDoc, Dataset, Legislation as LegislationRegister } from './types/data';
+import { loadCommitments, loadDataset, loadLegislation } from './lib/data';
 import { useRoute } from './lib/router';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -12,15 +12,17 @@ import { DataExplorer } from './features/data-explorer/DataExplorer';
 import { ChartBuilder } from './features/charts/ChartBuilder';
 import { RoadUsers } from './features/breakdowns/RoadUsers';
 import { Legislation } from './features/legislation/Legislation';
+import { Commitments } from './features/commitments/Commitments';
 import { About } from './features/about/About';
 import { Methodology } from './features/about/Methodology';
 import { Sources } from './features/about/Sources';
 
 type State = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; data: Dataset };
 
-export default function App({ load = loadDataset, loadRegister = loadLegislation }: {
+export default function App({ load = loadDataset, loadRegister = loadLegislation, loadPledges = loadCommitments }: {
   load?: () => Promise<Dataset>;
   loadRegister?: () => Promise<LegislationRegister>;
+  loadPledges?: () => Promise<CommitmentsDoc>;
 }) {
   const route = useRoute();
   const [state, setState] = useState<State>({ kind: 'loading' });
@@ -50,6 +52,7 @@ export default function App({ load = loadDataset, loadRegister = loadLegislation
       case 'explorer': content = <DataExplorer data={d} />; break;
       case 'road-users': content = <RoadUsers key={route.query} data={d} query={route.query} />; break;
       case 'charts': content = <ChartBuilder key={route.query} data={d} query={route.query} />; break;
+      case 'commitments': content = <Commitments data={d} load={loadPledges} />; break;
       case 'methodology': content = <Methodology data={d} />; break;
       case 'sources': content = <Sources data={d} />; break;
       default:

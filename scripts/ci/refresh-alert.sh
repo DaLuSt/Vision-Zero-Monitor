@@ -9,6 +9,7 @@
 #   DEPLOY_RESULT  result of the deploy job   (success|failure|cancelled|skipped)
 #   OUTCOME        statistics pipeline outcome (success|unchanged|failure|"")
 #   LEGISLATION_OUTCOME  legislation register outcome (success|unchanged|failure|"")
+#   COMMITMENTS_OUTCOME  commitments build outcome (success|unchanged|failure|"")
 #   MESSAGE        last pipeline status message (single line, may be empty)
 #   RUN_URL        link to the workflow run
 #   GH_TOKEN, GH_REPO  used by the gh CLI
@@ -32,6 +33,7 @@ if [ "$failed" = true ]; then
     echo "- Run: ${RUN_URL}"
     echo "- Statistics pipeline outcome: \`${OUTCOME:-not reported}\`"
     echo "- Legislation register outcome: \`${LEGISLATION_OUTCOME:-not reported}\`"
+    echo "- Commitments outcome: \`${COMMITMENTS_OUTCOME:-not reported}\`"
     echo "- Update job: \`${UPDATE_RESULT:-unknown}\` · Deploy job: \`${DEPLOY_RESULT:-unknown}\`"
     if [ -n "${MESSAGE:-}" ]; then
       echo "- Last pipeline status message:"
