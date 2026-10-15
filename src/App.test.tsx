@@ -71,6 +71,27 @@ describe('App', () => {
     expect(screen.getByText('800', { selector: '.kpi__value' })).toBeInTheDocument();
   });
 
+  it('shows source-data notes as "Validated", and errors as a failure', async () => {
+    const d = makeDataset(); // the fixture has one validation warning
+    const { unmount } = renderAt('#/', d);
+    const pill = await screen.findByRole('link', { name: /Validated/ });
+    expect(pill).toHaveTextContent(/^✓ Validated$/);
+    expect(pill).toHaveAttribute('href', '#/sources');
+    unmount();
+    renderAt('#/', { ...d, metadata: { ...d.metadata, validation: { ...d.metadata.validation, passed: false } } });
+    expect(await screen.findByRole('link', { name: /Validation errors/ })).toBeInTheDocument();
+  });
+
+  it('has an about page with contact and citation details that works without the statistics', async () => {
+    renderAt('#/about', new Error('stats down'));
+    expect(await screen.findByRole('heading', { name: 'About Vision Zero Monitor' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'open an issue on GitHub' })).toHaveAttribute('href', expect.stringMatching(/github\.com\/.+\/issues\/new$/));
+    expect(screen.getByText(/not affiliated with, funded by or endorsed by/)).toBeInTheDocument();
+    expect(screen.getByText(/sets no cookies/)).toBeInTheDocument();
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+    expect(within(nav).getByRole('link', { name: 'About' })).toHaveAttribute('aria-current', 'page');
+  });
+
   it('sorts the country table', async () => {
     const user = userEvent.setup();
     renderAt('#/countries');
@@ -134,6 +155,7 @@ describe('App', () => {
     const link = await screen.findByRole('link', { name: 'View source' });
     expect(link).toHaveAttribute('href', expect.stringContaining('ec.europa.eu/eurostat'));
     expect(screen.getByRole('link', { name: 'API request' })).toHaveAttribute('href', expect.stringContaining('/api/dissemination/'));
+    expect(screen.getByRole('heading', { name: 'Data quality notes (1)' })).toBeInTheDocument();
     expect(screen.getByText(/2023: no data for MT/)).toBeInTheDocument();
     act(() => { window.location.hash = '#/methodology'; window.dispatchEvent(new HashChangeEvent('hashchange')); });
     expect(await screen.findByRole('heading', { name: 'Methodology' })).toBeInTheDocument();

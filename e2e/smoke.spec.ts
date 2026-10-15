@@ -62,3 +62,13 @@ test('legislation page lists acts with links to EUR-Lex and filters them', async
   expect(overflow).toBeLessThanOrEqual(0);
   expect(errors).toEqual([]);
 });
+
+test('about page explains who is behind the site and how to report errors', async ({ page, isMobile }) => {
+  await page.goto('/');
+  if (isMobile) await page.getByRole('button', { name: /menu/i }).click();
+  await page.getByRole('link', { name: 'About', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'About Vision Zero Monitor' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'open an issue on GitHub' })).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+});

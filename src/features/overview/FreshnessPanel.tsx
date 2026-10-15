@@ -43,7 +43,11 @@ export function FreshnessPanel({ data, detailed = false }: { data: Dataset; deta
       )}
       {detailed && (
         <>
-          <h3>Validation warnings ({m.validation.warnings.length})</h3>
+          <h3>Data quality notes ({m.validation.warnings.length})</h3>
+          <p className="small">
+            Inconsistencies found in the source data by the automatic checks. They do not block publication and the
+            figures shown follow the methodology; they are listed here for transparency.
+          </p>
           {m.validation.warnings.length ? (
             <ul className="issue-list">
               {m.validation.warnings.map((w, i) => (

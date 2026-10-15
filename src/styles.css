@@ -347,6 +347,7 @@ tbody th { font-weight: 500; }
 /* Prose pages */
 .prose { max-width: 80ch; }
 .prose h3 { margin-top: 1.25em; }
+.citation { margin: 0 0 1em; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--surface-2); overflow-wrap: anywhere; }
 .status-list div { display: grid; grid-template-columns: minmax(150px, auto) 1fr; gap: 12px; margin-bottom: 8px; }
 .status-list dd { margin: 0; }
 .source-card { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px; }

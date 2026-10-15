@@ -12,6 +12,7 @@ import { DataExplorer } from './features/data-explorer/DataExplorer';
 import { ChartBuilder } from './features/charts/ChartBuilder';
 import { RoadUsers } from './features/breakdowns/RoadUsers';
 import { Legislation } from './features/legislation/Legislation';
+import { About } from './features/about/About';
 import { Methodology } from './features/about/Methodology';
 import { Sources } from './features/about/Sources';
 
@@ -36,6 +37,7 @@ export default function App({ load = loadDataset, loadRegister = loadLegislation
   let content;
   // The legislation register has its own data file and does not depend on the statistics.
   if (route.page === 'legislation') content = <Legislation load={loadRegister} />;
+  else if (route.page === 'about') content = <About />;
   else if (state.kind === 'loading') content = <LoadingState />;
   else if (state.kind === 'error') content = <ErrorState message={state.message} />;
   else if (!state.data.observations.length) content = <ErrorState message="The dataset contains no observations." />;
