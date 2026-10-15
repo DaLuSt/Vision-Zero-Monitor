@@ -68,7 +68,8 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 
 Details: [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) (including candidate sources for the
 planned pillars). Definitions and calculations: [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
-Design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Scope and roadmap:
+Design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Manual spot-check against the sources:
+[docs/DATA_REVIEW_CHECKLIST.md](docs/DATA_REVIEW_CHECKLIST.md). Scope and roadmap:
 [docs/SCOPE.md](docs/SCOPE.md). Plan and status: [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
 
 ## Requirements
