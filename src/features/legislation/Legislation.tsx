@@ -3,7 +3,7 @@ import type { LegalAct, Legislation as Register, Proposal, RelatedDocument } fro
 import { loadLegislation } from '../../lib/data';
 import { fmtDate, fmtInt } from '../../lib/format';
 import {
-  actCitation, actStatusLabel, actSubject, DEFAULT_FILTERS, filterActs, isPast, openProposals, proposalTargets,
+  actCitation, actStatusLabel, actSubject, actTimeline, DEFAULT_FILTERS, filterActs, isPast, openProposals, proposalTargets,
   todayIso, typeOptions, upcomingDeadlines, type ActFilters, type ActStatusFilter, type BasisFilter,
 } from '../../lib/legislation';
 import { EmptyState, Notice } from '../../components/States';
@@ -59,6 +59,27 @@ function RelatedList({ title, items }: { title: string; items: RelatedDocument[]
   );
 }
 
+function Timeline({ act, today }: { act: LegalAct; today: string }) {
+  const { events, notRecorded } = actTimeline(act, today);
+  if (!events.length) return null;
+  return (
+    <div className="timeline-wrap">
+      <ol className="timeline" aria-label={`Timeline of ${actCitation(act)}`}>
+        {events.map((e, i) => (
+          <li key={i} className={`timeline__item${e.upcoming ? ' timeline__item--upcoming' : ''}`}>
+            <time dateTime={e.date} className="timeline__date">{fmtDate(e.date)}</time>
+            <span className="timeline__label">
+              {e.url ? <ExternalLink href={e.url}>{e.label}</ExternalLink> : e.label}
+              {e.upcoming && <span className="badge badge--upcoming">upcoming</span>}
+            </span>
+          </li>
+        ))}
+      </ol>
+      {notRecorded.length > 0 && <p className="small muted">Not recorded in EUR-Lex: {notRecorded.join(', ')}.</p>}
+    </div>
+  );
+}
+
 function ActCard({ act, today, proposals }: { act: LegalAct; today: string; proposals: Map<string, Proposal> }) {
   const citation = actCitation(act);
   const subject = actSubject(act);
@@ -87,6 +108,7 @@ function ActCard({ act, today, proposals }: { act: LegalAct; today: string; prop
         )}
         <details className="act-card__details">
           <summary>Lifecycle and related acts</summary>
+          <Timeline act={act} today={today} />
           <dl className="lifecycle">
             <div>
               <dt>Commission proposal</dt>

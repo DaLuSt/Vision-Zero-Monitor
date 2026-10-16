@@ -1,0 +1,26 @@
+# Weekly dependency updates. Every Dependabot PR runs the normal CI checks; nothing merges automatically.
+# GitHub Actions stay pinned to commit SHAs: Dependabot updates the SHA and the version comment together.
+# The Python pipeline pins its dependencies in requirements.lock, which Dependabot's pip support does not
+# read (it expects requirements*.txt); update it by hand with `pip install -U` + `pip freeze`.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: tuesday
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    labels: [dependencies]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: tuesday
+    groups:
+      actions:
+        update-types: [minor, patch]
+    labels: [dependencies]

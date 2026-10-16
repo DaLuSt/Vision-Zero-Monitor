@@ -39,7 +39,8 @@ describe('Legislation page', () => {
     const cbe = within(register).getByRole('article', { name: /Directive \(EU\) 2015\/413/ });
     expect(cbe).toHaveTextContent('In force');
     expect(cbe).toHaveTextContent('Amendment proposed: COM(2023) 126');
-    expect(within(cbe).getByRole('link', { name: /COM\(2014\) 476/ })).toHaveAttribute('href', expect.stringContaining('CELEX:52014PC0476'));
+    const proposalRow = within(cbe).getByText('Commission proposal', { selector: 'dt' }).parentElement!;
+    expect(within(proposalRow).getByRole('link', { name: /COM\(2014\) 476/ })).toHaveAttribute('href', expect.stringContaining('CELEX:52014PC0476'));
 
     await user.selectOptions(within(register).getByLabelText('Status'), 'all');
     expect(within(register).getAllByRole('article')).toHaveLength(4);
@@ -61,7 +62,8 @@ describe('Legislation page', () => {
     renderPage();
     const register = await screen.findByRole('region', { name: 'Register of legal acts' });
     const recent = within(register).getByRole('article', { name: /2025\/2205/ });
-    expect(within(recent).getAllByText('upcoming')).toHaveLength(3);
+    const deadlines = within(recent).getByText(/^Transposition deadlines?$/, { selector: 'dt' }).parentElement!;
+    expect(within(deadlines).getAllByText('upcoming')).toHaveLength(3);
     const cbe = within(register).getByRole('article', { name: /2015\/413/ });
     expect(within(cbe).getByText('passed')).toBeInTheDocument();
   });
@@ -88,5 +90,19 @@ describe('Legislation page', () => {
     render(<App load={() => Promise.resolve(makeDataset())} loadRegister={loadRegister} />);
     expect(await screen.findAllByRole('figure')).not.toHaveLength(0);
     expect(loadRegister).not.toHaveBeenCalled();
+  });
+
+  it('shows a timeline of each act with upcoming steps marked', async () => {
+    renderPage();
+    const register = await screen.findByRole('region', { name: 'Register of legal acts' });
+    const act = within(register).getByRole('article', { name: /2025\/2205/ });
+    const timeline = within(act).getByRole('list', { name: 'Timeline of Directive (EU) 2025/2205' });
+    const items = within(timeline).getAllByRole('listitem');
+    expect(items[0]).toHaveTextContent('1 Mar 2023');
+    expect(items[0]).toHaveTextContent('Commission proposal COM(2023) 127');
+    expect(items.at(-1)).toHaveTextContent('26 Nov 2029');
+    expect(within(timeline).getAllByText('upcoming')).toHaveLength(3);
+    const cbe = within(register).getByRole('article', { name: /2015\/413/ });
+    expect(within(cbe).getByText('Not recorded in EUR-Lex: entry into force.')).toBeInTheDocument();
   });
 });

@@ -181,7 +181,9 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   EUR-Lex web pages themselves block automated access); Council documents from
   `data.consilium.europa.eu`; UN resolutions from `documents.un.org`; the Stockholm
   Declaration from the conference website. `scripts/commitments/verify_sources.py`
-  re-checks every quote against these documents.
+  re-checks every quote against these documents; the workflow `verify-commitments.yml` runs
+  it on the 3rd of every month and opens a `commitment-source-check` issue if a quote or
+  link no longer matches (it never edits the curated file).
 * **Documents in the first release:**
 
   | Document | Date | Used for |

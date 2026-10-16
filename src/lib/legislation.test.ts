@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { LegalAct, Legislation } from '../types/data';
 import {
-  actCitation, actStatusLabel, actSubject, DEFAULT_FILTERS, filterActs, openProposals, proposalTargets, typeOptions,
+  actCitation, actStatusLabel, actSubject, actTimeline, DEFAULT_FILTERS, filterActs, openProposals, proposalTargets, typeOptions,
   upcomingDeadlines,
 } from './legislation';
 import { makeLegislation } from '../test/legislationFixture';
@@ -71,5 +71,32 @@ describe('filters and summaries', () => {
     expect(pending.map((p) => p.reference)).toEqual(['COM(2023) 126']);
     expect(unclear.map((p) => p.reference)).toEqual(['COM(2011) 451']);
     expect(proposalTargets(doc).get('52023PC0126')?.map((a) => a.celex)).toEqual(['32015L0413']);
+  });
+});
+
+describe('actTimeline', () => {
+  const doc = makeLegislation();
+  const byCelex = (c: string) => doc.acts.find((a) => a.celex === c)!;
+
+  it('orders dated events and marks future ones as upcoming', () => {
+    const { events, notRecorded } = actTimeline(byCelex('32025L2205'), '2026-10-15');
+    expect(events.map((e) => [e.date, e.label, e.upcoming])).toEqual([
+      ['2023-03-01', 'Commission proposal COM(2023) 127', false],
+      ['2025-10-22', 'Adopted', false],
+      ['2025-11-25', 'Entry into force', false],
+      ['2027-11-26', 'Transposition deadline', true],
+      ['2028-11-26', 'Transposition deadline', true],
+      ['2029-11-26', 'Transposition deadline', true],
+    ]);
+    expect(events[0].url).toContain('CELEX:52023PC0127');
+    expect(notRecorded).toEqual([]);
+  });
+
+  it('includes amendments and repeals and names steps without a recorded date', () => {
+    const cbe = actTimeline(byCelex('32015L0413'), '2026-10-15');
+    expect(cbe.events.map((e) => e.label)).toContain('Amended by Directive (EU) 2024/3237');
+    expect(cbe.notRecorded).toEqual(['entry into force']);
+    const old = actTimeline(byCelex('32006L0126'), '2026-10-15');
+    expect(old.events.at(-1)?.label).toBe('Repealed by Directive (EU) 2025/2205');
   });
 });

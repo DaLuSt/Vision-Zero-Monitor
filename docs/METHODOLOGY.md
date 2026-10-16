@@ -259,8 +259,9 @@ resolution), scope, a short description of its nature, and one or more sources. 
 source has a **verbatim quote**, its location in the document (section, point, page) and a
 link to the official text. `python -m scripts.commitments.verify_sources` downloads each
 document and checks that every quote occurs in it word for word (ignoring line breaks,
-hyphenation, quote-mark style and the spacing in “50 %”). The date of the last successful
-check is stored as `reviewed_at` and shown on the page.
+hyphenation, quote-mark style and the spacing in “50 %”). The date of the last human
+review is stored as `reviewed_at` and shown on the page. The same check runs automatically
+every month (`verify-commitments.yml`) and opens an issue when a quote no longer matches.
 
 **Nature.** All commitments currently listed are political or policy commitments; none is
 legally binding. The text says so for each entry, in the source's own terms (for example

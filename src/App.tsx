@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import type { Commitments as CommitmentsDoc, Dataset, Legislation as LegislationRegister } from './types/data';
 import { loadCommitments, loadDataset, loadLegislation } from './lib/data';
 import { useRoute } from './lib/router';
@@ -6,16 +6,20 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ErrorState, LoadingState } from './components/States';
 import { Overview } from './features/overview/Overview';
-import { CountryTable } from './features/countries/CountryTable';
-import { CountryDetail } from './features/countries/CountryDetail';
-import { DataExplorer } from './features/data-explorer/DataExplorer';
-import { ChartBuilder } from './features/charts/ChartBuilder';
-import { RoadUsers } from './features/breakdowns/RoadUsers';
-import { Legislation } from './features/legislation/Legislation';
-import { Commitments } from './features/commitments/Commitments';
-import { About } from './features/about/About';
-import { Methodology } from './features/about/Methodology';
-import { Sources } from './features/about/Sources';
+import { lazyPage } from './lib/lazyPage';
+
+// Pages other than the overview are loaded on demand, so the first visit downloads less JavaScript.
+const CountryTable = lazyPage(() => import('./features/countries/CountryTable'), 'CountryTable');
+const CountryDetail = lazyPage(() => import('./features/countries/CountryDetail'), 'CountryDetail');
+const DataExplorer = lazyPage(() => import('./features/data-explorer/DataExplorer'), 'DataExplorer');
+const ChartBuilder = lazyPage(() => import('./features/charts/ChartBuilder'), 'ChartBuilder');
+const RoadUsers = lazyPage(() => import('./features/breakdowns/RoadUsers'), 'RoadUsers');
+const Legislation = lazyPage(() => import('./features/legislation/Legislation'), 'Legislation');
+const Commitments = lazyPage(() => import('./features/commitments/Commitments'), 'Commitments');
+const About = lazyPage(() => import('./features/about/About'), 'About');
+const DataFiles = lazyPage(() => import('./features/about/DataFiles'), 'DataFiles');
+const Methodology = lazyPage(() => import('./features/about/Methodology'), 'Methodology');
+const Sources = lazyPage(() => import('./features/about/Sources'), 'Sources');
 
 type State = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; data: Dataset };
 
@@ -40,6 +44,7 @@ export default function App({ load = loadDataset, loadRegister = loadLegislation
   // The legislation register has its own data file and does not depend on the statistics.
   if (route.page === 'legislation') content = <Legislation load={loadRegister} />;
   else if (route.page === 'about') content = <About />;
+  else if (route.page === 'data') content = <DataFiles />;
   else if (state.kind === 'loading') content = <LoadingState />;
   else if (state.kind === 'error') content = <ErrorState message={state.message} />;
   else if (!state.data.observations.length) content = <ErrorState message="The dataset contains no observations." />;
@@ -63,7 +68,7 @@ export default function App({ load = loadDataset, loadRegister = loadLegislation
   return (
     <>
       <Header route={route} data={data} />
-      <main id="main" tabIndex={-1} className="main">{content}</main>
+      <main id="main" tabIndex={-1} className="main"><Suspense fallback={<LoadingState />}>{content}</Suspense></main>
       <Footer />
     </>
   );
