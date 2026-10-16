@@ -13,6 +13,12 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        // Libraries change less often than the app: a separate chunk stays cached across releases.
+        manualChunks: (id) => (id.includes('node_modules') ? 'vendor' : undefined),
+      },
+    },
   },
   test: {
     environment: 'jsdom',
