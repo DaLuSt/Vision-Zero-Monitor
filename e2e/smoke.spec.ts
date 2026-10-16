@@ -63,7 +63,8 @@ test('legislation page lists acts with links to EUR-Lex and filters them', async
   await expect(act).toBeVisible();
   await expect(act.getByRole('link').first()).toHaveAttribute('href', /eur-lex\.europa\.eu.*CELEX:32015L0413/);
   await act.getByText('Lifecycle and related acts').click();
-  await expect(act.getByText('COM(2014) 476')).toBeVisible();
+  await expect(act.getByRole('link', { name: /^COM\(2014\) 476 on EUR-Lex/ })).toBeVisible();
+  await expect(act.getByRole('list', { name: 'Timeline of Directive (EU) 2015/413' })).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
   expect(errors).toEqual([]);
