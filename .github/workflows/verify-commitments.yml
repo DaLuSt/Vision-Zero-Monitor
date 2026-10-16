@@ -1,0 +1,71 @@
+name: Verify commitment quotes
+
+# Monthly re-check that every quote in data/curated/commitments.json still occurs, word for
+# word, in its official source document. Opens (or comments on) a "commitment-source-check"
+# issue when a quote or link no longer matches, and closes it once everything matches again.
+# It never edits the curated file: a changed source needs a human review.
+on:
+  schedule:
+    - cron: "17 5 3 * *" # 05:17 UTC on the 3rd of each month
+  workflow_dispatch:
+
+concurrency:
+  group: verify-commitments
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      issues: write # open / close the alert issue
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: pip install -r requirements.lock
+      - name: Install pdftotext
+        run: sudo apt-get install -y --no-install-recommends poppler-utils
+
+      - name: Check every quote against its source
+        id: verify
+        # One retry after a pause, so a source site that is briefly unavailable does not raise an alert.
+        run: |
+          set +e
+          python -m scripts.commitments.verify_sources | tee verify.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            echo "First check failed; retrying in 2 minutes."
+            sleep 120
+            python -m scripts.commitments.verify_sources | tee verify.log
+            status=${PIPESTATUS[0]}
+          fi
+          echo "failed=$([ "$status" -ne 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Summarise
+        if: always()
+        run: |
+          { echo "### Commitment quotes"; echo; echo '```'; cat verify.log 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open, update or close the alert issue
+        if: always() && steps.verify.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          FAILED: ${{ steps.verify.outputs.failed }}
+        run: bash scripts/ci/quote-alert.sh verify.log
+
+      - name: Fail if a quote no longer matches
+        if: steps.verify.outputs.failed == 'true'
+        run: |
+          echo "::error::One or more commitment quotes no longer match their source document. See the log above."
+          exit 1
