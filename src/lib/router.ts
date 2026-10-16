@@ -11,6 +11,7 @@ export type Route =
   | { page: 'commitments' }
   | { page: 'methodology' }
   | { page: 'about' }
+  | { page: 'data' }
   | { page: 'sources' }
   | { page: 'notfound' };
 
@@ -33,6 +34,8 @@ export function parseHash(hash: string): Route {
       return { page: 'commitments' };
     case 'legislation':
       return { page: 'legislation' };
+    case 'data':
+      return { page: 'data' };
     case 'about':
       return { page: 'about' };
     case 'methodology':

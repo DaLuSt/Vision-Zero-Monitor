@@ -44,6 +44,7 @@ export function Sources({ data }: { data: Dataset }) {
             <a href="https://eur-lex.europa.eu/">EUR-Lex</a>. Reuse under Commission Decision 2011/833/EU, © European Union.
           </p>
         </div>
+        <p>All published files are listed, with downloads and examples, on the <a href="#/data">open data page</a>.</p>
         <h3>Not used</h3>
         <p>
           The European Commission publishes preliminary figures for the most recent year (e.g. 2025) on its road safety

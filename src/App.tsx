@@ -17,6 +17,7 @@ const RoadUsers = lazyPage(() => import('./features/breakdowns/RoadUsers'), 'Roa
 const Legislation = lazyPage(() => import('./features/legislation/Legislation'), 'Legislation');
 const Commitments = lazyPage(() => import('./features/commitments/Commitments'), 'Commitments');
 const About = lazyPage(() => import('./features/about/About'), 'About');
+const DataFiles = lazyPage(() => import('./features/about/DataFiles'), 'DataFiles');
 const Methodology = lazyPage(() => import('./features/about/Methodology'), 'Methodology');
 const Sources = lazyPage(() => import('./features/about/Sources'), 'Sources');
 
@@ -43,6 +44,7 @@ export default function App({ load = loadDataset, loadRegister = loadLegislation
   // The legislation register has its own data file and does not depend on the statistics.
   if (route.page === 'legislation') content = <Legislation load={loadRegister} />;
   else if (route.page === 'about') content = <About />;
+  else if (route.page === 'data') content = <DataFiles />;
   else if (state.kind === 'loading') content = <LoadingState />;
   else if (state.kind === 'error') content = <ErrorState message={state.message} />;
   else if (!state.data.observations.length) content = <ErrorState message="The dataset contains no observations." />;

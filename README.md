@@ -44,7 +44,8 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 [Legislation](https://dalust.github.io/Vision-Zero-Monitor/#/legislation) ·
 [Commitments](https://dalust.github.io/Vision-Zero-Monitor/#/commitments) ·
 [Methodology](https://dalust.github.io/Vision-Zero-Monitor/#/methodology) ·
-[Sources & freshness](https://dalust.github.io/Vision-Zero-Monitor/#/sources)
+[Sources & freshness](https://dalust.github.io/Vision-Zero-Monitor/#/sources) ·
+[Open data files](https://dalust.github.io/Vision-Zero-Monitor/#/data)
 
 | Question | Where |
 | --- | --- |

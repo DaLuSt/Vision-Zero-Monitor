@@ -397,6 +397,11 @@ tbody th { font-weight: 500; }
 .target__table { font-size: 0.875rem; }
 .target p { margin: 6px 0 0; }
 
+.code-block { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; overflow-x: auto; font-size: 0.8125rem; }
+.code-block code { font-family: var(--mono); white-space: pre; }
+.data-files td, .data-files th { min-width: 140px; }
+.data-files td:nth-child(2) { min-width: 260px; }
+
 /* Footer */
 .site-footer { border-top: 1px solid var(--border); background: var(--surface); font-size: 0.875rem; color: var(--text-secondary); }
 .site-footer__inner { padding-top: 20px; padding-bottom: 20px; }
