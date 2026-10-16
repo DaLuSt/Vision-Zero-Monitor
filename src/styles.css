@@ -376,6 +376,18 @@ tbody th { font-weight: 500; }
 .badge--curated, .badge--upcoming { border-color: var(--accent); color: var(--accent); }
 .row-note--warn { color: var(--warn); }
 .unclear { margin-top: 12px; }
+.timeline-wrap { margin: 12px 0 4px; }
+.timeline { list-style: none; margin: 0; padding: 0 0 0 18px; position: relative; font-size: 0.875rem; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; border-left: 2px solid var(--border); }
+.timeline__item { position: relative; display: grid; grid-template-columns: minmax(96px, 120px) minmax(0, 1fr); gap: 8px; padding: 3px 0; }
+.timeline__item::before {
+  content: ''; position: absolute; left: -18px; top: 8px; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--surface);
+}
+.timeline__item--upcoming::before { background: var(--surface); border: 2px solid var(--accent); }
+.timeline__date { color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.timeline__label { overflow-wrap: anywhere; }
+.timeline__label .badge { margin-left: 6px; }
 .deadline-list li { margin-bottom: 8px; }
 .panel code { overflow-wrap: anywhere; }
 @media (max-width: 480px) {

@@ -95,3 +95,39 @@ export function proposalTargets(doc: Legislation): Map<string, LegalAct[]> {
 export function todayIso(now: Date = new Date()): string {
   return now.toISOString().slice(0, 10);
 }
+
+export interface TimelineEvent {
+  date: string;
+  label: string;
+  /** Link to the related document, when the event is another act or a proposal. */
+  url?: string;
+  upcoming: boolean;
+}
+
+/**
+ * Dated lifecycle events of an act, oldest first, as recorded in EUR-Lex: proposal, adoption, entry into force,
+ * transposition deadlines, amendments, repeal/replacement and end of validity. Core steps without a recorded date
+ * are returned separately so they can be shown as "not recorded" instead of being left out silently.
+ */
+export function actTimeline(act: LegalAct, today: string): { events: TimelineEvent[]; notRecorded: string[] } {
+  const events: TimelineEvent[] = [];
+  const add = (date: string | null, label: string, url?: string) => {
+    if (date) events.push({ date, label, url, upcoming: date > today });
+  };
+  const notRecorded: string[] = [];
+  if (act.proposal) {
+    if (act.proposal.date_sent) add(act.proposal.date_sent, `Commission proposal ${act.proposal.reference ?? act.proposal.celex}`, act.proposal.url);
+    else notRecorded.push('date of the Commission proposal');
+  }
+  if (act.date_adopted) add(act.date_adopted, 'Adopted');
+  else notRecorded.push('adoption date');
+  if (act.entry_into_force.length) act.entry_into_force.forEach((d) => add(d, 'Entry into force'));
+  else notRecorded.push('entry into force');
+  act.transposition_deadlines.forEach((d) => add(d, 'Transposition deadline'));
+  act.amended_by.forEach((r) => add(r.date, `Amended by ${actCitation({ title: r.title, type_label: 'Act', celex: r.celex })}`, r.url));
+  act.repealed_by.forEach((r) => add(r.date, `Repealed by ${actCitation({ title: r.title, type_label: 'Act', celex: r.celex })}`, r.url));
+  act.replaced_by.forEach((r) => add(r.date, `Replaced by ${actCitation({ title: r.title, type_label: 'Act', celex: r.celex })}`, r.url));
+  add(act.end_of_validity, 'End of validity');
+  events.sort((a, b) => a.date.localeCompare(b.date));
+  return { events, notRecorded };
+}
