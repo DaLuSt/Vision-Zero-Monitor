@@ -237,6 +237,10 @@ export interface CommitmentSource {
   location: string;
   /** Verbatim from the official document. */
   quote: string;
+  /** ISO 639-1 language of the quote; absent means English. */
+  language?: string;
+  /** English translation of a non-English quote: published by the issuer ('official') or made for this site ('own'). */
+  translation?: { text: string; kind: 'official' | 'own'; title?: string; url?: string; location?: string };
 }
 
 export interface TargetOutcome {
@@ -280,6 +284,8 @@ export interface Commitment {
   form: CommitmentForm;
   nature: string;
   date: string;
+  /** Country (Eurostat code) of a national strategy; absent for EU and global commitments. */
+  geo?: string;
   sources: CommitmentSource[];
   targets: CommitmentTarget[];
 }

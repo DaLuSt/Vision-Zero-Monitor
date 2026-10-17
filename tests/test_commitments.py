@@ -12,7 +12,7 @@ from scripts.data_pipeline.validate import validate_schema
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = json.loads((ROOT / "public" / "data" / "observations.json").read_text(encoding="utf-8"))
-NOW = "2026-10-15T06:00:00Z"
+NOW = "2026-10-17T06:00:00Z"
 
 
 def clock(ts):
@@ -46,7 +46,7 @@ def codes(issues):
 # --- curated file ----------------------------------------------------------------
 
 def test_curated_file_is_valid(curated):
-    assert b.check(curated, OBSERVATIONS, "2026-10-15") == []
+    assert b.check(curated, OBSERVATIONS, "2026-10-17") == []
 
 
 def test_every_commitment_has_a_primary_official_source_with_a_quote(curated):
@@ -89,7 +89,13 @@ def test_built_document_uses_official_figures():
 
     vz = by_id["eu-2050-vision-zero"]["targets"][0]
     assert vz["outcomes"] == [] and vz["reference"]["period"] == 2024
-    assert doc["summary"] == {"commitments": 7, "targets": 9, "targets_measured": 3}
+    assert doc["summary"] == {"commitments": 11, "targets": 13, "targets_measured": 5}
+    national = {c["id"]: c for c in doc["commitments"] if c["level"] == "national"}
+    es = national["es-esv-2030"]["targets"][0]["outcomes"][0]
+    assert (es["baseline_value"], es["target_value"]) == (1755, 877.5)  # the strategy's own baseline figure
+    pl = national["pl-npbrd-2021-2030"]["targets"][0]["outcomes"][0]
+    assert (pl["baseline_value"], pl["target_value"]) == (2909, 1454.5)  # "no more than 1455"
+    assert national["de-vsp-2021-2030"]["targets"][0]["outcomes"] == []  # no baseline year stated
     # EU commitments first, newest first within each level.
     levels = [c["level"] for c in doc["commitments"]]
     assert levels == sorted(levels, key=lambda lv: lv != "eu")
@@ -121,34 +127,34 @@ def test_outcome_with_missing_target_year_value_stays_missing():
 
 def test_duplicate_ids_are_errors(curated):
     curated["commitments"].append(copy.deepcopy(curated["commitments"][0]))
-    assert "duplicate" in codes(b.check(curated, OBSERVATIONS, "2026-10-15"))
+    assert "duplicate" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
 
 
 def test_baseline_must_precede_target(curated):
     curated["commitments"][0]["targets"][0]["baseline_year"] = 2031
-    assert "years" in codes(b.check(curated, OBSERVATIONS, "2026-10-15"))
+    assert "years" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
 
 
 def test_unmeasured_target_needs_a_reason(curated):
     t = next(t for c in curated["commitments"] for t in c["targets"] if t["measure"] is None)
     t["not_measured_reason"] = None
-    assert "reason" in codes(b.check(curated, OBSERVATIONS, "2026-10-15"))
+    assert "reason" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
 
 
 def test_measured_target_needs_official_data(curated):
     curated["commitments"][0]["targets"][0]["measure"]["geo"] = "XX"
-    assert "measure" in codes(b.check(curated, OBSERVATIONS, "2026-10-15"))
+    assert "measure" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
 
 
 def test_review_date_cannot_be_in_the_future(curated):
     curated["reviewed_at"] = "2027-01-01"
-    assert "review_date" in codes(b.check(curated, OBSERVATIONS, "2026-10-15"))
+    assert "review_date" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
 
 
 def test_schema_rejects_non_https_sources_and_missing_quotes(curated):
     curated["commitments"][0]["sources"][0]["url"] = "http://example.com"
     del curated["commitments"][1]["sources"][0]["quote"]
-    assert "schema" in codes(b.check(curated, OBSERVATIONS, "2026-10-15"))
+    assert "schema" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
 
 
 # --- run ----------------------------------------------------------------------------
@@ -188,3 +194,37 @@ def test_published_file_is_current_and_valid():
 ])
 def test_normalise(raw, expected):
     assert normalise(raw) == expected
+
+
+# --- national strategies -----------------------------------------------------------
+
+def national(curated, cid="es-esv-2030"):
+    return next(c for c in curated["commitments"] if c["id"] == cid)
+
+
+def test_national_strategies_have_a_country_and_translated_quotes(curated):
+    for c in curated["commitments"]:
+        assert (c["level"] == "national") == ("geo" in c) == (c["form"] == "national_strategy")
+        for s in c["sources"]:
+            if s.get("language", "en") != "en":
+                assert s["translation"]["kind"] in ("official", "own")
+
+
+def test_national_target_must_be_measured_for_its_own_country(curated):
+    national(curated)["targets"][0]["measure"]["geo"] = "PL"
+    assert "measure" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+
+
+def test_national_strategy_needs_a_geo(curated):
+    del national(curated)["geo"]
+    assert "national" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+
+
+def test_non_english_quote_needs_a_translation(curated):
+    del national(curated)["sources"][0]["translation"]
+    assert "translation" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+
+
+def test_official_translation_needs_its_source(curated):
+    del national(curated)["sources"][0]["translation"]["url"]
+    assert "translation" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))

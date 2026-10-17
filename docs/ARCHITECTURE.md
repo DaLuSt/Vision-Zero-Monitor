@@ -189,7 +189,7 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
 * Pipeline status shown on the site is the last *recorded* outcome; runs whose
   outcome and data did not change are not committed (see METHODOLOGY.md).
 * Coverage is the EU-27; the legislation register covers EU-level acts only; commitments
-  cover EU and global documents (national strategies not yet).
+  cover EU and global documents and a first set of national strategies.
 
 ## 8. Legislation and policy commitments
 

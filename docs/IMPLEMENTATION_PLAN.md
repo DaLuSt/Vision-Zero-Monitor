@@ -80,7 +80,8 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ R6: schemas for curated input and published output; targets with indicator, reduction, baseline and target year; outcomes calculated from `observations.json` after every refresh.
 * ✅ R7: "Commitments" page: quotes and links, target values next to official figures, both baselines for the 2030 target, chart of EU road deaths against every measurable target.
 * ✅ Corrected the 2030 baseline wording across the site: the policy framework says 2020–2030; the Commission's monitoring (and the overview benchmark) uses 2019.
-* 🔜 National road safety strategies; serious-injury targets once MAIS3+ data are covered.
+* ✅ First national road safety strategies (ES, PL, DE, NL), quoted in the original language with labelled translations; official translations verified like the quotes.
+* 🔜 More national strategies; serious-injury targets once MAIS3+ data are covered.
 * Acceptance: each commitment cites its document; target type (binding, indicative, aspirational) is taken from the source.
 
 ## Milestone 9 — Wider coverage 🔜
@@ -90,8 +91,8 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 
 ## Milestone 10 — Country pages ✅ (first release)
 
-* ✅ Country pages bring the pillars together: deaths and rate with the EU comparison and rank, who dies (road user, mode of transport), EU commitments covering the country (national strategies not yet covered), upcoming EU transposition deadlines (dates only, no compliance verdict).
-* 🔜 National strategies and targets (issue: national road safety strategies).
+* ✅ Country pages bring the pillars together: deaths and rate with the EU comparison and rank, who dies (road user, mode of transport), EU commitments covering the country and its national strategy where covered, upcoming EU transposition deadlines (dates only, no compliance verdict).
+* ✅ National strategy and its target on the country page (first countries).
 
 ## Outstanding decisions
 

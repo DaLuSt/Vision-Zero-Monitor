@@ -12,7 +12,7 @@ export const FORM_LABEL: Record<CommitmentForm, string> = {
 export const LEVEL_LABEL: Record<CommitmentLevel, string> = {
   eu: 'European Union',
   global: 'Global',
-  national: 'National',
+  national: 'National strategies',
 };
 
 export const BASIS_LABEL: Record<TargetOutcome['basis'], string> = {
@@ -44,13 +44,15 @@ export interface TargetPath {
 const PATH_COLORS = ['var(--cat-2)', 'var(--cat-3)', 'var(--cat-7)', 'var(--cat-4)'];
 
 /**
- * One straight line per distinct measured target (baseline value → target value), for the chart.
- * Targets repeated in several commitments (e.g. the 2010–2020 halving) are drawn once.
+ * One straight line per distinct measured EU target (baseline value → target value), for the EU chart.
+ * Targets repeated in several commitments (e.g. the 2010–2020 halving) are drawn once; national targets,
+ * measured against a country's own figures, are not drawn on the EU chart.
  */
 export function targetPaths(doc: Commitments): TargetPath[] {
   const seen = new Map<string, TargetPath>();
   for (const c of doc.commitments) {
     for (const t of c.targets) {
+      if (t.measure?.geo !== EU) continue;
       for (const o of t.outcomes) {
         if (o.baseline_value == null || o.target_value == null) continue;
         const key = `t${o.baseline_year}_${o.target_year}`;
@@ -67,6 +69,11 @@ export function targetPaths(doc: Commitments): TargetPath[] {
     }
   }
   return [...seen.values()].sort((a, b) => a.from.year - b.from.year || a.to.year - b.to.year);
+}
+
+/** National strategies for one country (Eurostat code). */
+export function nationalFor(doc: Commitments, geo: string): Commitment[] {
+  return doc.commitments.filter((c) => c.level === 'national' && c.geo === geo);
 }
 
 export interface ChartRow {

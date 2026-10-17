@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import type { Commitment, Commitments as CommitmentsDoc, CommitmentTarget, Dataset } from '../../types/data';
+import type { Commitment, Commitments as CommitmentsDoc, CommitmentSource, CommitmentTarget, Dataset } from '../../types/data';
 import { loadCommitments } from '../../lib/data';
 import { fmtDate, fmtInt, fmtPct } from '../../lib/format';
 import {
@@ -137,6 +137,25 @@ function TargetBlock({ t }: { t: CommitmentTarget }) {
   );
 }
 
+/** A verbatim quote in its original language, followed by a labelled English translation if it has one. */
+export function Quote({ s }: { s: CommitmentSource }) {
+  const tr = s.translation;
+  return (
+    <>
+      <blockquote cite={s.url} lang={s.language}><p>“{s.quote}”</p></blockquote>
+      {tr && (
+        <div className="commitment__translation">
+          <p className="small">
+            <strong>{tr.kind === 'official' ? 'Official English translation' : 'English translation by this site (not official)'}</strong>
+            {tr.kind === 'official' && tr.url && <>{' '}(<a href={tr.url} rel="noopener noreferrer">{tr.title}</a>, {tr.location})</>}:
+          </p>
+          <blockquote cite={tr.url} lang="en"><p>“{tr.text}”</p></blockquote>
+        </div>
+      )}
+    </>
+  );
+}
+
 function CommitmentCard({ c }: { c: Commitment }) {
   const [primary, ...others] = c.sources;
   return (
@@ -151,7 +170,7 @@ function CommitmentCard({ c }: { c: Commitment }) {
         </div>
         <p className="small muted commitment__meta">{c.issuer} · {docDate(c.date)} · Scope: {c.scope}</p>
         <figure className="commitment__quote">
-          <blockquote cite={primary.url}><p>“{primary.quote}”</p></blockquote>
+          <Quote s={primary} />
           <figcaption className="small">
             <a href={primary.url} rel="noopener noreferrer">{primary.reference}</a>, {primary.location}
             {' — '}<cite>{primary.title}</cite>
@@ -164,7 +183,7 @@ function CommitmentCard({ c }: { c: Commitment }) {
                 ? `Also in this document: ${s.location}`
                 : `${s.role === 'first_set_out' ? 'First set out in' : s.role === 'reaffirmed' ? 'Reaffirmed in' : 'Also in'} ${s.reference} (${docDate(s.date)})`}
             </summary>
-            <blockquote cite={s.url}><p>“{s.quote}”</p></blockquote>
+            <Quote s={s} />
             <p className="small"><a href={s.url} rel="noopener noreferrer">{s.reference}</a>, {s.location} — <cite>{s.title}</cite></p>
           </details>
         ))}
@@ -182,14 +201,15 @@ export function CommitmentsView({ data, doc }: { data: Dataset; doc: Commitments
       <section className="panel" aria-labelledby="commitments-heading">
         <h2 id="commitments-heading">Policy commitments</h2>
         <p>
-          What the EU and the international community have committed to on road safety, quoted word for word from the
-          official documents. Where a target can be measured with the official statistics on this site, the target value
+          What the EU, the international community and a first set of Member States have committed to on road safety,
+          quoted word for word from the official documents (with an English translation where the original is in
+          another language). Where a target can be measured with the official statistics on this site, the target value
           and the latest official figure are shown next to it.
         </p>
         <Notice>
           None of these commitments is legally binding. Each quote was checked against the official document
-          on {fmtDate(doc.reviewed_at)}. Figures are Eurostat's official road deaths for the current EU-27; the site does
-          not judge whether a target is “on track”. Serious-injury targets cannot be measured: there is no official EU-wide series of serious injuries (MAIS3+) yet.
+          on {fmtDate(doc.reviewed_at)}. Figures are Eurostat's official road deaths, for the current EU-27 or, for a
+          national strategy, for that country; the site does not judge whether a target is “on track”. Serious-injury targets cannot be measured: there is no official EU-wide series of serious injuries (MAIS3+) yet.
         </Notice>
         <dl className="facts">
           <div><dt>Commitments listed</dt><dd>{fmtInt(doc.summary.commitments)}</dd></div>
@@ -203,6 +223,12 @@ export function CommitmentsView({ data, doc }: { data: Dataset; doc: Commitments
       {groups.map((g) => (
         <section key={g.level} className="panel" aria-labelledby={`level-${g.level}`}>
           <h2 id={`level-${g.level}`}>{LEVEL_LABEL[g.level]}</h2>
+          {g.level === 'national' && (
+            <p className="small">
+              A first selection of national road safety strategies, measured against Eurostat's figures for each country.
+              More countries will follow; for France no official national road-death target for 2030 was found.
+            </p>
+          )}
           <ul className="act-list">{g.items.map((c) => <CommitmentCard key={c.id} c={c} />)}</ul>
         </section>
       ))}
@@ -215,8 +241,9 @@ export function CommitmentsView({ data, doc }: { data: Dataset; doc: Commitments
           recorded. Target values are the official baseline figure × (1 − the stated reduction); the change is
           (official figure − baseline) ÷ baseline. When a target's deadline has passed, the figure for the target year
           is shown; otherwise the latest available year. See the{' '}
-          <a href={`${DOCS_URL}/METHODOLOGY.md#policy-commitments`}>methodology</a>. National strategies will be added
-          in a later release.
+          <a href={`${DOCS_URL}/METHODOLOGY.md#policy-commitments`}>methodology</a>. Quotes in other languages come with
+          an English translation: the issuer's official translation where one exists (checked against it like the
+          quote), otherwise a translation made for this site and labelled as such.
         </p>
       </section>
     </>

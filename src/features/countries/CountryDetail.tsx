@@ -85,7 +85,7 @@ export function CountryDetail({ data, geo, loadRegister = loadLegislation, loadP
           unitLabel="per million" format={fmtRate} baselinePeriod={baseline} height={280} />
       </section>
       <WhoDies data={data} geo={geo} name={country.name} />
-      <CountryCommitments load={loadPledges} name={country.name} />
+      <CountryCommitments load={loadPledges} name={country.name} geo={geo} />
       <CountryDeadlines load={loadRegister} />
       <section className="panel" aria-labelledby="availability-heading">
         <h2 id="availability-heading">Data availability and sources</h2>

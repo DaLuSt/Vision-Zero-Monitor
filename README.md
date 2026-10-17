@@ -28,7 +28,7 @@ figure and every claim links back to an official source.
 | **Road safety progress** | Official road deaths for the 27 EU Member States, rates per million, trends since 1999, deaths by road user, mode of transport, age, sex and type of road | ✅ Live |
 | **Progress towards Vision Zero** | 2030 fatality benchmark (−50 %) measured from 2019 as in the Commission's own monitoring, progress share and an analytical straight-line path | ✅ Live (fatalities only; serious injuries not yet covered) |
 | **Legislation** | EU road safety acts and pending Commission proposals: adoption, entry into force, in-force status, transposition deadlines, amendments and repeals, linked to EUR-Lex | ✅ Live (EU acts) |
-| **Policy commitments** | EU and global targets and declarations, quoted from the official texts and compared with the official figures | ✅ Live (EU and global; national strategies planned) |
+| **Policy commitments** | EU and global targets and declarations, quoted from the official texts and compared with the official figures | ✅ Live (EU, global and first national strategies: ES, PL, DE, NL) |
 
 Geographic coverage today is the **EU-27**. Extending it to other European countries
 (EFTA, candidate countries) is planned where comparable official data exist. Planned
@@ -218,8 +218,8 @@ the workflow token, like the data update.
   recorded in EUR-Lex metadata, not the stage of a proposal in Parliament or Council, and
   it does not assess Member State compliance. Its selection follows the Publications
   Office's “road safety” indexing plus a short curated list.
-* Policy commitments cover EU and global documents; national road safety strategies are not
-  yet included, and serious-injury targets cannot be measured: no official EU-wide MAIS3+ series exists yet
+* Policy commitments cover EU and global documents and national strategies for Spain, Poland,
+  Germany and the Netherlands only so far, and serious-injury targets cannot be measured: no official EU-wide MAIS3+ series exists yet
   (see [DATA_SOURCES.md](docs/DATA_SOURCES.md) §8).
 
 ## Contributing

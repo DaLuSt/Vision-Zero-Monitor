@@ -153,6 +153,16 @@ def check(curated: dict, observations: dict, today: str) -> list[dict]:
         issues += [issue("error", "duplicate", f"{c['id']}: duplicate target id {i!r}") for i, n in tids.items() if n > 1]
         if not any(s["role"] == "primary" for s in c["sources"]):
             issues.append(issue("error", "source", f"{c['id']}: no primary source"))
+        national = c["level"] == "national"
+        if national != ("geo" in c) or national != (c["form"] == "national_strategy"):
+            issues.append(issue("error", "national",
+                                f"{c['id']}: national commitments need a geo and form national_strategy; others neither"))
+        for s in c["sources"]:
+            tr = s.get("translation")
+            if s.get("language", "en") != "en" and not tr:
+                issues.append(issue("error", "translation", f"{c['id']}: quote in {s['language']} has no English translation"))
+            if tr and tr["kind"] == "official" and not (tr.get("url") and tr.get("location")):
+                issues.append(issue("error", "translation", f"{c['id']}: official translation needs its url and location"))
         for t in c["targets"]:
             where = f"{c['id']}/{t['id']}"
             b, y = t.get("baseline_year"), t["target_year"]
@@ -163,6 +173,8 @@ def check(curated: dict, observations: dict, today: str) -> list[dict]:
                 issues.append(issue("error", "reason", f"{where}: not measured but no not_measured_reason given"))
             if t.get("measure"):
                 g, ind = t["measure"]["geo"], t["measure"]["indicator"]
+                if national and g != c.get("geo"):
+                    issues.append(issue("error", "measure", f"{where}: measured for {g}, but the strategy is for {c.get('geo')}"))
                 if not any(k[0] == g and k[1] == ind for k in obs):
                     issues.append(issue("error", "measure", f"{where}: no observations for {g}/{ind}"))
                 for year in ([b] if measured else []) + [mb["year"] for mb in t.get("monitoring_baselines", [])]:
