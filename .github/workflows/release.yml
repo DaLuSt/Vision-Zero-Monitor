@@ -1,0 +1,93 @@
+name: Release
+
+# Creates a GitHub release of main. Zenodo archives every published release and
+# mints a DOI for it, using the metadata in .zenodo.json.
+#
+# Run by hand (Actions → Release → Run workflow) or called by update-data.yml when
+# Eurostat publishes a new reference year. Steps: full CI on the tip of main → bump the
+# version in CITATION.cff and package.json → commit to main → tag and publish the
+# release with notes generated from the merged pull requests.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Which part of the version to increase
+        type: choice
+        options: [minor, patch, major]
+        default: minor
+      version:
+        description: Exact version (X.Y.Z); overrides the bump if set
+        type: string
+        default: ""
+  workflow_call:
+    inputs:
+      bump:
+        type: string
+        default: minor
+      reason:
+        description: One line put above the generated release notes
+        type: string
+        default: ""
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: CI on main
+    uses: ./.github/workflows/ci.yml
+    with:
+      ref: main
+
+  release:
+    needs: ci
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write # version commit, tag and release
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Bump the version
+        id: bump
+        env:
+          BUMP: ${{ inputs.bump }}
+          VERSION: ${{ inputs.version }}
+        run: python3 -m scripts.release.prepare --bump "$BUMP" --version "$VERSION" --date "$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Refuse an existing tag
+        env:
+          TAG: v${{ steps.bump.outputs.version }}
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
+            echo "::error::Tag $TAG already exists"
+            exit 1
+          fi
+
+      - name: Commit the version to main
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "release: v$VERSION" -m "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          git push origin HEAD:main
+
+      - name: Tag and publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.bump.outputs.version }}
+          REASON: ${{ inputs.reason }}
+        run: |
+          notes="Archived on Zenodo with a DOI; all versions: https://doi.org/10.5281/zenodo.23437733"
+          if [ -n "$REASON" ]; then notes="$REASON"$'\n\n'"$notes"; fi
+          gh release create "v$VERSION" --target "$(git rev-parse HEAD)" \
+            --title "Vision Zero Monitor $VERSION" --notes "$notes" --generate-notes
+          echo "### Released v$VERSION" >> "$GITHUB_STEP_SUMMARY"

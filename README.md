@@ -184,6 +184,22 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
    (or comments on the one already open); the next successful run closes it.
    Watch the repository's issues to get these alerts by email.
 
+## Releases
+
+Releases are made by the **Release** workflow (`.github/workflows/release.yml`); every published
+release is archived on Zenodo with its own DOI, using the metadata in `.zenodo.json`.
+
+* **By hand:** Actions → Release → Run workflow, then choose `minor`, `patch` or `major` (or type an
+  exact version).
+* **Automatically:** when the weekly data update finds a new reference year (for example Eurostat
+  adding 2025), it makes a minor release after the site is deployed, so each data year has a citable
+  version.
+
+The workflow first runs the full CI suite on the tip of `main`, then bumps the version in
+`CITATION.cff` and `package.json` (`scripts/release/prepare.py`), commits that to `main`, and tags and
+publishes the release with notes generated from the merged pull requests. It pushes to `main` with
+the workflow token, like the data update.
+
 ## Known limitations
 
 * Statistics are annual with a lag; the latest reference year (2024 as of Oct 2026)
