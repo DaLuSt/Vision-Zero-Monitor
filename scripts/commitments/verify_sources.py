@@ -2,6 +2,8 @@
 
 Downloads each source document, extracts its text and confirms that the quote occurs
 in it word for word (ignoring whitespace, quote-mark style and line-break hyphenation).
+Official translations of quotes in other languages are checked the same way against the
+issuer's own translated document; translations made for this site are labelled and not checked.
 Run this before changing the curated file and record the date in "reviewed_at".
 
 Usage:
@@ -18,6 +20,7 @@ import argparse
 import hashlib
 import html
 import re
+import ssl
 import subprocess
 import sys
 import tempfile
@@ -31,12 +34,25 @@ UA = "Mozilla/5.0 (compatible; VisionZeroMonitor-verify/1.0; +https://github.com
 CELEX_URL = re.compile(r"uri=CELEX:([0-9A-Z()]+)")
 OP_PUBLICATION = re.compile(r"op\.europa\.eu/.+/publication/([0-9a-f-]{36})")
 UNDOCS = re.compile(r"undocs\.org/(.+)$")
+# Public intermediate certificates that some official sites fail to send (see the file headers).
+# They are added to the default trust store to complete the chain; verification stays on.
+EXTRA_CERTS = sorted((Path(__file__).parent / "certs").glob("*.pem"))
+
+
+def _ssl_context() -> ssl.SSLContext:
+    ctx = ssl.create_default_context()
+    for cert in EXTRA_CERTS:
+        ctx.load_verify_locations(cafile=str(cert))
+    return ctx
+
+
+SSL_CONTEXT = _ssl_context()
 
 
 def _get(url: str, accept: str = "*/*") -> tuple[int, bytes, str]:
     req = urllib.request.Request(url, headers={"Accept": accept, "Accept-Language": "eng", "User-Agent": UA})
     try:
-        with urllib.request.urlopen(req, timeout=90) as r:  # noqa: S310 (fixed, reviewed URLs)
+        with urllib.request.urlopen(req, timeout=90, context=SSL_CONTEXT) as r:  # noqa: S310 (fixed, reviewed URLs)
             return r.status, r.read(), r.headers.get("Content-Type", "")
     except urllib.error.HTTPError as e:
         return e.code, e.read(), e.headers.get("Content-Type", "")
@@ -97,23 +113,28 @@ def main(argv: list[str] | None = None) -> int:
     doc = json.loads(CURATED.read_text(encoding="utf-8"))
     texts: dict[str, str] = {}
     failures = 0
+    checks = []
     for c in doc["commitments"]:
         for s in c["sources"]:
-            url = s["url"]
-            try:
-                if url not in texts:
-                    body = fetch(url)
-                    if args.cache:
-                        args.cache.mkdir(parents=True, exist_ok=True)
-                        (args.cache / (hashlib.sha256(url.encode()).hexdigest()[:16] + ".bin")).write_bytes(body)
-                    texts[url] = normalise(to_text(body))
-                found = normalise(s["quote"]).rstrip(".;") in texts[url]
-            except (RuntimeError, OSError, subprocess.CalledProcessError) as exc:
-                print(f"ERROR {c['id']} {s['reference']}: {exc}")
-                failures += 1
-                continue
-            print(f"{'OK   ' if found else 'MISSING'} {c['id']} · {s['reference']} · {s['location']}")
-            failures += 0 if found else 1
+            checks.append((c["id"], s["reference"], s["location"], s["url"], s["quote"]))
+            tr = s.get("translation")
+            if tr and tr["kind"] == "official":
+                checks.append((c["id"], f"{s['reference']} (official translation)", tr["location"], tr["url"], tr["text"]))
+    for cid, reference, location, url, quote in checks:
+        try:
+            if url not in texts:
+                body = fetch(url)
+                if args.cache:
+                    args.cache.mkdir(parents=True, exist_ok=True)
+                    (args.cache / (hashlib.sha256(url.encode()).hexdigest()[:16] + ".bin")).write_bytes(body)
+                texts[url] = normalise(to_text(body))
+            found = normalise(quote).rstrip(".;") in texts[url]
+        except (RuntimeError, OSError, subprocess.CalledProcessError) as exc:
+            print(f"ERROR {cid} {reference}: {exc}")
+            failures += 1
+            continue
+        print(f"{'OK   ' if found else 'MISSING'} {cid} · {reference} · {location}")
+        failures += 0 if found else 1
     print(f"\n{failures} problem(s)." if failures else "\nAll quotes found in their source documents.")
     return 1 if failures else 0
 

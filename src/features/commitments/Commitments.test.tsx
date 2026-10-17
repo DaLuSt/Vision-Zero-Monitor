@@ -1,8 +1,8 @@
 import { render, screen, within } from '@testing-library/react';
 import App from '../../App';
 import { makeDataset } from '../../test/fixtures';
-import { makeCommitments } from '../../test/commitmentsFixture';
-import { byLevel, chartRows, targetPaths } from '../../lib/commitments';
+import { makeCommitments, makeCommitmentsWithNational } from '../../test/commitmentsFixture';
+import { byLevel, chartRows, nationalFor, targetPaths } from '../../lib/commitments';
 
 afterEach(() => { window.location.hash = ''; });
 
@@ -19,6 +19,15 @@ describe('commitments helpers', () => {
       [2018, 2020, 1100, 550], [2018, 2030, 1100, 550], [2019, 2030, 1000, 500],
     ]);
     expect(paths.find((p) => p.from.year === 2018 && p.to.year === 2030)?.label).toMatch(/Commission monitoring/);
+  });
+
+  it('does not draw national targets on the EU chart', () => {
+    const doc = makeCommitmentsWithNational();
+    expect(targetPaths(doc).map((p) => p.from.year)).not.toContain(2017);
+    expect(targetPaths(doc)).toHaveLength(targetPaths(makeCommitments()).length);
+    expect(nationalFor(doc, 'NL').map((c) => c.id)).toEqual(['nl-test']);
+    expect(nationalFor(doc, 'DE')).toEqual([]);
+    expect(byLevel(doc).map((g) => g.level)).toEqual(['eu', 'national', 'global']);
   });
 
   it('puts the official series and the target end points on one year axis', () => {
@@ -77,6 +86,17 @@ describe('Commitments page', () => {
     const fig = await screen.findByRole('figure', { name: /each measurable target drawn as a straight line/ });
     expect(within(fig).getAllByRole('listitem')).toHaveLength(4);
     expect(within(fig).getByRole('table')).toBeInTheDocument();
+  });
+
+  it('shows national strategies with the original quote and a labelled translation', async () => {
+    await renderPage(() => Promise.resolve(makeCommitmentsWithNational()));
+    const section = await screen.findByRole('region', { name: 'National strategies' });
+    const card = within(section).getByRole('article', { name: 'Netherlands: test strategy' });
+    const original = within(card).getByText('“Het streven is nul verkeersslachtoffers.”').closest('blockquote')!;
+    expect(original).toHaveAttribute('lang', 'nl');
+    expect(within(card).getByText('English translation by this site (not official)')).toBeInTheDocument();
+    expect(within(card).getByText('“The aim is zero road casualties.”').closest('blockquote')).toHaveAttribute('lang', 'en');
+    expect(within(card).getByRole('row', { name: /2017/ })).toHaveTextContent('560');
   });
 
   it('is in the main navigation', async () => {

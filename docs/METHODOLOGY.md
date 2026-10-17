@@ -273,7 +273,7 @@ Built by `scripts/commitments/build.py` from the curated file
 
 **Curation.** Commitments are published as documents, so each entry is written by hand:
 issuer, date, form (Commission policy, Council conclusions, ministerial declaration, UN
-resolution), scope, a short description of its nature, and one or more sources. Every
+resolution, national strategy), scope, a short description of its nature, and one or more sources. Every
 source has a **verbatim quote**, its location in the document (section, point, page) and a
 link to the official text. `python -m scripts.commitments.verify_sources` downloads each
 document and checks that every quote occurs in it word for word (ignoring line breaks,
@@ -281,14 +281,27 @@ hyphenation, quote-mark style and the spacing in “50 %”). The date of the la
 review is stored as `reviewed_at` and shown on the page. The same check runs automatically
 every month (`verify-commitments.yml`) and opens an issue when a quote no longer matches.
 
+**National strategies and translations.** A national strategy carries the country's Eurostat
+code (`geo`), and its targets are measured only against that country's Eurostat figures (the
+build rejects any other `measure.geo`). Quotes stay in the original language (`language`), with
+an English `translation`:
+
+* `"kind": "official"`: the issuer's own English version, with its link and location; the
+  verifier checks it word for word against that document, like the quote.
+* `"kind": "own"`: a translation made for this site, shown as “English translation by this site
+  (not official)” and not checked automatically.
+
+National targets are shown on the commitments page and on the country page, but not drawn on
+the EU chart.
+
 **Nature.** All commitments currently listed are political or policy commitments; none is
 legally binding. The text says so for each entry, in the source's own terms (for example
 “Council conclusions”, “UN General Assembly resolution”).
 
 **Targets.** Each commitment lists its targets as stated: indicator (road deaths or serious
 injuries), reduction, baseline year and target year. A target is **measured** only when it
-can be compared with the official statistics on this site: road deaths, EU-27, with an
-official figure for the baseline year. Otherwise the reason is shown (for example: no official
+can be compared with the official statistics on this site: road deaths, for the EU-27 or
+(national strategies) the country, with an official figure for the baseline year. Otherwise the reason is shown (for example: no official
 EU-wide serious-injury (MAIS3+) series exists, see DATA_SOURCES §8; a global goal; no baseline year stated).
 
 | Quantity | Definition |

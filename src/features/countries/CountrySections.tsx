@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { Commitments, Dataset, LegalAct, Legislation } from '../../types/data';
-import { fmtDate, fmtInt, fmtRate } from '../../lib/format';
+import type { Commitment, Commitments, Dataset, LegalAct, Legislation } from '../../types/data';
+import { fmtDate, fmtInt, fmtPct, fmtRate } from '../../lib/format';
 import { categoryRows, getDimension, latestCompletePeriod } from '../../lib/breakdowns';
 import { euComparison, inSentence, rankPhrase } from '../../lib/country';
 import { actCitation, actSubject, todayIso, upcomingDeadlines } from '../../lib/legislation';
-import { FORM_LABEL } from '../../lib/commitments';
+import { FORM_LABEL, nationalFor } from '../../lib/commitments';
 import { scrollArea } from '../../lib/scrollArea';
 
 type Loaded<T> = { kind: 'loading' } | { kind: 'error' } | { kind: 'ready'; doc: T };
@@ -74,19 +74,53 @@ export function WhoDies({ data, geo, name }: { data: Dataset; geo: string; name:
   );
 }
 
-export function CountryCommitments({ load, name }: { load: () => Promise<Commitments>; name: string }) {
+function NationalStrategy({ c }: { c: Commitment }) {
+  return (
+    <div className="national-strategy">
+      <p className="small">
+        <strong>National road safety strategy:</strong> <a href={c.sources[0].url} rel="noopener noreferrer">{c.sources[0].title}</a>
+        <span className="muted"> · {c.issuer}, {c.date}</span>
+      </p>
+      <ul className="related-list">
+        {c.targets.map((t) => {
+          const o = t.outcomes[0];
+          return (
+            <li key={t.id}>
+              {t.description}
+              {o && o.target_value != null ? (
+                <span className="small">
+                  {' '}— target value {fmtInt(o.target_value)} road deaths in {o.target_year}; official figure{' '}
+                  {o.compare_year}: <strong>{fmtInt(o.compare_value)}</strong> ({fmtPct(o.change_pct)} since {o.baseline_year})
+                </span>
+              ) : (
+                <span className="small muted"> — {t.not_measured_reason}</span>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      <p className="small"><a href="#/commitments">Quote, translation and details on the commitments page</a></p>
+    </div>
+  );
+}
+
+export function CountryCommitments({ load, name, geo }: { load: () => Promise<Commitments>; name: string; geo: string }) {
   const state = useOptional(load);
+  const national = state.kind === 'ready' ? nationalFor(state.doc, geo) : [];
   return (
     <section className="panel" aria-labelledby="country-commitments">
       <h2 id="country-commitments">Commitments covering {inSentence(name)}</h2>
-      <p className="small">
-        <strong>National road safety strategy:</strong> not yet covered by this site. National strategies and their
-        targets are planned.
-      </p>
       {state.kind === 'loading' && <p className="small muted" role="status">Loading commitments…</p>}
       {state.kind === 'error' && <p className="small muted">The list of commitments could not be loaded.</p>}
       {state.kind === 'ready' && (
         <>
+          {national.length > 0
+            ? national.map((c) => <NationalStrategy key={c.id} c={c} />)
+            : (
+              <p className="small">
+                <strong>National road safety strategy:</strong> not yet covered by this site for {inSentence(name)}.
+              </p>
+            )}
           <p className="small">
             EU commitments cover all Member States, including {inSentence(name)}. Their targets apply to the EU as a whole, not to
             each country separately.

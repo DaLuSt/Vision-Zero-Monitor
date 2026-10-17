@@ -81,3 +81,23 @@ export function makeCommitments(): Commitments {
     ],
   };
 }
+
+/** SYNTHETIC: the fixture above plus one national strategy (Netherlands) with a translated quote. */
+export function makeCommitmentsWithNational(): Commitments {
+  const doc = makeCommitments();
+  doc.commitments.push(commitment({
+    id: 'nl-test', title: 'Netherlands: test strategy', level: 'national', geo: 'NL', scope: 'Netherlands',
+    issuer: 'Ministerie van Infrastructuur en Waterstaat', form: 'national_strategy', date: '2018',
+    sources: [{
+      role: 'primary', title: 'Teststrategie', reference: 'SPV test', publisher: 'Ministerie', date: '2018',
+      url: 'https://example.org/spv.pdf', location: 'p. 13', language: 'nl', quote: 'Het streven is nul verkeersslachtoffers.',
+      translation: { kind: 'own', text: 'The aim is zero road casualties.' },
+    }],
+    targets: [target({
+      measure: { geo: 'NL', indicator: 'road_fatalities' }, description: 'Road deaths −50 % (test)',
+      outcomes: [outcome({ baseline_year: 2017, baseline_value: 600, target_value: 300, compare_value: 560, change_pct: -6.7 })],
+    })],
+  }));
+  doc.summary = { commitments: 4, targets: 5, targets_measured: 3 };
+  return doc;
+}

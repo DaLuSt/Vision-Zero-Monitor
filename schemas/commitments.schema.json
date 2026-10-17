@@ -165,6 +165,45 @@
                   "type": "string",
                   "minLength": 20,
                   "maxLength": 700
+                },
+                "language": {
+                  "type": "string",
+                  "pattern": "^[a-z]{2}$",
+                  "description": "ISO 639-1 language of the quote; absent means English."
+                },
+                "translation": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "text",
+                    "kind"
+                  ],
+                  "description": "English translation of a quote in another language. 'official': published by the issuer (verified like the quote); 'own': made for this site and labelled as such.",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "minLength": 20,
+                      "maxLength": 900
+                    },
+                    "kind": {
+                      "enum": [
+                        "official",
+                        "own"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 5
+                    },
+                    "url": {
+                      "type": "string",
+                      "pattern": "^https://"
+                    },
+                    "location": {
+                      "type": "string",
+                      "minLength": 3
+                    }
+                  }
                 }
               }
             }
@@ -461,6 +500,11 @@
                 }
               }
             }
+          },
+          "geo": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$",
+            "description": "Eurostat country code of a national commitment (absent for EU and global ones)."
           }
         }
       }

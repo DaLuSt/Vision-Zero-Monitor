@@ -1,13 +1,13 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-10-17T12:08:42Z",
- "reviewed_at": "2026-10-15",
+ "generated_at": "2026-10-17T16:34:20Z",
+ "reviewed_at": "2026-10-17",
  "review_note": "Every quote was checked word for word against the official document on the review date (scripts/commitments/verify_sources.py). Edit this file only with a new review.",
  "statistics_source": "Eurostat tran_sf_roadus (road deaths), as published in observations.json",
  "summary": {
-  "commitments": 7,
-  "targets": 9,
-  "targets_measured": 3
+  "commitments": 11,
+  "targets": 13,
+  "targets_measured": 5
  },
  "commitments": [
   {
@@ -352,6 +352,184 @@
    ]
   },
   {
+   "id": "es-esv-2030",
+   "title": "Spain: halve road deaths between 2019 and 2030",
+   "issuer": "Dirección General de Tráfico (DGT), Ministry of the Interior",
+   "level": "national",
+   "geo": "ES",
+   "scope": "Spain",
+   "form": "national_strategy",
+   "nature": "National road safety strategy of Spain (Estrategia de Seguridad Vial 2030). Not legally binding. It also sets a −50 % target for serious injuries, measured with police records (8,613 in 2019), which this site does not cover.",
+   "date": "2022",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Estrategia de Seguridad Vial 2030",
+     "reference": "Estrategia de Seguridad Vial 2030",
+     "publisher": "Dirección General de Tráfico (DGT)",
+     "date": "2022",
+     "url": "https://seguridadvial2030.dgt.es/export/sites/sv2030/.galleries/descargas/Estrategia_de_Seguridad_Vial_2030.pdf",
+     "location": "Resumen ejecutivo, “Los objetivos del decenio”, p. 20 of the PDF",
+     "language": "es",
+     "quote": "En 2030, reducir el número de personas fallecidas en un 50% respecto al valor base de 2019 (1.755).",
+     "translation": {
+      "kind": "official",
+      "text": "By 2030, a 50% reduction in fatalities compared to 2019 (1,755).",
+      "title": "Road Safety Strategy 2030 – Summary (official English version)",
+      "url": "https://seguridadvial2030.dgt.es/export/sites/sv2030/.galleries/descargas/Road_Safety_Strategy_2030_Summary_EN.pdf",
+      "location": "p. 52 of the PDF"
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % between 2019 and 2030",
+     "reduction": 0.5,
+     "baseline_year": 2019,
+     "target_year": 2030,
+     "measure": {
+      "geo": "ES",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": null,
+     "scope_note": "The strategy's baseline (1,755 deaths in 2019) equals the Eurostat figure for Spain.",
+     "monitoring_baselines": [],
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2019,
+       "baseline_value": 1755,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 877.5,
+       "required_change_pct": -50.0,
+       "compare_year": 2024,
+       "compare_value": 1785,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": 1.7,
+       "share_of_required_reduction": -0.034,
+       "above_target_value": true
+      }
+     ],
+     "reference": null
+    }
+   ]
+  },
+  {
+   "id": "pl-npbrd-2021-2030",
+   "title": "Poland: halve road deaths by 2030, to no more than 1,455",
+   "issuer": "Krajowa Rada Bezpieczeństwa Ruchu Drogowego (National Road Safety Council)",
+   "level": "national",
+   "geo": "PL",
+   "scope": "Poland",
+   "form": "national_strategy",
+   "nature": "National road safety programme of Poland (Narodowy Program Bezpieczeństwa Ruchu Drogowego 2021–2030). Not legally binding. It also sets a −50 % target for seriously injured people (no more than 5,317), measured with national police records, which this site does not cover.",
+   "date": "2021",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Narodowy Program Bezpieczeństwa Ruchu Drogowego 2021–2030",
+     "reference": "NPBRD 2021–2030",
+     "publisher": "Krajowa Rada Bezpieczeństwa Ruchu Drogowego",
+     "date": "2021",
+     "url": "https://www.krbrd.gov.pl/wp-content/uploads/2021/12/Narodowy-Program-Bezpieczenstwa-Ruchu-Drogowego-2021-2030-1.pdf",
+     "location": "Streszczenie (summary), p. 24 of the PDF",
+     "language": "pl",
+     "quote": "głównym celem Narodowego Programu Bezpieczeństwa Ruchu Drogowego 2021-2030 będzie ograniczenie w ciągu dekady o 50% liczby ofiar śmiertelnych i ciężko rannych. Oznacza to, iż w roku 2030 na polskich drogach liczba ofiar śmiertelnych wypadków nie powinna przekroczyć wartości 1455, a liczba ofiar ciężko rannych nie powinna być większa niż 5317.",
+     "translation": {
+      "kind": "official",
+      "text": "the main goal of the National Road Safety Programme 2021-2030 will be to reduce the number of fatalities and seriously injured victims by 50% within a decade. This means that in 2030 on Polish roads the number of road accident fatalities should not exceed 1455, and the number of seriously injured victims should not exceed 5317.",
+      "title": "National Road Safety Programme 2021–2030 (official English version)",
+      "url": "https://krbrd.gov.pl/wp-content/uploads/2024/05/Narodowy-Program-Bezpieczenstwa-Ruchu-Drogowego-2021-2030_EN.pdf",
+      "location": "Summary, p. 24 of the PDF"
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % by 2030 (no more than 1,455)",
+     "reduction": 0.5,
+     "baseline_year": 2019,
+     "target_year": 2030,
+     "measure": {
+      "geo": "PL",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": null,
+     "scope_note": "The programme states the target as “no more than 1455 in 2030” without naming a baseline year in that sentence. 1,455 is half of the 2,909 deaths in 2019, which the programme gives as its starting point and which equals the Eurostat figure, so 2019 is used as the baseline.",
+     "monitoring_baselines": [],
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2019,
+       "baseline_value": 2909,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 1454.5,
+       "required_change_pct": -50.0,
+       "compare_year": 2024,
+       "compare_value": 1896,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": -34.8,
+       "share_of_required_reduction": 0.696,
+       "above_target_value": true
+      }
+     ],
+     "reference": null
+    }
+   ]
+  },
+  {
+   "id": "de-vsp-2021-2030",
+   "title": "Germany: 40 % fewer road deaths by 2030",
+   "issuer": "Federal Government of Germany (Federal Ministry of Transport)",
+   "level": "national",
+   "geo": "DE",
+   "scope": "Germany",
+   "form": "national_strategy",
+   "nature": "Road safety programme of the German Federal Government 2021–2030 (Verkehrssicherheitsprogramm der Bundesregierung 2021 bis 2030), agreed with the federal states. Not legally binding. Serious injuries are to fall “significantly”, without a number.",
+   "date": "2021",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Verkehrssicherheitsprogramm der Bundesregierung 2021 bis 2030",
+     "reference": "Verkehrssicherheitsprogramm 2021–2030",
+     "publisher": "Bundesministerium für Verkehr und digitale Infrastruktur",
+     "date": "2021",
+     "url": "https://www.bmv.de/SharedDocs/DE/Anlage/StV/broschuere-verkehrssicherheitsprogramm-2021-bis-2030.pdf?__blob=publicationFile",
+     "location": "Chapter I, “Mehr Verkehrssicherheit gemeinsam erreichen”, p. 7 of the PDF",
+     "language": "de",
+     "quote": "Gemeinsam hat man sich darauf verständigt, die Zahl der Verkehrstoten in Deutschland bis 2030 um 40 % zu reduzieren und die Zahl der Schwerverletzten signifikant senken zu wollen.",
+     "translation": {
+      "kind": "own",
+      "text": "It was jointly agreed to reduce the number of road deaths in Germany by 40 % by 2030 and to aim for a significant reduction in the number of seriously injured people."
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −40 % by 2030",
+     "reduction": 0.4,
+     "baseline_year": null,
+     "target_year": 2030,
+     "measure": null,
+     "not_measured_reason": "The programme does not state a baseline year for the 40 % reduction, so no target value is calculated.",
+     "scope_note": null,
+     "monitoring_baselines": [],
+     "outcomes": [],
+     "reference": null
+    }
+   ]
+  },
+  {
    "id": "un-ga-74-299",
    "title": "Second Decade of Action for Road Safety: at least 50 % fewer road deaths and injuries from 2021 to 2030",
    "issuer": "United Nations General Assembly",
@@ -424,6 +602,57 @@
      "monitoring_baselines": [],
      "outcomes": [],
      "reference": null
+    }
+   ]
+  },
+  {
+   "id": "nl-spv-2030",
+   "title": "Netherlands: towards zero road casualties",
+   "issuer": "Dutch central government, provinces, municipalities and regions",
+   "level": "national",
+   "geo": "NL",
+   "scope": "Netherlands",
+   "form": "national_strategy",
+   "nature": "Strategic road safety plan of the Dutch governments (Strategisch Plan Verkeersveiligheid 2030), led by the Ministry of Infrastructure and Water Management. Not legally binding. It sets no national number of deaths for 2030; results for 2030 are set per theme and by each road authority.",
+   "date": "2018",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Veilig van deur tot deur: Het Strategisch Plan Verkeersveiligheid 2030",
+     "reference": "SPV 2030",
+     "publisher": "Ministerie van Infrastructuur en Waterstaat",
+     "date": "2018",
+     "url": "https://zoek.officielebekendmakingen.nl/blg-866302.pdf",
+     "location": "Chapter 2, p. 13 of the PDF; Figure 3 on the same page gives this as the overarching ambition for 2050 (“Op weg naar nul slachtoffers”)",
+     "language": "nl",
+     "quote": "Het streven is nul verkeersslachtoffers. Overheden leveren samen met maatschappelijke partners maximale inspanning om zoveel mogelijk risico’s weg te nemen door het verbeteren van wegen en voertuigen én het beïnvloeden van menselijk gedrag.",
+     "translation": {
+      "kind": "own",
+      "text": "The aim is zero road casualties. Governments, together with partners in society, make every effort to remove as many risks as possible by improving roads and vehicles and by influencing human behaviour."
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Towards zero road casualties (ambition for 2050)",
+     "reduction": null,
+     "baseline_year": null,
+     "target_year": 2050,
+     "measure": {
+      "geo": "NL",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": "The aim is not expressed as a number, so no target value is calculated. The latest official figure is shown for reference.",
+     "scope_note": null,
+     "monitoring_baselines": [],
+     "outcomes": [],
+     "reference": {
+      "period": 2024,
+      "value": 566,
+      "status": "unknown"
+     }
     }
    ]
   }

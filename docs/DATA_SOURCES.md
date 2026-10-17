@@ -206,14 +206,30 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   | UN General Assembly resolution A/RES/74/299 | 31 Aug 2020 | At least −50 % deaths and injuries 2021–2030 (global) |
   | Commission “Road safety statistics 2025 in more detail”, Figure 1 | 2026 | Monitoring baseline 2019 for the 2030 target |
 
+* **National strategies (first selection, reviewed 17 Oct 2026).** Quoted in the original
+  language with an English translation; official translations are verified like the quotes.
+
+  | Country | Document | Target used | Translation |
+  | --- | --- | --- | --- |
+  | Spain | Estrategia de Seguridad Vial 2030 (DGT), Resumen ejecutivo | −50 % road deaths 2019–2030 (baseline 1,755, equal to Eurostat) | Official (English summary, p. 52) |
+  | Poland | Narodowy Program Bezpieczeństwa Ruchu Drogowego 2021–2030 (KRBRD), summary | −50 %, no more than 1,455 deaths in 2030 (half of 2,909 in 2019, equal to Eurostat) | Official (English version, p. 24) |
+  | Germany | Verkehrssicherheitsprogramm der Bundesregierung 2021 bis 2030 (BMVI) | −40 % road deaths by 2030; **no baseline year stated**, so not measured | Own |
+  | Netherlands | Strategisch Plan Verkeersveiligheid 2030 (officielebekendmakingen.nl, blg-866302) | Zero road casualties as the ambition for 2050; no national number for 2030 | Own |
+
+  *France:* no official national road-death target for 2030 was found in the documents of
+  the Sécurité routière / ONISR searched (October 2026); not listed until one is found.
+  *Spain's site* (seguridadvial2030.dgt.es) does not send its intermediate certificate;
+  `verify_sources.py` adds the public FNMT-RCM intermediate from
+  `scripts/commitments/certs/` (downloaded from the certificate's own CA Issuers URL), so TLS
+  verification stays on.
+
 * **Finding: two baselines for the 2030 target.** The Policy Framework states the
   target as −50 % “between 2020 and 2030”, while the Commission's progress charts measure
   it from 2019 (22 800 → 11 400). Both are shown, each with its source.
 * **Reuse:** EU documents under Commission Decision 2011/833/EU (© European Union); UN
   documents are public. Only short quotes are reproduced, with links to the full texts.
-* **Not yet included:** national road safety strategies (27 documents in many languages;
-  to be assessed country by country) and the European Parliament resolution of 6 October
-  2021 on the policy framework. Serious-injury targets are listed but not measured; see §8
+* **Not yet included:** the other national road safety strategies (to be added country by
+  country) and the European Parliament resolution of 6 October 2021 on the policy framework. Serious-injury targets are listed but not measured; see §8
   for why no MAIS3+ series is used.
 
 ## 8. Serious injuries (MAIS3+): assessment, not used
@@ -292,7 +308,6 @@ and claims about them below are to be verified in that assessment.
 | Legislation | National transposition measures (EUR-Lex "national implementing measures") | Coverage and meaning; must not be presented as a compliance assessment |
 | Legislation | Legislative Observatory of the European Parliament (OEIL) | Procedure stages of pending proposals; machine-readable access and reuse terms |
 | Legislation | European Commission road safety pages (DG MOVE) | Which acts are listed as road-safety relevant; suitability as a curation reference |
-| Policy commitments | National road safety strategies of Member States | Availability, languages, targets, comparability |
 | Vision Zero progress | EU road safety KPIs (speed, seat belts, alcohol, etc.; serious injuries assessed in §8) | Which countries report, definitions, machine-readable availability |
 | Coverage | Eurostat data for EFTA and candidate countries (same datasets) | Completeness and comparability per country |
 

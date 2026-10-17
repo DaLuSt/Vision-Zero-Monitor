@@ -33,7 +33,8 @@ on the way to close to zero road deaths by 2050. Live today: the fatality benchm
 from 2019 as in the European Commission's own monitoring (the commitments page also shows
 the 2020 baseline stated in the policy framework), progress made and a clearly labelled analytical straight-line path.
 Not yet covered: the serious-injury half of the objective (assessed: no official EU-wide
-MAIS3+ series exists yet, see DATA_SOURCES §8) and national targets.
+MAIS3+ series exists yet, see DATA_SOURCES §8). National targets are covered for a first set
+of countries on the commitments and country pages.
 
 ### 3. Legislation (live, EU acts)
 
@@ -59,8 +60,10 @@ Valletta conclusions, the 2050 Vision Zero goal, the Stockholm Declaration and U
 measured with the official statistics, the target value and the recorded figures are shown
 next to it, with a chart of EU road deaths against every measurable target.
 
-Next candidates: national road safety strategies and their targets, and serious-injury
-targets once an official EU-wide MAIS3+ series is published.
+National strategies: a first selection (Spain, Poland, Germany, the Netherlands), quoted in
+the original language with an English translation and measured against Eurostat's national
+figures where the document states a baseline. Next candidates: further national strategies,
+and serious-injury targets once an official EU-wide MAIS3+ series is published.
 
 ## Principles (apply to every pillar)
 
@@ -88,7 +91,7 @@ targets once an official EU-wide MAIS3+ series is published.
 | R2 ✅ | Data model and schema for legal acts and their lifecycle events | R1 |
 | R3 ✅ | Register of EU road safety acts (EuroVoc selection + curated additions), with pipeline validation | R2 |
 | R4 ✅ | "Legislation" page: register, proposals, deadlines, links to official texts (timeline view to follow) | R3 |
-| R5 ✅ | Source assessment for policy commitments (EU framework, declarations; national strategies to follow) | — |
+| R5 ✅ | Source assessment for policy commitments (EU framework, declarations; first national strategies) | — |
 | R6 ✅ | Data model for commitments and targets; link measurable targets to outcome series | R5 |
 | R7 ✅ | "Commitments" page and target-versus-outcome views | R6 |
 | R8 | Serious injuries and EU KPI data, where comparable official data exist (serious injuries assessed: not yet available) | Source assessment |

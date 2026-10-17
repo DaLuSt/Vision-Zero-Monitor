@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import App from '../../App';
 import { makeDataset } from '../../test/fixtures';
 import { makeLegislation } from '../../test/legislationFixture';
-import { makeCommitments } from '../../test/commitmentsFixture';
+import { makeCommitments, makeCommitmentsWithNational } from '../../test/commitmentsFixture';
 
 afterEach(() => { window.location.hash = ''; vi.useRealTimers(); });
 
@@ -39,6 +39,17 @@ describe('Country page', () => {
     expect(await within(section).findByRole('link', { name: 'Halve road deaths and serious injuries by 2030' })).toHaveAttribute('href', '#/commitments');
     expect(within(section).queryByText('Second Decade of Action for Road Safety')).not.toBeInTheDocument(); // global, not EU
     expect(within(section).getByText(/apply to the EU as a whole/)).toBeInTheDocument();
+  });
+
+  it('shows the national strategy and its target when the site covers it', async () => {
+    window.location.hash = '#/countries/NL';
+    await new Promise((r) => setTimeout(r, 0));
+    render(<App load={() => Promise.resolve(makeDataset())} loadRegister={() => Promise.resolve(makeLegislation())}
+      loadPledges={() => Promise.resolve(makeCommitmentsWithNational())} />);
+    const section = await screen.findByRole('region', { name: 'Commitments covering the Netherlands' });
+    expect(await within(section).findByRole('link', { name: 'Teststrategie' })).toHaveAttribute('href', 'https://example.org/spv.pdf');
+    expect(within(section).getByText(/target value 300 road deaths in 2030/)).toBeInTheDocument();
+    expect(within(section).queryByText(/not yet covered by this site/)).not.toBeInTheDocument();
   });
 
   it('lists upcoming transposition deadlines without judging compliance', async () => {

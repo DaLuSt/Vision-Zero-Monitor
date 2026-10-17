@@ -402,6 +402,9 @@ tbody th { font-weight: 500; }
   margin: 0 0 4px; padding: 8px 14px; border-left: 3px solid var(--accent); background: var(--surface-2);
 }
 .commitment__quote blockquote p, .commitment__more blockquote p { margin: 0; overflow-wrap: anywhere; }
+.commitment__translation p { margin: 4px 0 2px; }
+.commitment__translation blockquote { margin: 0 0 4px; padding: 6px 14px; border-left: 3px dashed var(--axis); }
+.commitment__translation blockquote p { margin: 0; overflow-wrap: anywhere; }
 .commitment__more { margin: 0 0 8px; }
 .commitment__more summary { cursor: pointer; color: var(--accent); font-size: 0.875rem; }
 .target { border-top: 1px solid var(--grid); padding-top: 10px; margin-top: 10px; }
