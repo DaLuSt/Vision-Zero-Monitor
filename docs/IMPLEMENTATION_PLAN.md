@@ -49,7 +49,7 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ Playwright smoke tests, run in CI on desktop and mobile viewports.
 * ✅ Automated accessibility scan: axe (WCAG 2.1 A/AA) on all 12 pages, light and dark, desktop and mobile, in CI (`e2e/a11y.spec.ts`). First run found wide tables and code blocks that keyboard users could not scroll on phones; fixed (focusable, labelled scroll areas).
 * 🔜 Manual accessibility audit with a screen reader (NVDA/VoiceOver) and keyboard only.
-* 🔜 Manual mobile review on real devices.
+* ✅ Manual review on real devices (17 Oct 2026): Android (Chrome) and desktop browsers by the maintainer, iPhone (Safari) by a second tester; no problems found.
 * 🔜 Independent data-integrity review of displayed figures against Eurostat data browser ([checklist](DATA_REVIEW_CHECKLIST.md)).
 * ✅ Public URL `https://dalust.github.io/Vision-Zero-Monitor/` serves the site (checked in Chromium after the rename).
 * ✅ Relative asset URLs, so renames and custom domains do not require reconfiguration.
