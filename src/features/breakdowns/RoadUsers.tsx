@@ -13,6 +13,7 @@ import { downloadChartPng, downloadText, slug } from '../../lib/exportChart';
 import { StatusBadge } from '../../components/StatusBadge';
 import { EmptyState, Notice } from '../../components/States';
 import { MultiSeriesChart, sourceLine, type ChartSeries } from '../charts/MultiSeriesChart';
+import { scrollArea } from '../../lib/scrollArea';
 
 // A custom shape keeps zero-value bars (Recharts drops zero-size default bars), so a category with 0 deaths
 // still gets its "0 · 0.0%" label.
@@ -145,7 +146,7 @@ function DimensionSection({ data, bd, dim, geo, geoName }: {
       <div className="breakdown-grid">
         <CategoryBars rows={rows} ordinal={dim.ordinal === true} title={`Road deaths by ${dim.label.toLowerCase()}: ${geoName}`}
           subtitle={`${latest} · ${fmtInt(total)} deaths`} source={source} />
-        <div className="table-scroll">
+        <div {...scrollArea(`Road deaths by ${dim.label.toLowerCase()}, ${geoName}`)}>
           <table className="data-table">
             <caption className="visually-hidden">Road deaths by {dim.label.toLowerCase()}, {geoName}, {latest} compared with 2019</caption>
             <thead>

@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software or its published data files, please cite it as below.
+  For individual figures, cite the official source first (for example Eurostat,
+  dataset tran_sf_roadus).
+type: software
+title: "Vision Zero Monitor: EU road safety statistics, legislation and commitments"
+abstract: >-
+  An open, static website and data pipelines that bring together official EU road
+  safety statistics (Eurostat, CARE), EU road safety legislation (EUR-Lex metadata)
+  and EU and global road safety commitments, with full provenance for every value.
+  Missing values are published as null, never estimated.
+authors:
+  - family-names: Steur
+    given-names: Daan
+version: 1.0.0
+date-released: "2026-10-17"
+license: MIT
+repository-code: "https://github.com/DaLuSt/Vision-Zero-Monitor"
+url: "https://dalust.github.io/Vision-Zero-Monitor/"
+keywords:
+  - road safety
+  - Vision Zero
+  - European Union
+  - Eurostat
+  - open data
+  - traffic fatalities

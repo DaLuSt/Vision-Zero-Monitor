@@ -9,6 +9,7 @@ import { describeSeries } from '../../lib/summary';
 import { chartCsv, INDEX_BASE, MEASURES, wideRows, type Measure, type WideRow } from '../../lib/chartData';
 import { downloadChartPng, downloadText, resolveColor, slug } from '../../lib/exportChart';
 import { StatusBadge } from '../../components/StatusBadge';
+import { scrollArea } from '../../lib/scrollArea';
 
 export interface ChartSeries {
   geo: string;
@@ -193,7 +194,7 @@ export function MultiSeriesChart({ title, subtitle: subtitleOverride, source = S
       {hasData && (
         <details className="chart__table">
           <summary>Show data table</summary>
-          <div className="table-scroll">
+          <div {...scrollArea(`Data table: ${title}`)}>
             <table>
               <caption className="visually-hidden">{title}: {subtitle}</caption>
               <thead>

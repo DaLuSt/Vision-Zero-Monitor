@@ -1,5 +1,6 @@
 import { DATA_BASE } from '../../lib/data';
 import { REPO_URL } from '../../lib/site';
+import { scrollArea } from '../../lib/scrollArea';
 
 const SITE_DATA_URL = 'https://dalust.github.io/Vision-Zero-Monitor/data/';
 const SCHEMA_URL = `${REPO_URL}/blob/main/schemas`;
@@ -82,7 +83,7 @@ export function DataFiles() {
         version is kept in the <a href={`${REPO_URL}/commits/main/public/data`}>Git history</a>. Each file has a{' '}
         <a href={SCHEMA_URL}>JSON Schema</a> that the pipeline validates before publishing.
       </p>
-      <div className="table-scroll">
+      <div {...scrollArea('Published data files')}>
         <table className="data-files">
           <caption className="visually-hidden">Published data files</caption>
           <thead>
@@ -112,9 +113,9 @@ export function DataFiles() {
 
       <h3>Examples</h3>
       <p>Python (standard library only):</p>
-      <pre className="code-block"><code>{PYTHON}</code></pre>
+      <pre {...scrollArea('Python example', 'code-block')}><code>{PYTHON}</code></pre>
       <p>R:</p>
-      <pre className="code-block"><code>{R}</code></pre>
+      <pre {...scrollArea('R example', 'code-block')}><code>{R}</code></pre>
 
       <h3>Reuse and citation</h3>
       <p>
