@@ -23,8 +23,8 @@ trends since 1999, and breakdowns by road user and mode of transport. Source: Eu
 (CARE data from DG MOVE) and Eurostat population data. Coverage: EU-27.
 
 Next candidates, each requiring its own source assessment: age and sex breakdowns, road
-type (urban/rural/motorway), regional (NUTS 2) figures, serious injuries (MAIS3+, where
-comparable), and coverage of EFTA and candidate countries.
+type (urban/rural/motorway), regional (NUTS 2) figures, and coverage of EFTA and
+candidate countries.
 
 ### 2. Progress towards Vision Zero (live, fatalities only)
 
@@ -32,7 +32,8 @@ The EU objective of halving road deaths **and** serious injuries between 2020 an
 on the way to close to zero road deaths by 2050. Live today: the fatality benchmark measured
 from 2019 as in the European Commission's own monitoring (the commitments page also shows
 the 2020 baseline stated in the policy framework), progress made and a clearly labelled analytical straight-line path.
-Not yet covered: the serious-injury half of the objective and national targets.
+Not yet covered: the serious-injury half of the objective (assessed: no official EU-wide
+MAIS3+ series exists yet, see DATA_SOURCES §8) and national targets.
 
 ### 3. Legislation (live, EU acts)
 
@@ -59,7 +60,7 @@ measured with the official statistics, the target value and the recorded figures
 next to it, with a chart of EU road deaths against every measurable target.
 
 Next candidates: national road safety strategies and their targets, and serious-injury
-targets once comparable MAIS3+ data are covered.
+targets once an official EU-wide MAIS3+ series is published.
 
 ## Principles (apply to every pillar)
 
@@ -90,7 +91,7 @@ targets once comparable MAIS3+ data are covered.
 | R5 ✅ | Source assessment for policy commitments (EU framework, declarations; national strategies to follow) | — |
 | R6 ✅ | Data model for commitments and targets; link measurable targets to outcome series | R5 |
 | R7 ✅ | "Commitments" page and target-versus-outcome views | R6 |
-| R8 | Serious injuries and EU KPI data, where comparable official data exist | Source assessment |
+| R8 | Serious injuries and EU KPI data, where comparable official data exist (serious injuries assessed: not yet available) | Source assessment |
 | R9 | Coverage beyond the EU-27 (EFTA, candidate countries) | Source assessment |
 
 Progress on these steps is tracked in [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md).

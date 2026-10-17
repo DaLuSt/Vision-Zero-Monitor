@@ -201,7 +201,8 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
   it does not assess Member State compliance. Its selection follows the Publications
   Office's “road safety” indexing plus a short curated list.
 * Policy commitments cover EU and global documents; national road safety strategies are not
-  yet included, and serious-injury targets cannot be measured until MAIS3+ data are covered.
+  yet included, and serious-injury targets cannot be measured: no official EU-wide MAIS3+ series exists yet
+  (see [DATA_SOURCES.md](docs/DATA_SOURCES.md) §8).
 
 ## Contributing
 

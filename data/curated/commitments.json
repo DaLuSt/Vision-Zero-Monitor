@@ -65,7 +65,7 @@
      "baseline_year": 2020,
      "target_year": 2030,
      "measure": null,
-     "not_measured_reason": "Comparable serious-injury (MAIS3+) figures are not yet included in this dashboard.",
+     "not_measured_reason": "No official EU-wide series of serious injuries (MAIS3+) exists to measure this. The Commission only estimates about 100,000 a year as five per road death, and national MAIS3+ figures are incomplete; police-reported figures use other definitions.",
      "scope_note": null,
      "monitoring_baselines": []
     }
@@ -169,7 +169,7 @@
      "baseline_year": 2020,
      "target_year": 2030,
      "measure": null,
-     "not_measured_reason": "Comparable serious-injury (MAIS3+) figures are not yet included in this dashboard.",
+     "not_measured_reason": "No official EU-wide series of serious injuries (MAIS3+) exists to measure this. The Commission only estimates about 100,000 a year as five per road death, and national MAIS3+ figures are incomplete; police-reported figures use other definitions.",
      "scope_note": null,
      "monitoring_baselines": []
     }

@@ -270,8 +270,8 @@ legally binding. The text says so for each entry, in the source's own terms (for
 **Targets.** Each commitment lists its targets as stated: indicator (road deaths or serious
 injuries), reduction, baseline year and target year. A target is **measured** only when it
 can be compared with the official statistics on this site: road deaths, EU-27, with an
-official figure for the baseline year. Otherwise the reason is shown (for example: serious
-injuries are not yet covered; a global goal; no baseline year stated).
+official figure for the baseline year. Otherwise the reason is shown (for example: no official
+EU-wide serious-injury (MAIS3+) series exists, see DATA_SOURCES §8; a global goal; no baseline year stated).
 
 | Quantity | Definition |
 | --- | --- |

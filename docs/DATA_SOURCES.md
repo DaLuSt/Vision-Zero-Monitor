@@ -17,6 +17,8 @@ responses, which are saved in `tests/fixtures/eurostat_2026-10-14/` and
 | ERSO "Data and analysis" `.xlsx` (`fatalities_per_pop_2010-24_public`) | ⚠️ manual download | ✅ | Final (CARE) | Annual | ✅ | Not used (duplicates CARE data in Eurostat) |
 | CARE database (raw) | ❌ restricted access | ✅ | — | — | — | Not used |
 | Publications Office Cellar SPARQL (EUR-Lex metadata) | ✅ SPARQL (JSON results) | ✅ | Lifecycle status as recorded | Updated continuously | n/a (EU law) | **Legislation register** |
+| ERSO annual statistical report 2026, Table 4 (MAIS3+) | ❌ PDF only | ✅ | Final (CARE) | Annual | ❌ 18 of 27 MS, gaps, no EU total | Not used (see §8) |
+| ERSO annual report `.xlsx`, column “Seriously Injured” | ⚠️ manual download | ✅ | Final (CARE) | Annual | ❌ national police definitions | Not used (not MAIS3+) |
 
 ## 1. Eurostat — `tran_sf_roadus` (primary)
 
@@ -204,9 +206,54 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
 * **Reuse:** EU documents under Commission Decision 2011/833/EU (© European Union); UN
   documents are public. Only short quotes are reproduced, with links to the full texts.
 * **Not yet included:** national road safety strategies (27 documents in many languages;
-  to be assessed country by country), the European Parliament resolution of 6 October
-  2021 on the policy framework, and serious-injury figures (MAIS3+) needed to measure the
-  serious-injury targets.
+  to be assessed country by country) and the European Parliament resolution of 6 October
+  2021 on the policy framework. Serious-injury targets are listed but not measured; see §8
+  for why no MAIS3+ series is used.
+
+## 8. Serious injuries (MAIS3+): assessment, not used
+
+Assessed in October 2026 (issue #19) to measure the serious-injury half of the 2030 target
+(−50 % serious injuries 2020–2030). **Outcome: no source is suitable, so no serious-injury
+series is published and the serious-injury targets stay “not measured”.**
+
+* **Definition.** The EU uses MAIS3+: a casualty whose most severe injury scores 3 or more
+  on the Abbreviated Injury Scale, normally derived from hospital records. Police-reported
+  “seriously injured” figures use national definitions (in principle hospitalised for at
+  least 24 hours) and are a different, non-comparable measure; this site must not mix them in.
+* **EU-wide figure.** There is no official measured EU MAIS3+ series. The Commission's
+  news release of 24 March 2026 (“EU road deaths drop by 3% in 2025”,
+  https://transport.ec.europa.eu/news-events/news/eu-road-deaths-drop-3-2025-2026-03-24_en)
+  states: “For every fatality, an estimated five people are seriously injured. This means
+  that around 100,000 people across the EU suffer serious injuries in road crashes each
+  year.” That is a ratio applied to road deaths, not a count, so it cannot show whether
+  serious injuries have fallen.
+* **National MAIS3+ figures.** The *Annual statistical report on road safety in the EU 2026*
+  (ERSO; PDF dated 10 June 2026,
+  https://road-safety.transport.ec.europa.eu/statistics-and-analysis/data-and-analysis/annual-statistical-report_en)
+  has Table 4 “Absolute number of MAIS3+ causalities per country”, 2019–2024, source CARE.
+  Why it is not used:
+  * **PDF only.** The accompanying `Excel_Data_AnnualReport-2026.xlsx` does not contain it.
+  * **Coverage.** 18 Member States appear, most only to 2022 or 2023, with no EU total. The
+    missing countries are Bulgaria, Czechia, Denmark, Greece, Croatia, Hungary, Malta,
+    Poland and Slovakia.
+  * **Internal inconsistencies.** The table includes Latvia, Luxembourg and Slovenia, which
+    the note under it lists as having no MAIS3+ data. Romania's and Latvia's figures are
+    identical to their police-reported figures in Table 3 (Romania 2021–2023: 3 796,
+    3 690, 3 247).
+  * **Breaks in series.** Sweden has a break in 2022 (hospital reporting became mandatory
+    in June 2021), and Romania reports only from 2021, after the 2020 baseline.
+  * **Methods differ.** Member States estimate MAIS3+ by different methods (hospital
+    linkage, conversion factors), and the report itself warns that definitions vary.
+* **Police-reported “seriously injured”.** The same workbook's `Overview` sheet (column
+  “Seriously Injured”) and the report's Table 3 hold police-reported figures under national
+  definitions. For example, Germany reports about 50 000–68 000 a year against a MAIS3+
+  estimate of 12 000–15 000. The report omits an EU total “due to missing data”. These
+  figures are not used.
+* **Eurostat.** No Eurostat dataset holds MAIS3+ figures. `tran_r_acci` (victims by NUTS 2
+  region) counts police-reported injured persons and is not a MAIS3+ series.
+* **Revisit when:** the Commission publishes a measured EU MAIS3+ series, or a
+  machine-readable national table with a stated method and coverage of the 2019/2020
+  baseline. Re-check each spring with the new annual statistical report.
 
 ## Candidate sources for planned pillars (not yet assessed)
 
@@ -220,7 +267,7 @@ and claims about them below are to be verified in that assessment.
 | Legislation | Legislative Observatory of the European Parliament (OEIL) | Procedure stages of pending proposals; machine-readable access and reuse terms |
 | Legislation | European Commission road safety pages (DG MOVE) | Which acts are listed as road-safety relevant; suitability as a curation reference |
 | Policy commitments | National road safety strategies of Member States | Availability, languages, targets, comparability |
-| Vision Zero progress | Serious injuries (MAIS3+) and EU road safety KPIs | Which countries report, definitions, machine-readable availability |
+| Vision Zero progress | EU road safety KPIs (speed, seat belts, alcohol, etc.; serious injuries assessed in §8) | Which countries report, definitions, machine-readable availability |
 | Coverage | Eurostat data for EFTA and candidate countries (same datasets) | Completeness and comparability per country |
 
 ## Provenance in the published files

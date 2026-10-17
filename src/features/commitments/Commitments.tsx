@@ -188,7 +188,7 @@ export function CommitmentsView({ data, doc }: { data: Dataset; doc: Commitments
         <Notice>
           None of these commitments is legally binding. Each quote was checked against the official document
           on {fmtDate(doc.reviewed_at)}. Figures are Eurostat's official road deaths for the current EU-27; the site does
-          not judge whether a target is “on track”. Serious-injury targets cannot be measured here yet.
+          not judge whether a target is “on track”. Serious-injury targets cannot be measured: there is no official EU-wide series of serious injuries (MAIS3+) yet.
         </Notice>
         <dl className="facts">
           <div><dt>Commitments listed</dt><dd>{fmtInt(doc.summary.commitments)}</dd></div>
