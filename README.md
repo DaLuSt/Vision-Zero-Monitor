@@ -6,6 +6,7 @@
 
 [![Deploy to GitHub Pages](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/deploy.yml/badge.svg)](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/deploy.yml)
 [![Update data](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/update-data.yml/badge.svg)](https://github.com/DaLuSt/Vision-Zero-Monitor/actions/workflows/update-data.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23437733.svg)](https://doi.org/10.5281/zenodo.23437733)
 
 Vision Zero is the EU's long-term ambition of moving close to zero road deaths by 2050, with an
 interim objective of halving road deaths and serious injuries between 2020 and 2030.
@@ -215,7 +216,9 @@ principles in [docs/SCOPE.md](docs/SCOPE.md).
 
 Cite the official source of a figure first (for example Eurostat `tran_sf_roadus`). To cite
 this project, use [`CITATION.cff`](CITATION.cff) (GitHub: “Cite this repository”). Each GitHub
-release is archived on Zenodo with a DOI.
+release is archived on Zenodo with a DOI: version 1.0.0 is
+[10.5281/zenodo.23437734](https://doi.org/10.5281/zenodo.23437734), and
+[10.5281/zenodo.23437733](https://doi.org/10.5281/zenodo.23437733) always points to the latest version.
 
 ## License
 

@@ -15,6 +15,14 @@ authors:
     given-names: Daan
 version: 1.0.0
 date-released: "2026-10-17"
+doi: 10.5281/zenodo.23437733
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23437733
+    description: Concept DOI, all versions (resolves to the latest release)
+  - type: doi
+    value: 10.5281/zenodo.23437734
+    description: Version 1.0.0
 license: MIT
 repository-code: "https://github.com/DaLuSt/Vision-Zero-Monitor"
 url: "https://dalust.github.io/Vision-Zero-Monitor/"
