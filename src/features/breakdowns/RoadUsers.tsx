@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, LabelList, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import type { BarShapeProps } from 'recharts';
 import type { BreakdownDimension, Breakdowns, Dataset } from '../../types/data';
 import { EU } from '../../lib/indicators';
 import {
@@ -12,6 +13,10 @@ import { downloadChartPng, downloadText, slug } from '../../lib/exportChart';
 import { StatusBadge } from '../../components/StatusBadge';
 import { EmptyState, Notice } from '../../components/States';
 import { MultiSeriesChart, sourceLine, type ChartSeries } from '../charts/MultiSeriesChart';
+
+// A custom shape keeps zero-value bars (Recharts drops zero-size default bars), so a category with 0 deaths
+// still gets its "0 · 0.0%" label.
+const barShape = (props: BarShapeProps) => <Rectangle {...props} />;
 
 type TrendMeasure = Extract<Measure, 'deaths' | 'share' | 'index'>;
 const TREND_MEASURES: { id: TrendMeasure; label: string }[] = [
@@ -55,10 +60,10 @@ function CategoryBars({ rows, title, subtitle, source }: { rows: CategoryRow[]; 
               axisLine={{ stroke: 'var(--axis)' }} tickFormatter={(v: number) => fmtInt(v)} />
             <YAxis type="category" dataKey="label" width={150} tickLine={false} axisLine={false}
               tick={{ fill: 'var(--text)', fontSize: 12 }} />
-            <Tooltip cursor={{ fill: 'var(--surface-2)' }} formatter={(v: number) => [fmtInt(v), 'Deaths']}
+            <Tooltip cursor={{ fill: 'var(--surface-2)' }} formatter={(v) => [fmtInt(typeof v === 'number' ? v : null), 'Deaths']}
               labelFormatter={(_, p) => (p?.[0]?.payload as CategoryRow | undefined)?.label ?? ''}
               contentStyle={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13 }} />
-            <Bar dataKey="value" fill="var(--series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false}>
+            <Bar dataKey="value" fill="var(--series-1)" radius={[0, 4, 4, 0]} isAnimationActive={false} shape={barShape}>
               <LabelList dataKey="valueLabel" position="right" fontSize={12} fill="var(--text)" />
             </Bar>
           </BarChart>
