@@ -3,6 +3,7 @@ import type { Dataset, IndicatorId, Status } from '../../types/data';
 import { downloadCsv } from '../../lib/csv';
 import { fmtInt, fmtRate, STATUS_LABEL } from '../../lib/format';
 import { StatusBadge } from '../../components/StatusBadge';
+import { scrollArea } from '../../lib/scrollArea';
 
 const PAGE_SIZE = 50;
 
@@ -87,7 +88,7 @@ export function DataExplorer({ data }: { data: Dataset }) {
       {filtered.length === 0 ? (
         <p className="state state--empty">No observations match these filters.</p>
       ) : (
-        <div className="table-scroll">
+        <div {...scrollArea('Filtered observations')}>
           <table className="data-table">
             <caption className="visually-hidden">Filtered observations</caption>
             <thead>

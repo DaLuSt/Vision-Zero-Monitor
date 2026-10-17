@@ -7,6 +7,7 @@ import {
   todayIso, typeOptions, upcomingDeadlines, type ActFilters, type ActStatusFilter, type BasisFilter,
 } from '../../lib/legislation';
 import { EmptyState, Notice } from '../../components/States';
+import { scrollArea } from '../../lib/scrollArea';
 
 const PAGE = 20;
 const EURLEX_SEARCH = 'https://eur-lex.europa.eu/';
@@ -161,7 +162,7 @@ function ProposalRow({ p, targets }: { p: Proposal; targets: LegalAct[] }) {
 
 function ProposalTable({ caption, rows, targets }: { caption: string; rows: Proposal[]; targets: Map<string, LegalAct[]> }) {
   return (
-    <div className="table-scroll">
+    <div {...scrollArea(caption)}>
       <table>
         <caption className="visually-hidden">{caption}</caption>
         <thead><tr><th scope="col">Proposal</th><th scope="col">Sent</th><th scope="col">Subject</th></tr></thead>
@@ -273,7 +274,7 @@ export function LegislationView({ doc, today }: { doc: Register; today: string }
         <section className="panel" aria-labelledby="deadlines-heading">
           <h2 id="deadlines-heading">Upcoming transposition deadlines</h2>
           <p className="small muted">Dates by which Member States must bring national law into line with a directive, as recorded in EUR-Lex.</p>
-          <div className="table-scroll">
+          <div {...scrollArea('Upcoming transposition deadlines')}>
             <table>
               <thead><tr><th scope="col">Deadline</th><th scope="col">Directive</th></tr></thead>
               <tbody>

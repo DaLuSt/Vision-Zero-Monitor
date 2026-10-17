@@ -4,6 +4,7 @@ import { countryRows, sortRows, type SortDir, type SortKey } from '../../lib/ind
 import { fmtInt, fmtPct, fmtRate } from '../../lib/format';
 import { StatusBadge } from '../../components/StatusBadge';
 import { Notice } from '../../components/States';
+import { scrollArea } from '../../lib/scrollArea';
 
 const COLUMNS: { key: SortKey; label: string; numeric: boolean }[] = [
   { key: 'name', label: 'Country', numeric: false },
@@ -48,7 +49,7 @@ export function CountryTable({ data }: { data: Dataset }) {
           (marked ◇).
         </p>
       )}
-      <div className="table-scroll">
+      <div {...scrollArea('Road deaths by EU Member State')}>
         <table className="data-table">
           <caption className="visually-hidden">
             Road deaths by EU Member State, sorted by {COLUMNS.find((c) => c.key === sort.key)?.label} ({sort.dir === 'asc' ? 'ascending' : 'descending'})

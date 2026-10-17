@@ -6,6 +6,7 @@ import type { Point } from '../../lib/indicators';
 import { isQualified, STATUS_LABEL } from '../../lib/format';
 import { describeSeries } from '../../lib/summary';
 import { StatusBadge } from '../../components/StatusBadge';
+import { scrollArea } from '../../lib/scrollArea';
 
 export interface Benchmark {
   baselinePeriod: string;
@@ -140,7 +141,7 @@ export function SeriesChart({ title, subject, points, unitLabel, format, baselin
       <p id={`${id}-summary`} className="chart__summary">{summary}</p>
       <details className="chart__table">
         <summary>Show data table</summary>
-        <div className="table-scroll">
+        <div {...scrollArea(`Data table: ${title}`)}>
           <table>
             <caption className="visually-hidden">{title}</caption>
             <thead>

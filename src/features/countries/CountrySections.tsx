@@ -5,6 +5,7 @@ import { categoryRows, getDimension, latestCompletePeriod } from '../../lib/brea
 import { euComparison, inSentence, rankPhrase } from '../../lib/country';
 import { actCitation, actSubject, todayIso, upcomingDeadlines } from '../../lib/legislation';
 import { FORM_LABEL } from '../../lib/commitments';
+import { scrollArea } from '../../lib/scrollArea';
 
 type Loaded<T> = { kind: 'loading' } | { kind: 'error' } | { kind: 'ready'; doc: T };
 
@@ -51,7 +52,7 @@ export function WhoDies({ data, geo, name }: { data: Dataset; geo: string; name:
       <h2 id="who-heading">Who dies on the roads in {inSentence(name)}</h2>
       <div className="breakdown-grid">
         {dims.map(({ dim, period, rows }) => (
-          <div key={dim.id} className="table-scroll">
+          <div key={dim.id} {...scrollArea(`By ${dim.label.toLowerCase()}`)}>
             {period ? (
               <table>
                 <caption className="small">By {dim.label.toLowerCase()}, {period}</caption>

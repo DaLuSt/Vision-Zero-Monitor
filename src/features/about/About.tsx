@@ -52,9 +52,14 @@ export function About() {
         this site:
       </p>
       <blockquote className="citation">
-        Vision Zero Monitor. <em>EU road safety statistics and legislation</em>.
-        https://dalust.github.io/Vision-Zero-Monitor/ (accessed [date]).
+        Steur, D. (2026). <em>Vision Zero Monitor: EU road safety statistics, legislation and commitments</em> (version
+        1.0.0) [software and data]. https://dalust.github.io/Vision-Zero-Monitor/ (accessed [date]).
       </blockquote>
+      <p>
+        Each release of the code and data files is archived on Zenodo. The repository's{' '}
+        <a href={`${REPO_URL}/blob/main/CITATION.cff`}>citation file</a> gives the details in a machine-readable
+        form; on GitHub, use “Cite this repository”.
+      </p>
 
       <h3>Privacy</h3>
       <p>

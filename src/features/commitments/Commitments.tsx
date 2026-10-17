@@ -9,6 +9,7 @@ import {
 } from '../../lib/commitments';
 import { Notice } from '../../components/States';
 import { DOCS_URL } from '../../lib/site';
+import { scrollArea } from '../../lib/scrollArea';
 
 type State = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; doc: CommitmentsDoc };
 
@@ -62,7 +63,7 @@ function TargetChart({ data, doc }: { data: Dataset; doc: CommitmentsDoc }) {
         </p>
         <details className="chart__table">
           <summary>Show data table</summary>
-          <div className="table-scroll">
+          <div {...scrollArea(`Data table: ${title}`)}>
             <table>
               <caption className="visually-hidden">{title}</caption>
               <thead><tr><th scope="col">Year</th><th scope="col" className="num">Road deaths</th>
@@ -104,7 +105,7 @@ function TargetBlock({ t }: { t: CommitmentTarget }) {
     <div className="target">
       <h4 className="target__title">{t.description}</h4>
       {t.outcomes.length > 0 && (
-        <div className="table-scroll">
+        <div {...scrollArea(`${t.description}: target value and official figures`)}>
           <table className="target__table">
             <caption className="visually-hidden">{t.description}: target value and official figures</caption>
             <thead>

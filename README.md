@@ -141,7 +141,7 @@ scripts/ci/          failure-alert script used by the weekly workflow
 public/data/         published, validated JSON (versioned in Git)
 src/                 React app (components/, features/, lib/, types/)
 tests/               pytest suite + saved Eurostat and SPARQL responses
-e2e/                 Playwright smoke tests
+e2e/                 Playwright smoke tests and axe accessibility scans
 ```
 
 ## Deployment (GitHub Pages)
@@ -210,6 +210,12 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
 Issues and pull requests are welcome. New data sources need a source assessment in
 [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) and, for the planned pillars, must follow the
 principles in [docs/SCOPE.md](docs/SCOPE.md).
+
+## Citing
+
+Cite the official source of a figure first (for example Eurostat `tran_sf_roadus`). To cite
+this project, use [`CITATION.cff`](CITATION.cff) (GitHub: “Cite this repository”). Each GitHub
+release is archived on Zenodo with a DOI.
 
 ## License
 

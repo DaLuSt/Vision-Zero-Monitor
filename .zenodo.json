@@ -1,0 +1,11 @@
+{
+  "title": "Vision Zero Monitor: EU road safety statistics, legislation and commitments",
+  "upload_type": "software",
+  "description": "<p>An open, static website and data pipelines that bring together official EU road safety statistics (Eurostat, CARE), EU road safety legislation (EUR-Lex metadata) and EU and global road safety commitments, with full provenance for every value. Missing values are published as null, never estimated.</p><p>Each release archives the code and the versioned data files in <code>public/data/</code>. The statistics remain © European Union (Eurostat), reused under Commission Decision 2011/833/EU; cite the official source of a figure first. Live site: <a href=\"https://dalust.github.io/Vision-Zero-Monitor/\">dalust.github.io/Vision-Zero-Monitor</a>.</p>",
+  "creators": [{"name": "Steur, Daan"}],
+  "license": "MIT",
+  "keywords": ["road safety", "Vision Zero", "European Union", "Eurostat", "open data", "traffic fatalities"],
+  "related_identifiers": [
+    {"identifier": "https://dalust.github.io/Vision-Zero-Monitor/", "relation": "isDocumentedBy", "resource_type": "other"}
+  ]
+}
