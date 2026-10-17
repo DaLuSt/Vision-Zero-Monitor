@@ -54,6 +54,7 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ Public URL `https://dalust.github.io/Vision-Zero-Monitor/` serves the site (checked in Chromium after the rename).
 * ✅ Relative asset URLs, so renames and custom domains do not require reconfiguration.
 * ✅ Citation metadata (`CITATION.cff`, `.zenodo.json`); releases are archived on Zenodo with a DOI. Release 1.0.0 (17 Oct 2026): [10.5281/zenodo.23437734](https://doi.org/10.5281/zenodo.23437734); all versions: [10.5281/zenodo.23437733](https://doi.org/10.5281/zenodo.23437733).
+* ✅ Release workflow: by hand, or automatically when a new reference year is published; CI on `main` gates every release.
 
 ## Milestone 6 — Breakdowns ✅
 

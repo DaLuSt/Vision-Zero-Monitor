@@ -1,4 +1,4 @@
-import { DOCS_URL, DOI_ALL, DOI_V1, ISSUES_URL, MAINTAINER_LINKEDIN_URL, MAINTAINER_URL, REPO_URL } from '../../lib/site';
+import { DOCS_URL, DOI_ALL, ISSUES_URL, MAINTAINER_LINKEDIN_URL, MAINTAINER_URL, REPO_URL } from '../../lib/site';
 
 export function About() {
   return (
@@ -52,12 +52,12 @@ export function About() {
         this site:
       </p>
       <blockquote className="citation">
-        Steur, D. (2026). <em>Vision Zero Monitor: EU road safety statistics, legislation and commitments</em> (version
-        1.0.0) [software and data]. Zenodo. <a href={`https://doi.org/${DOI_V1}`}>https://doi.org/{DOI_V1}</a>
+        Steur, D. (2026). <em>Vision Zero Monitor: EU road safety statistics, legislation and commitments</em> [software
+        and data]. Zenodo. <a href={`https://doi.org/${DOI_ALL}`}>https://doi.org/{DOI_ALL}</a>
       </blockquote>
       <p>
-        Each release of the code and data files is archived on Zenodo with its own DOI;{' '}
-        <a href={`https://doi.org/${DOI_ALL}`}>doi.org/{DOI_ALL}</a> always points to the latest version. The repository's{' '}
+        This DOI always points to the latest release. Every release of the code and data files is archived on Zenodo with
+        its own DOI, so you can also cite the exact version you used (listed on the Zenodo page). The repository's{' '}
         <a href={`${REPO_URL}/blob/main/CITATION.cff`}>citation file</a> gives the details in a machine-readable
         form; on GitHub, use “Cite this repository”.
       </p>

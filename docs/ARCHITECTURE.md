@@ -58,6 +58,9 @@ Vision Zero Monitor on 2026-10-15; the old repository URL redirects to the new o
           │
           ▼
  Public static dashboard  (React; reads ./data/*.json at runtime)
+          │  only when the latest reference year changed
+          ▼
+ release.yml (workflow_call)         CI on main → version bump → tag + GitHub release → Zenodo DOI
 ```
 
 The legislation register runs as a separate, independent step in the same workflow:
@@ -146,6 +149,10 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
   workflow only when data changed (pushes made with `GITHUB_TOKEN` do not
   trigger other workflows, so there is no double deploy). Human pushes to `main`
   trigger `deploy.yml` directly.
+* **Releases:** `release.yml` (manual, or called by `update-data` after a deploy that
+  brought a new reference year) runs `ci.yml` on the tip of `main`, bumps the version
+  in `CITATION.cff` and `package.json`, commits, tags and publishes a GitHub release.
+  Zenodo archives each release with its own DOI (metadata from `.zenodo.json`).
 * **First deployment:** a real, validated dataset is committed in the repository,
   so the very first deploy works before any scheduled run.
 * **Failure isolation:** the build only ever reads committed data; a failed

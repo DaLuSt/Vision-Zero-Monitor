@@ -24,6 +24,8 @@ jobs:
       message: ${{ steps.pipeline.outputs.message }}
       legislation: ${{ steps.legislation.outputs.legislation_outcome }}
       commitments: ${{ steps.commitments.outputs.commitments_outcome }}
+      new_year: ${{ steps.year.outputs.new_year }}
+      latest_period: ${{ steps.year.outputs.latest_period }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -34,6 +36,10 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock
       - run: pip install -r requirements.lock
+
+      - name: Record the latest reference year before the update
+        id: before
+        run: echo "latest_period=$(python3 -c "import json; print(json.load(open('public/data/latest.json'))['latest_period'] or '')" 2>/dev/null)" >> "$GITHUB_OUTPUT"
 
       - name: Run pipeline (fetch → transform → validate → export)
         id: pipeline
@@ -103,6 +109,23 @@ jobs:
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
+      - name: Detect a new reference year
+        # A new year of official statistics (e.g. Eurostat adding 2025) triggers a release
+        # below, so each data year gets its own citable version and DOI.
+        id: year
+        if: steps.commit.outputs.changed == 'true' && steps.pipeline.outputs.outcome == 'success'
+        env:
+          BEFORE: ${{ steps.before.outputs.latest_period }}
+        run: |
+          after=$(python3 -c "import json; print(json.load(open('public/data/latest.json'))['latest_period'] or '')")
+          echo "latest_period=$after" >> "$GITHUB_OUTPUT"
+          if [ -n "$after" ] && [ "$after" != "$BEFORE" ]; then
+            echo "New reference year: ${BEFORE:-none} → $after"
+            echo "new_year=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "new_year=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Summarise
         if: always()
         run: |
@@ -141,6 +164,17 @@ jobs:
       pages: write
       id-token: write
     uses: ./.github/workflows/deploy.yml
+
+  release:
+    # A minor release once the site shows a new reference year; Zenodo then mints its DOI.
+    needs: [update, deploy]
+    if: needs.update.result == 'success' && needs.deploy.result == 'success' && needs.update.outputs.new_year == 'true'
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release.yml
+    with:
+      bump: minor
+      reason: "Adds the official road safety statistics for ${{ needs.update.outputs.latest_period }}, published by Eurostat."
 
   alert:
     # Opens (or comments on) a "data-refresh-failure" issue when the refresh or its
