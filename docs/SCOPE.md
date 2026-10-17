@@ -19,12 +19,12 @@ source belongs in the project.
 ### 1. Road safety progress (live)
 
 Official, harmonised statistics on road deaths: totals, rates per million inhabitants,
-trends since 1999, and breakdowns by road user and mode of transport. Source: Eurostat
+trends since 1999, and breakdowns by road user, mode of transport, age, sex and type of road. Source: Eurostat
 (CARE data from DG MOVE) and Eurostat population data. Coverage: EU-27.
 
-Next candidates, each requiring its own source assessment: age and sex breakdowns, road
-type (urban/rural/motorway), regional (NUTS 2) figures, and coverage of EFTA and
-candidate countries.
+Next candidates, each requiring its own source assessment: regional (NUTS 2) figures,
+combined breakdowns (e.g. age by mode of transport), and coverage of EFTA and candidate
+countries.
 
 ### 2. Progress towards Vision Zero (live, fatalities only)
 

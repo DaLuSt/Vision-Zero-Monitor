@@ -24,7 +24,7 @@ figure and every claim links back to an official source.
 
 | Pillar | What it covers | Status |
 | --- | --- | --- |
-| **Road safety progress** | Official road deaths for the 27 EU Member States, rates per million, trends since 1999, deaths by road user and mode of transport | ✅ Live |
+| **Road safety progress** | Official road deaths for the 27 EU Member States, rates per million, trends since 1999, deaths by road user, mode of transport, age, sex and type of road | ✅ Live |
 | **Progress towards Vision Zero** | 2030 fatality benchmark (−50 %) measured from 2019 as in the Commission's own monitoring, progress share and an analytical straight-line path | ✅ Live (fatalities only; serious injuries not yet covered) |
 | **Legislation** | EU road safety acts and pending Commission proposals: adoption, entry into force, in-force status, transposition deadlines, amendments and repeals, linked to EUR-Lex | ✅ Live (EU acts) |
 | **Policy commitments** | EU and global targets and declarations, quoted from the official texts and compared with the official figures | ✅ Live (EU and global; national strategies planned) |
@@ -53,7 +53,7 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 | How has this changed? | EU trend chart (1999→), deaths or per million inhabitants |
 | What is the picture for one country? | Country pages (e.g. [Netherlands](https://dalust.github.io/Vision-Zero-Monitor/#/countries/NL)): deaths and rate with the EU comparison and rank, who dies, EU commitments covering the country, upcoming transposition deadlines |
 | Which Member States have the highest rates? | Countries: sortable table + per-country detail |
-| Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users): deaths by road user and by mode of transport, latest year and trends, per country |
+| Who dies: pedestrians, cyclists, motorcyclists…? | [Road users](https://dalust.github.io/Vision-Zero-Monitor/#/road-users): deaths by road user, mode of transport, age, sex and type of road, latest year and trends, per country |
 | How does my country compare? | [Chart builder](https://dalust.github.io/Vision-Zero-Monitor/#/charts): graphs for the EU total and any Member States, for all deaths or one group (e.g. cyclists), as deaths, per million or index 2019 = 100; PNG/CSV download; shareable link |
 | Is the EU on course for 2030? | 2030 benchmark (−50 %) from 2019, progress share, linear analytical path; both baselines (2019 and the stated 2020) on the commitments page |
 | Which EU road safety rules apply, and what is in the pipeline? | [Legislation](https://dalust.github.io/Vision-Zero-Monitor/#/legislation): acts in force, pending Commission proposals, upcoming transposition deadlines, searchable register with links to EUR-Lex |
@@ -64,8 +64,9 @@ every item, and no interpretation presented as fact. See [docs/SCOPE.md](docs/SC
 
 | Dataset | Use |
 | --- | --- |
-| Eurostat [`tran_sf_roadus`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table) (CARE / DG MOVE) | Road deaths, EU27 + Member States; deaths by road user |
+| Eurostat [`tran_sf_roadus`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table) (CARE / DG MOVE) | Road deaths, EU27 + Member States; deaths by road user, age and sex |
 | Eurostat [`tran_sf_roadve`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table) | Deaths by mode of transport |
+| Eurostat [`tran_sf_roadro`](https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadro/default/table) | Deaths by type of road (urban, rural, motorway) |
 | Eurostat [`demo_gind`](https://ec.europa.eu/eurostat/databrowser/view/demo_gind/default/table) (`AVG`) | Average population → rates per million |
 | Eurostat [`sdg_11_40`](https://ec.europa.eu/eurostat/databrowser/view/sdg_11_40/default/table) | Independent cross-check |
 | Official policy documents (Commission, Council, UN; listed in [DATA_SOURCES.md §7](docs/DATA_SOURCES.md)) | Policy commitments: verbatim quotes and targets, curated in `data/curated/commitments.json` |
@@ -129,7 +130,7 @@ scripts/data_pipeline/
   fetch.py           HTTP retrieval (retries, size limit)
   jsonstat.py        defensive JSON-stat parser
   transform.py       normalisation, derived rates, status mapping, summaries
-  breakdowns.py      deaths by road user and mode of transport (grouped, coverage-aware)
+  breakdowns.py      deaths by road user, mode, age, sex and road type (grouped, coverage-aware)
   validate.py        schema, statistical, cross-source and revision checks
   export.py          atomic file writes
   run.py             orchestration / CLI
@@ -193,7 +194,7 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
 * The fatality benchmark does not cover the serious-injury half of the 2030 objective.
 * Eurostat's published EU per-million rate in `tran_sf_roadus` is inconsistent with its
   counts; rates are derived instead (see DATA_SOURCES.md).
-* EU breakdowns by road user and mode of transport are comparable only from 2016.
+* EU breakdowns are comparable only from 2016 (by type of road from 2020: Malta did not report 2019).
 * The dashboard shows the most recent *recorded* pipeline run; unchanged runs are not
   committed (full history is in GitHub Actions).
 * The legislation register covers EU-level acts only. It shows dates and statuses as

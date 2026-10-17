@@ -43,12 +43,46 @@ def test_vehicle_groups_sum_their_source_categories(raw_sources):
     assert at(doc, "EU27_2020", "vehicle", "CAR", "2024")[0] == 8693
 
 
-@pytest.mark.parametrize("dim", ["road_user", "vehicle"])
+@pytest.mark.parametrize("dim", ["road_user", "vehicle", "age", "sex", "road_type"])
 def test_categories_partition_the_total(raw_sources, dim):
     doc, obs = build(raw_sources)
     total = next(o["value"] for o in obs if o["geo"] == "EU27_2020" and o["indicator"] == "road_fatalities" and o["period"] == "2024")
     cats = [c["id"] for d in doc["dimensions"] if d["id"] == dim for c in d["categories"]]
     assert sum(at(doc, "EU27_2020", dim, c, "2024")[0] for c in cats) == total
+
+
+def test_age_sex_and_road_type_match_source(raw_sources):
+    doc, _ = build(raw_sources)
+    assert at(doc, "EU27_2020", "age", "Y_GE65", "2024") == (6106, "unknown")
+    assert at(doc, "EU27_2020", "age", "Y15_17", "2024")[0] == 453  # source code Y15-17
+    assert at(doc, "EU27_2020", "sex", "F", "2024")[0] == 4527
+    assert at(doc, "NL", "sex", "M", "2024")[0] == 391
+    assert at(doc, "EU27_2020", "road_type", "MWAY", "2024")[0] == 1693
+    assert at(doc, "EU27_2020", "road_type", "RD_RUR", "2024")[0] == 10629
+
+
+def test_only_age_is_ordinal(raw_sources):
+    doc, _ = build(raw_sources)
+    assert {d["id"]: d.get("ordinal", False) for d in doc["dimensions"]} == {
+        "road_user": False, "vehicle": False, "age": True, "sex": False, "road_type": False}
+
+
+def test_sex_uses_its_own_total_code(raw_sources):
+    # In tran_sf_roadus the sex total is "T", not "TOTAL"; it must not be treated as a category.
+    doc, _ = build(raw_sources)
+    sex = next(d for d in doc["dimensions"] if d["id"] == "sex")
+    assert [c["id"] for c in sex["categories"]] == ["M", "F", "UNK"]
+    idx = raw_sources["eurostat:tran_sf_roadus"].payload["dimension"]["sex"]["category"]["index"]
+    idx["X"] = idx.pop("T")
+    with pytest.raises(SchemaChangeError, match=r"sex lacks .*\bT\b"):
+        build(raw_sources)
+
+
+def test_new_age_band_fails_loudly(raw_sources):
+    idx = raw_sources["eurostat:tran_sf_roadus"].payload["dimension"]["age"]["category"]["index"]
+    idx["Y_GE75"] = idx.pop("UNK")
+    with pytest.raises(SchemaChangeError, match="Y_GE75"):
+        build(raw_sources)
 
 
 def test_pedestrians_agree_across_datasets(raw_sources):
@@ -130,8 +164,13 @@ def test_breakdown_changes_change_the_content_hash(raw_sources):
 
 def test_eu_coverage_is_recorded(raw_sources):
     doc, _ = build(raw_sources)
-    for dim in doc["dimensions"]:
-        cov = dict(zip(doc["periods"], dim["eu_members_reporting"]))
-        assert cov["1999"] == 15  # 12 Member States did not yet report breakdowns
-        assert cov["2015"] == 26
-        assert all(cov[p] == 27 for p in doc["periods"] if p >= "2016")
+    cov = {d["id"]: dict(zip(doc["periods"], d["eu_members_reporting"])) for d in doc["dimensions"]}
+    for dim in cov.values():
+        assert dim["1999"] == 15  # 12 Member States did not yet report breakdowns
+    for dim in ("road_user", "vehicle", "age"):
+        assert cov[dim]["2015"] == 26
+        assert all(cov[dim][p] == 27 for p in doc["periods"] if p >= "2016")
+    assert cov["sex"]["2015"] == 25  # Bulgaria and Slovakia
+    # Malta did not report deaths by type of road for 2019, so the EU 2019 road-type figures are withheld.
+    assert cov["road_type"]["2019"] == 26
+    assert all(cov["road_type"][p] == 27 for p in doc["periods"] if p >= "2020")

@@ -6,7 +6,7 @@ so that source changes are reviewed in one place.
 
 from __future__ import annotations
 
-SCHEMA_VERSION = "1.1.0"
+SCHEMA_VERSION = "1.2.0"
 
 EUROSTAT_API_BASE = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data"
 EUROSTAT_BROWSER = "https://ec.europa.eu/eurostat/databrowser/view/{code}/default/table"
@@ -58,8 +58,10 @@ SOURCES: dict[str, dict] = {
         "role": "primary",
         "title": "Persons killed in road accidents by age, sex and category of persons involved",
         "publisher": "Eurostat (data compiled by European Commission DG MOVE, CARE database)",
-        # All person categories: TOTAL feeds road_fatalities, the rest the road-user breakdown.
-        "params": {"sex": "T", "age": "TOTAL", "unit": ["NR", "P_MHAB"]},
+        # All person categories, ages and sexes: the TOTAL cell feeds road_fatalities, the others the
+        # road-user, age and sex breakdowns. Not filtering sex and age means a new source category is
+        # seen (and fails the breakdown mapping) instead of being silently left out of the request.
+        "params": {"unit": ["NR", "P_MHAB"]},
         "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source",
         "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm",
     },
@@ -67,6 +69,15 @@ SOURCES: dict[str, dict] = {
         "dataset": "tran_sf_roadve",
         "role": "breakdown",
         "title": "Persons killed in road accidents by type of vehicle",
+        "publisher": "Eurostat (data compiled by European Commission DG MOVE, CARE database)",
+        "params": {"unit": "NR"},
+        "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source",
+        "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm",
+    },
+    "eurostat:tran_sf_roadro": {
+        "dataset": "tran_sf_roadro",
+        "role": "breakdown",
+        "title": "Persons killed in road accidents by type of road",
         "publisher": "Eurostat (data compiled by European Commission DG MOVE, CARE database)",
         "params": {"unit": "NR"},
         "license": "Eurostat reuse policy (Commission Decision 2011/833/EU); reuse with acknowledgement of the source",
@@ -144,8 +155,10 @@ TARGETS: list[dict] = [
 ]
 
 # Breakdowns of road deaths. Each dimension's categories must partition the total:
-# every source category (except TOTAL) is mapped to exactly one group, and an
-# unmapped new source category is a hard failure so deaths are never dropped silently.
+# every source category (except the total, "TOTAL" unless `total` says otherwise) is
+# mapped to exactly one group, and an unmapped new source category is a hard failure so
+# deaths are never dropped silently. `ordinal` dimensions (age) keep their category order
+# in charts instead of being sorted by size.
 # Note: in tran_sf_roadve the parent-sounding codes (MOTO_2WH, VEH_GD, BUS_TOT) are
 # residual "not elsewhere classified" categories, not totals of their sub-types, and
 # OTH ("Other") holds people not in a vehicle, i.e. pedestrians (verified against
@@ -193,6 +206,56 @@ BREAKDOWNS: list[dict] = [
              "description": "People not using a vehicle (Eurostat category 'Other')."},
             {"id": "OTHER", "label": "Other and unknown", "source_categories": ["QUA_LE50", "QUA_GT50", "MCMOB", "MTZ_OTH", "NMTZ_OTH", "ANI_RD", "TRM_LR", "UNK"],
              "description": "Quads, e-scooters and other micro-mobility, trams, other vehicles, riding animals, and unknown."},
+        ],
+    },
+    {
+        "id": "age",
+        "label": "Age group",
+        "description": "Persons killed by their age, in Eurostat's age bands.",
+        "source_id": "eurostat:tran_sf_roadus",
+        "dimension": "age",
+        "fixed": {"freq": "A", "sex": "T", "pers_cat": "TOTAL", "unit": "NR"},
+        "ordinal": True,
+        "categories": [
+            {"id": "Y_LT15", "label": "Under 15", "source_categories": ["Y_LT15"], "description": "Children under 15 years."},
+            {"id": "Y15_17", "label": "15–17", "source_categories": ["Y15-17"], "description": "From 15 to 17 years."},
+            {"id": "Y18_24", "label": "18–24", "source_categories": ["Y18-24"], "description": "From 18 to 24 years."},
+            {"id": "Y25_49", "label": "25–49", "source_categories": ["Y25-49"], "description": "From 25 to 49 years."},
+            {"id": "Y50_64", "label": "50–64", "source_categories": ["Y50-64"], "description": "From 50 to 64 years."},
+            {"id": "Y_GE65", "label": "65 and over", "source_categories": ["Y_GE65"], "description": "65 years or over."},
+            {"id": "UNK", "label": "Unknown", "source_categories": ["UNK"], "description": "Age not recorded."},
+        ],
+    },
+    {
+        "id": "sex",
+        "label": "Sex",
+        "description": "Persons killed by sex.",
+        "source_id": "eurostat:tran_sf_roadus",
+        "dimension": "sex",
+        "total": "T",
+        "fixed": {"freq": "A", "age": "TOTAL", "pers_cat": "TOTAL", "unit": "NR"},
+        "categories": [
+            {"id": "M", "label": "Male", "source_categories": ["M"], "description": "Men and boys."},
+            {"id": "F", "label": "Female", "source_categories": ["F"], "description": "Women and girls."},
+            {"id": "UNK", "label": "Unknown", "source_categories": ["UNK"], "description": "Sex not recorded."},
+        ],
+    },
+    {
+        "id": "road_type",
+        "label": "Type of road",
+        "description": "Persons killed by the type of road where the crash happened.",
+        "source_id": "eurostat:tran_sf_roadro",
+        "dimension": "tra_infr",
+        "fixed": {"freq": "A", "unit": "NR"},
+        "categories": [
+            {"id": "RD_URB", "label": "Urban roads", "source_categories": ["RD_URB"],
+             "description": "Roads inside an urban area, excluding motorways."},
+            {"id": "RD_RUR", "label": "Rural roads", "source_categories": ["RD_RUR"],
+             "description": "Roads outside urban areas, excluding motorways."},
+            {"id": "MWAY", "label": "Motorways", "source_categories": ["MWAY"],
+             "description": "Motorways, including the few inside urban areas."},
+            {"id": "UNK", "label": "Unknown", "source_categories": ["UNK"],
+             "description": "Neither the area nor the road type recorded."},
         ],
     },
 ]

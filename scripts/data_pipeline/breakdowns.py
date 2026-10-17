@@ -1,4 +1,4 @@
-"""Road-death breakdowns by road user and by mode of transport.
+"""Road-death breakdowns by road user, mode of transport, age, sex and type of road.
 
 Breakdowns are published separately from observations.json in a compact,
 columnar file (public/data/breakdowns.json): one series of yearly values per
@@ -14,11 +14,14 @@ from .transform import browser_url, map_status, to_utc_iso
 
 
 def _check_mapping(spec: dict, ds: Dataset) -> None:
-    """Every source category except TOTAL must be mapped exactly once."""
+    """Every source category except the total must be mapped exactly once."""
     mapped = [c for cat in spec["categories"] for c in cat["source_categories"]]
     if len(mapped) != len(set(mapped)):
         raise SchemaChangeError(f"{spec['id']}: a source category is mapped twice")
-    present = set(ds.categories.get(spec["dimension"], [])) - {"TOTAL"}
+    total = spec.get("total", "TOTAL")
+    if total not in ds.categories.get(spec["dimension"], []):
+        raise SchemaChangeError(f"{ds.dataset_id}: {spec['dimension']} lacks the total category {total}")
+    present = set(ds.categories.get(spec["dimension"], [])) - {total}
     unmapped = sorted(present - set(mapped))
     if unmapped:
         raise SchemaChangeError(
@@ -51,6 +54,7 @@ def build_breakdowns(parsed: dict[str, Dataset], raw: dict[str, RawSource], peri
             "categories": [
                 {k: cat[k] for k in ("id", "label", "description", "source_categories")} for cat in spec["categories"]
             ],
+            **({"ordinal": True} if spec.get("ordinal") else {}),
         })
         for geo in config.ALL_GEOS:
             has_geo = geo in ds.categories["geo"]

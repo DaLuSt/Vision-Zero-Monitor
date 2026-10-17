@@ -4,7 +4,7 @@ import type { BarShapeProps } from 'recharts';
 import type { BreakdownDimension, Breakdowns, Dataset } from '../../types/data';
 import { EU } from '../../lib/indicators';
 import {
-  breakdownCsv, categoryColor, categoryPoints, categoryRows, euComparableFrom, latestCompletePeriod, sharePoints,
+  barRows, breakdownCsv, categoryColor, categoryPoints, categoryRows, euComparableFrom, latestCompletePeriod, sharePoints,
   UNSPECIFIED_CATEGORIES, type CategoryRow,
 } from '../../lib/breakdowns';
 import { measureSeries, type Measure } from '../../lib/chartData';
@@ -25,10 +25,12 @@ const TREND_MEASURES: { id: TrendMeasure; label: string }[] = [
   { id: 'index', label: 'Index (2019 = 100)' },
 ];
 
-function CategoryBars({ rows, title, subtitle, source }: { rows: CategoryRow[]; title: string; subtitle: string; source: string }) {
+function CategoryBars({ rows, title, subtitle, source, ordinal = false }: {
+  rows: CategoryRow[]; title: string; subtitle: string; source: string; ordinal?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
-  const data = [...rows].filter((r) => r.value != null).sort((a, b) => (b.value ?? 0) - (a.value ?? 0))
+  const data = barRows(rows, ordinal)
     .map((r) => ({ ...r, valueLabel: `${fmtInt(r.value)} · ${fmtRate(r.share)}%` }));
   const height = data.length * 38 + 24;
   const onPng = async () => {
@@ -141,7 +143,7 @@ function DimensionSection({ data, bd, dim, geo, geoName }: {
       )}
 
       <div className="breakdown-grid">
-        <CategoryBars rows={rows} title={`Road deaths by ${dim.label.toLowerCase()}: ${geoName}`}
+        <CategoryBars rows={rows} ordinal={dim.ordinal === true} title={`Road deaths by ${dim.label.toLowerCase()}: ${geoName}`}
           subtitle={`${latest} · ${fmtInt(total)} deaths`} source={source} />
         <div className="table-scroll">
           <table className="data-table">
@@ -220,9 +222,21 @@ export function RoadUsers({ data, query }: { data: Dataset; query: string }) {
           </label>
         </div>
         <p>
-          Road deaths split by the role of the person killed (driver, passenger, pedestrian) and by the mode of
-          transport they were using. Each breakdown adds up to the total number of road deaths.
+          Road deaths split five ways: by the role of the person killed (driver, passenger, pedestrian), the mode of
+          transport they were using, their age and sex, and the type of road where the crash happened. Each breakdown
+          adds up to the total number of road deaths.
         </p>
+        {bd && (
+          <nav aria-label="Breakdowns" className="small">
+            Jump to:{' '}
+            {bd.dimensions.map((d, i) => (
+              <span key={d.id}>{i > 0 && ' · '}<a href={`#/road-users?geo=${geo}`} onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(`dim-${d.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}>{d.label}</a></span>
+            ))}
+          </nav>
+        )}
       </section>
       {!bd ? (
         <section className="panel"><EmptyState>Breakdowns could not be loaded. The other pages are not affected.</EmptyState></section>
@@ -236,6 +250,8 @@ export function RoadUsers({ data, query }: { data: Dataset; query: string }) {
             <ul>
               <li><strong>Drivers and riders</strong> include cyclists and motorcyclists, so road-user and mode-of-transport categories overlap by design: they are two ways of splitting the same total.</li>
               <li><strong>Mode of transport</strong> groups Eurostat's 27 vehicle categories into 8. Eurostat's “Other” category contains people not using a vehicle; it matches pedestrian counts in 648 of 656 country-years and is shown as <strong>Pedestrians</strong>.</li>
+              <li><strong>Age</strong> uses Eurostat's six age bands. The bands are of different widths (3 to 25 years), so compare them over time or between countries rather than with each other.</li>
+              <li><strong>Type of road</strong> follows Eurostat's definitions: urban roads are inside an urban area and rural roads outside it, both excluding motorways; motorways count as motorways wherever they are. Malta did not report this breakdown for 2019, so there is no EU figure by type of road for 2019.</li>
               <li>A year is shown only when every category has a value, so shares always add up to 100%.</li>
               <li>Source: {bd.dimensions.map((d, i) => (
                 <span key={d.id}>{i > 0 && ', '}<a href={d.source_url}>Eurostat {d.source_id.replace('eurostat:', '')}</a></span>

@@ -77,6 +77,26 @@ describe('Road users page', () => {
     expect(csv).toContain('NL,Netherlands,road_user,PED,Pedestrians,2023,9,unknown,,eurostat:tran_sf_roadus');
   });
 
+  it('shows age bands in age order and lists every breakdown in the jump links', async () => {
+    const data = makeDataset();
+    const bd = data.breakdowns!;
+    const bands: [string, string, number][] = [['Y_LT15', 'Under 15', 20], ['Y25_49', '25–49', 300], ['Y_GE65', '65 and over', 250], ['UNK', 'Unknown', 5]];
+    bd.dimensions.push({
+      ...bd.dimensions[0], id: 'age', label: 'Age group', description: 'Age group description', ordinal: true,
+      categories: bands.map(([id, label]) => ({ id, label, description: label, source_categories: [id] })),
+    });
+    for (const [id, , v] of bands) {
+      bd.series.push({ geo: 'EU27_2020', dimension: 'age', category: id, values: [v, v, v, v, v, v], statuses: Array(6).fill('unknown') });
+    }
+    await renderAt('#/road-users', data);
+    const section = await screen.findByRole('region', { name: 'By age group' });
+    const table = within(section).getAllByRole('table')[0];
+    const labels = within(table).getAllByRole('rowheader').map((r) => r.textContent ?? '');
+    expect(labels.map((l) => bands.findIndex(([, name]) => l.includes(name)))).toEqual([0, 1, 2, 3]);
+    const jump = screen.getByRole('navigation', { name: 'Breakdowns' });
+    expect(within(jump).getAllByRole('link').map((a) => a.textContent)).toEqual(['Road user', 'Mode of transport', 'Age group']);
+  });
+
   it('degrades gracefully without breakdowns', async () => {
     await renderAt('#/road-users', { ...makeDataset(), breakdowns: null });
     expect(await screen.findByText(/Breakdowns could not be loaded/)).toBeInTheDocument();

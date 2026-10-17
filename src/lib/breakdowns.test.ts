@@ -1,5 +1,5 @@
 import {
-  breakdownCsv, categoryColor, categoryPoints, categoryRows, euComparableFrom, latestCompletePeriod, parseCategoryKey,
+  barRows, breakdownCsv, categoryColor, categoryPoints, categoryRows, euComparableFrom, latestCompletePeriod, parseCategoryKey,
   perMillion, sharePoints,
 } from './breakdowns';
 import { makeBreakdowns, makeDataset } from '../test/fixtures';
@@ -62,5 +62,21 @@ describe('breakdown helpers', () => {
     expect(csv[0]).toBe('geo,geo_name,dimension,category,category_label,period,value,status,eu_members_reporting,source_id');
     expect(csv).toContain('EU27_2020,EU total,road_user,UNK,Unknown,2018,100,unknown,26,eurostat:tran_sf_roadus');
     expect(csv).toContain('EU27_2020,EU total,road_user,UNK,Unknown,2021,,missing,27,eurostat:tran_sf_roadus');
+  });
+
+  it('keeps age bands in order for the bar chart and sorts other categories by size', () => {
+    const rows = categoryRows(bd, 'EU27_2020', vehicle, '2023');
+    expect(barRows(rows, false).map((r) => r.id)).toEqual(['CAR', 'CYCLE', 'PED', 'OTHER']);
+    const larger = rows.map((r) => (r.id === 'OTHER' ? { ...r, value: 1000 } : r));
+    expect(barRows(larger, false)[0].id).toBe('OTHER');
+    expect(barRows(larger, true).map((r) => r.id)).toEqual(rows.map((r) => r.id)); // category order kept
+    const withGap = rows.map((r) => (r.id === 'PED' ? { ...r, value: null } : r));
+    expect(barRows(withGap, true).map((r) => r.id)).not.toContain('PED');
+  });
+
+  it('gives the new dimensions fixed colours, with grey for unknown', () => {
+    expect(categoryColor('sex', 'F')).toBe('var(--cat-2)');
+    expect(categoryColor('age', 'Y_GE65')).toBe('var(--cat-7)');
+    expect(categoryColor('road_type', 'UNK')).toBe('var(--cat-neutral)');
   });
 });

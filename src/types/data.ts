@@ -95,7 +95,7 @@ export interface PipelineStatus {
   run_url?: string | null;
 }
 
-export type BreakdownDimensionId = 'road_user' | 'vehicle';
+export type BreakdownDimensionId = 'road_user' | 'vehicle' | 'age' | 'sex' | 'road_type';
 
 export interface BreakdownCategory {
   id: string;
@@ -114,6 +114,8 @@ export interface BreakdownDimension {
   source_published_at: string | null;
   retrieved_at: string;
   categories: BreakdownCategory[];
+  /** Categories have a natural order (age bands): charts keep it instead of sorting by size. */
+  ordinal?: true;
   /** Per period: Member States with a complete breakdown. EU values are comparable only at 27. */
   eu_members_reporting: number[];
 }

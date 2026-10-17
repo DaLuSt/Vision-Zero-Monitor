@@ -16,6 +16,7 @@ STATUS_ORDER = {"missing": 0, "estimated": 1, "provisional": 2, "unknown": 3, "f
 EXPECTED_DIMENSIONS = {
     "eurostat:tran_sf_roadus": {"freq", "sex", "age", "unit", "pers_cat", "geo", "time"},
     "eurostat:tran_sf_roadve": {"freq", "unit", "vehicle", "geo", "time"},
+    "eurostat:tran_sf_roadro": {"freq", "unit", "tra_infr", "geo", "time"},
     "eurostat:demo_gind": {"freq", "indic_de", "geo", "time"},
     "eurostat:sdg_11_40": {"freq", "tra_infr", "unit", "geo", "time"},
 }
