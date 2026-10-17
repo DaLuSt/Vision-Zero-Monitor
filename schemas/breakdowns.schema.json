@@ -18,7 +18,7 @@
         "additionalProperties": false,
         "required": ["id", "label", "description", "unit", "source_id", "source_url", "source_published_at", "retrieved_at", "categories", "eu_members_reporting"],
         "properties": {
-          "id": {"enum": ["road_user", "vehicle"]},
+          "id": {"enum": ["road_user", "vehicle", "age", "sex", "road_type"]},
           "label": {"type": "string"},
           "description": {"type": "string"},
           "unit": {"const": "persons"},
@@ -26,6 +26,7 @@
           "source_url": {"type": "string", "pattern": "^https://"},
           "source_published_at": {"type": ["string", "null"], "format": "date-time"},
           "retrieved_at": {"type": "string", "format": "date-time"},
+          "ordinal": {"const": true, "description": "Categories have a natural order (age bands); charts keep it instead of sorting by size."},
           "eu_members_reporting": {
             "description": "Per period: number of Member States with a complete breakdown. EU values are comparable only at 27.",
             "type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 27}
@@ -39,7 +40,7 @@
               "additionalProperties": false,
               "required": ["id", "label", "description", "source_categories"],
               "properties": {
-                "id": {"type": "string", "pattern": "^[A-Z_]+$"},
+                "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
                 "label": {"type": "string"},
                 "description": {"type": "string"},
                 "source_categories": {"type": "array", "minItems": 1, "items": {"type": "string"}}
@@ -57,8 +58,8 @@
         "required": ["geo", "dimension", "category", "values", "statuses"],
         "properties": {
           "geo": {"type": "string", "pattern": "^(EU27_2020|[A-Z]{2})$"},
-          "dimension": {"enum": ["road_user", "vehicle"]},
-          "category": {"type": "string", "pattern": "^[A-Z_]+$"},
+          "dimension": {"enum": ["road_user", "vehicle", "age", "sex", "road_type"]},
+          "category": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
           "values": {"type": "array", "items": {"type": ["integer", "null"], "minimum": 0}},
           "statuses": {"type": "array", "items": {"enum": ["final", "provisional", "estimated", "missing", "unknown"]}}
         }

@@ -20,8 +20,8 @@ export const DATA_FILES: DataFile[] = [
   },
   {
     name: 'breakdowns', title: 'Breakdowns',
-    contents: 'Road deaths by road user and by mode of transport, per country and year, with the grouping of Eurostat categories and, for the EU, how many Member States reported each year.',
-    updated: 'Weekly check', source: 'Eurostat tran_sf_roadus, tran_sf_roadve',
+    contents: 'Road deaths by road user, mode of transport, age group, sex and type of road, per country and year, with the grouping of Eurostat categories and, for the EU, how many Member States reported each year.',
+    updated: 'Weekly check', source: 'Eurostat tran_sf_roadus, tran_sf_roadve, tran_sf_roadro',
   },
   {
     name: 'latest', title: 'Latest figures',

@@ -16,6 +16,7 @@ responses, which are saved in `tests/fixtures/eurostat_2026-10-14/` and
 | DG MOVE "Road safety statistics 2025" page | ❌ (figures are images/HTML) | ✅ | **Preliminary** | Annual (spring) | Partly | Not used |
 | ERSO "Data and analysis" `.xlsx` (`fatalities_per_pop_2010-24_public`) | ⚠️ manual download | ✅ | Final (CARE) | Annual | ✅ | Not used (duplicates CARE data in Eurostat) |
 | CARE database (raw) | ❌ restricted access | ✅ | — | — | — | Not used |
+| Eurostat `tran_sf_roadro` | ✅ API (JSON-stat) | ✅ | Unflagged | Annual | ✅ all 27 from 2016 (Malta missing 2019) | Breakdown by type of road (§9) |
 | Publications Office Cellar SPARQL (EUR-Lex metadata) | ✅ SPARQL (JSON results) | ✅ | Lifecycle status as recorded | Updated continuously | n/a (EU law) | **Legislation register** |
 | ERSO annual statistical report 2026, Table 4 (MAIS3+) | ❌ PDF only | ✅ | Final (CARE) | Annual | ❌ 18 of 27 MS, gaps, no EU total | Not used (see §8) |
 | ERSO annual report `.xlsx`, column “Seriously Injured” | ⚠️ manual download | ✅ | Final (CARE) | Annual | ❌ national police definitions | Not used (not MAIS3+) |
@@ -28,14 +29,19 @@ responses, which are saved in `tests/fixtures/eurostat_2026-10-14/` and
 * **Title:** Persons killed in road accidents by age, sex and category of persons involved.
 * **Canonical URL:** https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table
 * **API endpoint:**
-  `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&sex=T&age=TOTAL&pers_cat=TOTAL&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&…&geo=SE`
+  `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?format=JSON&lang=EN&unit=NR&unit=P_MHAB&geo=EU27_2020&geo=BE&…&geo=SE`
+  (all sexes, ages and person categories; about 1.6 MB)
 * **Metadata:** https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm
 * **Dimensions:** `freq` (A), `sex` (T/M/F/UNK), `age` (TOTAL + 7 bands), `unit`
   (`NR` number, `P_MHAB` per million inhabitants), `pers_cat` (TOTAL, PAS, DRIV, PED, UNK),
   `geo` (EU27_2020, 27 MS, EFTA, candidates, UK), `time` (1999–2024).
 * **Variables used:** `NR` with `sex=T, age=TOTAL`; `pers_cat=TOTAL` for road deaths and
   `DRIV`, `PAS`, `PED`, `UNK` for the road-user breakdown (these four add up to `TOTAL`
-  in 643 of 656 country-years; the rest differ by ±1).
+  in 643 of 656 country-years; the rest differ by ±1). With `pers_cat=TOTAL`: the seven
+  age bands (`sex=T`) for the age breakdown and `M`, `F`, `UNK` (`age=TOTAL`) for the sex
+  breakdown. Checked on 2026-10-17 for 2010–2024: both add up to the total in every
+  country-year reported; all 27 Member States report both from 2016; the EU share of
+  unknown age is 0.4–0.9 % and of unknown sex 0.1–0.5 %.
 * **Geography:** `EU27_2020` and the 27 Member States (Eurostat codes; Greece = `EL`).
 * **Reference period:** calendar years 1999–2024 (`OBS_PERIOD_OVERALL_LATEST` = 2024).
 * **Publication date:** `UPDATE_DATA` annotation = 2026-08-25T23:00:00+02:00.
@@ -254,6 +260,26 @@ series is published and the serious-injury targets stay “not measured”.**
 * **Revisit when:** the Commission publishes a measured EU MAIS3+ series, or a
   machine-readable national table with a stated method and coverage of the 2019/2020
   baseline. Re-check each spring with the new annual statistical report.
+
+## 9. Eurostat — `tran_sf_roadro` (breakdown by type of road)
+
+* **Title:** Persons killed in road accidents by type of road. Same publisher, metadata
+  (https://ec.europa.eu/eurostat/cache/metadata/en/tran_sf_road_esms.htm), licence and
+  release as `tran_sf_roadus`.
+* **API endpoint:**
+  `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadro?format=JSON&lang=EN&unit=NR&geo=EU27_2020&geo=BE&…&geo=SE`
+* **Dimensions:** `freq` (A), `unit` (`NR`), `tra_infr` (`TOTAL`, `MWAY` motorways, `RD_URB`
+  urban roads, `RD_RUR` rural roads, `UNK`), `geo`, `time` (1999–2024). No status flags.
+* **Definitions (ESMS):** rural = outside urban area and not a motorway (or unknown);
+  urban = inside urban area and not a motorway (or unknown); motorway = a motorway outside an
+  urban area or in an unknown area; unknown = urban area unknown and motorway unknown. In practice
+  motorways are counted as motorways wherever they are.
+* **Checks (2026-10-17, 2010–2024):** the four categories add up to `TOTAL` in every country-year
+  reported, and `TOTAL` equals `tran_sf_roadus` road deaths in every country-year. All 27 Member
+  States report from 2016 except Malta for 2019, so EU figures by type of road are comparable from
+  2020. The EU unknown share is at most 0.3 % from 2016 (up to 3.0 % in 2011–2015, when non-reporting
+  countries' deaths are counted as unknown).
+* **Not to be confused with** `sdg_11_40` (“by type of roads”), used only as a cross-check of the total.
 
 ## Candidate sources for planned pillars (not yet assessed)
 

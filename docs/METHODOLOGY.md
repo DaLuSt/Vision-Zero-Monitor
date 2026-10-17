@@ -86,7 +86,7 @@ benchmark_path[y]   = baseline + (y - 2019)/(2030 - 2019) * (target_2030 - basel
 
 ## Breakdowns
 
-`public/data/breakdowns.json` splits road deaths two ways. Each split adds up to the total.
+`public/data/breakdowns.json` splits road deaths five ways. Each split adds up to the total.
 
 **By road user** (`tran_sf_roadus`, `pers_cat`): Drivers and riders (`DRIV`, includes cyclists
 and motorcyclists), Passengers (`PAS`), Pedestrians (`PED`), Unknown (`UNK`).
@@ -104,15 +104,33 @@ and motorcyclists), Passengers (`PAS`), Pedestrians (`PED`), Unknown (`UNK`).
 | Pedestrians | `OTH` |
 | Other and unknown | `QUA_LE50`, `QUA_GT50`, `MCMOB` (e-scooters), `MTZ_OTH`, `NMTZ_OTH`, `ANI_RD`, `TRM_LR`, `UNK` |
 
+**By age group** (`tran_sf_roadus`, `age`, with `sex=T`, `pers_cat=TOTAL`): Eurostat's bands are kept
+as they are, one category per code: Under 15 (`Y_LT15`), 15–17 (`Y15-17`), 18–24 (`Y18-24`),
+25–49 (`Y25-49`), 50–64 (`Y50-64`), 65 and over (`Y_GE65`), Unknown (`UNK`). Category ids use `_`
+instead of `-` (e.g. `Y15_17`). The bands differ in width (3 to 25 years and open-ended), so counts
+are compared over time and between countries, not between bands. Charts keep the age order
+(`"ordinal": true` in the file) instead of sorting by size.
+
+**By sex** (`tran_sf_roadus`, `sex`, with `age=TOTAL`, `pers_cat=TOTAL`): Male (`M`), Female (`F`),
+Unknown (`UNK`). The total code in this dimension is `T`, not `TOTAL`.
+
+**By type of road** (`tran_sf_roadro`, `tra_infr`): Urban roads (`RD_URB`), Rural roads (`RD_RUR`),
+Motorways (`MWAY`), Unknown (`UNK`). Eurostat's definitions (ESMS): urban = inside an urban area and
+not a motorway; rural = outside an urban area and not a motorway; motorway = a motorway, outside or
+inside an urban area or in an unknown area; unknown = neither the area nor the road type recorded.
+The road-type total equals `tran_sf_roadus` road deaths in every country-year checked (2010–2024).
+
 Rules:
 
 * A category is missing for a year if any of its source codes is missing.
 * Shares are computed only for years in which every category has a value, so they add to 100 %.
 * **EU coverage:** `eu_members_reporting` records, per year, how many Member States report the
-  breakdown. EU breakdown values are shown only for years with all 27 (from 2016); earlier
-  EU aggregates count non-reporting countries' deaths as unknown and are not comparable.
+  breakdown. EU breakdown values are shown only for years with all 27 (from 2016; for type of road
+  from 2020, because Malta did not report it for 2019); earlier EU aggregates
+  count non-reporting countries' deaths as unknown and are not comparable.
   Published values remain in the file and in CSV exports, with the coverage column.
-* A warning is shown when more than 10 % of a country's deaths are "unknown"/"other and unknown".
+* A warning is shown when more than 10 % of a country's deaths are "unknown"/"other and unknown"
+  (in every dimension; for age, sex and type of road the EU unknown share is below 1 % from 2016).
 * Rates per million for a category use the same average population and rounding as the
   headline rate; they are computed in the browser from the published counts.
 * Validation: categories vs total (warning above max(2, 1 %)), road-user pedestrians vs vehicle

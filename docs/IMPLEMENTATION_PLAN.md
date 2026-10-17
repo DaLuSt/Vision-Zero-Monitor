@@ -58,7 +58,8 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ Deaths by road user (`tran_sf_roadus` `pers_cat`) and by mode of transport (`tran_sf_roadve`, 27 codes → 8 groups).
 * ✅ Coverage-aware EU figures (complete from 2016), unknown-share warnings, partition and pedestrian cross-checks.
 * ✅ Road users page; chart builder "Who" filter (e.g. cyclists per million across countries).
-* 🔜 Breakdown rows in the data explorer; age and sex breakdowns (`tran_sf_roadus` `age`, `sex`); road type (`tran_sf_roadro`).
+* ✅ Age and sex breakdowns (`tran_sf_roadus` `age`, `sex`) and type of road (`tran_sf_roadro`), on the Road users page and in the chart builder.
+* 🔜 Breakdown rows in the data explorer.
 
 ## Milestone 7 — Legislation pillar ✅ (first release)
 

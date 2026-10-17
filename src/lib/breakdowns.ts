@@ -4,7 +4,7 @@ import { combineStatus, EU, series, type Point } from './indicators';
 export const MEMBER_STATE_COUNT = 27;
 
 /** Categories that hold deaths whose category is unknown or unspecified. */
-export const UNSPECIFIED_CATEGORIES = new Set(['road_user.UNK', 'vehicle.OTHER']);
+export const UNSPECIFIED_CATEGORIES = new Set(['road_user.UNK', 'vehicle.OTHER', 'age.UNK', 'sex.UNK', 'road_type.UNK']);
 
 /** First period from which every Member State reports the breakdown (EU values comparable). */
 export function euComparableFrom(bd: Breakdowns, dim: BreakdownDimension): string | null {
@@ -32,6 +32,20 @@ const CATEGORY_COLOR: Record<string, string> = {
   'vehicle.BUS': 'var(--cat-6)',
   'vehicle.PED': 'var(--cat-7)',
   'vehicle.OTHER': 'var(--cat-neutral)',
+  'age.Y_LT15': 'var(--cat-1)',
+  'age.Y15_17': 'var(--cat-2)',
+  'age.Y18_24': 'var(--cat-3)',
+  'age.Y25_49': 'var(--cat-4)',
+  'age.Y50_64': 'var(--cat-5)',
+  'age.Y_GE65': 'var(--cat-7)',
+  'age.UNK': 'var(--cat-neutral)',
+  'sex.M': 'var(--cat-1)',
+  'sex.F': 'var(--cat-2)',
+  'sex.UNK': 'var(--cat-neutral)',
+  'road_type.RD_URB': 'var(--cat-1)',
+  'road_type.RD_RUR': 'var(--cat-3)',
+  'road_type.MWAY': 'var(--cat-4)',
+  'road_type.UNK': 'var(--cat-neutral)',
 };
 
 export function categoryColor(dim: BreakdownDimensionId, cat: string): string {
@@ -138,6 +152,12 @@ export function categoryRows(bd: Breakdowns, geo: string, dim: BreakdownDimensio
       changeFromBaseline: value != null && baseline ? ((value - baseline) / baseline) * 100 : null,
     };
   });
+}
+
+/** Rows with a value, for the bar chart: in category order for ordinal dimensions (age), else largest first. */
+export function barRows(rows: CategoryRow[], ordinal: boolean): CategoryRow[] {
+  const present = rows.filter((r) => r.value != null);
+  return ordinal ? present : [...present].sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 }
 
 export function breakdownCsv(bd: Breakdowns, geo: string, geoName: string, dim: BreakdownDimension): string {

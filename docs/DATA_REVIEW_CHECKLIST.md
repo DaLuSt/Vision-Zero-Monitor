@@ -89,7 +89,7 @@ column as a failure.
 | C2 | France rate 2024 is marked as provisional (`p`) | Data explorer: France, rate, 2024 | [Population API](https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=FR&indic_de=AVG&time=2024) | “Provisional” | ☐ |
 | C3 | Death counts carry no flag at the source and show “No status flag”, not “Final” | Data explorer: any count | API from A3 (no `"status"` entry) | “No status flag” | ☐ |
 
-## D. Breakdowns — `tran_sf_roadus` (road user) and `tran_sf_roadve` (mode of transport)
+## D. Breakdowns — `tran_sf_roadus` (road user, age, sex), `tran_sf_roadve` (mode of transport), `tran_sf_roadro` (type of road)
 
 | # | Check | Where on the site | Source | Expected | Result |
 | --- | --- | --- | --- | --- | --- |
@@ -98,6 +98,9 @@ column as a failure.
 | D3 | Netherlands cyclists 2024 = Bicycles (`BIKE`) + E-bikes (`EPAC`) | Road users → Netherlands, by mode of transport | [API](https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadve?geo=NL&time=2024&unit=NR&vehicle=BIKE&vehicle=EPAC) — add both values | 169 | ☐ |
 | D4 | Germany motorcyclists 2024 = sum of `MOTO_LE125`, `MOTO_GT125`, `MOTO_NSP`, `MOTO_2WH` | Road users → Germany, by mode of transport | [API](https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadve?geo=DE&time=2024&unit=NR&vehicle=MOTO_LE125&vehicle=MOTO_GT125&vehicle=MOTO_NSP&vehicle=MOTO_2WH) — add the values | 513 | ☐ |
 | D5 | EU-27 cyclists 2024 | Road users (EU), by mode of transport | [API](https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadve?geo=EU27_2020&time=2024&unit=NR&vehicle=BIKE&vehicle=EPAC) — add both values | 1,812 | ☐ |
+| D6 | EU-27 deaths aged 65 or over 2024 | Road users (EU), by age group | [API](https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?geo=EU27_2020&time=2024&sex=T&age=Y_GE65&pers_cat=TOTAL&unit=NR) | 6,106 | ☐ |
+| D7 | Netherlands female deaths 2024 | Road users → Netherlands, by sex | [API](https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadus?geo=NL&time=2024&sex=F&age=TOTAL&pers_cat=TOTAL&unit=NR) | 171 | ☐ |
+| D8 | EU-27 deaths on motorways 2024 | Road users (EU), by type of road | [API](https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tran_sf_roadro?geo=EU27_2020&time=2024&tra_infr=MWAY&unit=NR) | 1,693 | ☐ |
 
 D3–D5 check the grouping of Eurostat's vehicle codes (METHODOLOGY.md, “Breakdowns”).
 `MOTO_2WH` is a “not elsewhere classified” remainder, not a total, so adding it is correct.

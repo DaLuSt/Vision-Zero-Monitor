@@ -47,6 +47,12 @@ test('road users page shows both breakdowns for a country', async ({ page }) => 
   const vehicle = page.getByRole('region', { name: 'By mode of transport' });
   await expect(vehicle.getByRole('rowheader', { name: /Cyclists/ })).toBeVisible();
   await expect(vehicle.locator('.recharts-bar-rectangle')).toHaveCount(8);
+  for (const name of ['By age group', 'By sex', 'By type of road']) {
+    await expect(page.getByRole('heading', { name })).toBeVisible();
+  }
+  const age = page.getByRole('region', { name: 'By age group' });
+  await expect(age.locator('.recharts-bar-rectangle')).toHaveCount(7);
+  await expect(page.getByRole('region', { name: 'By type of road' }).getByRole('rowheader', { name: /Motorways/ })).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });

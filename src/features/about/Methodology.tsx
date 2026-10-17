@@ -67,13 +67,15 @@ export function Methodology({ data }: { data: Dataset }) {
         Details in the <a href={`${DOCS_URL}/METHODOLOGY.md#policy-commitments`}>methodology document</a>.
       </p>
 
-      <h3>Road users and modes of transport</h3>
+      <h3>Who dies: road users, modes of transport, age, sex and type of road</h3>
       <p>
         Deaths are split by road user (drivers and riders, passengers, pedestrians) and by mode of transport. Eurostat's
         27 vehicle codes are grouped into 8 categories; some codes that sound like totals (for example “two-wheeled motor
         vehicles”) are in fact “not elsewhere classified” remainders, so all motorcycle codes are added together.
-        Eurostat's “Other” vehicle category holds people not in a vehicle and is shown as pedestrians. EU breakdowns are
-        shown from 2016, the first year all 27 Member States reported them. Full mapping in the{' '}
+        Eurostat's “Other” vehicle category holds people not in a vehicle and is shown as pedestrians. Age uses Eurostat's
+        six age bands as published, and type of road its definitions: urban and rural roads both exclude motorways.
+        EU breakdowns are shown only for years in which all 27 Member States reported them (from 2016; for type of
+        road from 2020). Full mapping in the{' '}
         <a href={`${DOCS_URL}/METHODOLOGY.md#breakdowns`}>methodology document</a>.
       </p>
 
