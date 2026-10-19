@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-10-15T19:46:21Z",
+ "generated_at": "2026-10-19T12:13:24Z",
  "source": {
   "publisher": "Publications Office of the European Union (Cellar / EUR-Lex metadata)",
   "endpoint": "https://publications.europa.eu/webapi/rdf/sparql",
@@ -23,7 +23,7 @@
     "reason": "Speed limitation devices for heavy vehicles; not indexed under 'road safety'."
    }
   ],
-  "retrieved_at": "2026-10-15T19:46:21Z",
+  "retrieved_at": "2026-10-19T12:13:24Z",
   "licence": "EUR-Lex data reuse: Commission Decision 2011/833/EU; © European Union"
  },
  "summary": {
@@ -1415,7 +1415,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dir/2022/2561/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022L2561",
-   "responsible": "MOVE",
+   "responsible": "ESTAT",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -6568,7 +6568,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dir/1991/671/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:31991L0671",
-   "responsible": "MOVE",
+   "responsible": "DG07",
    "inclusion": {
     "basis": "curated",
     "reason": "Compulsory use of safety belts and child-restraint systems; indexed under 'safety device'."
