@@ -48,7 +48,8 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ Unit tests (pytest, vitest) and production build pass locally.
 * ✅ Playwright smoke tests, run in CI on desktop and mobile viewports.
 * ✅ Automated accessibility scan: axe (WCAG 2.1 A/AA) on all 12 pages, light and dark, desktop and mobile, in CI (`e2e/a11y.spec.ts`). First run found wide tables and code blocks that keyboard users could not scroll on phones; fixed (focusable, labelled scroll areas).
-* 🔜 Manual accessibility audit with a screen reader (NVDA/VoiceOver) and keyboard only.
+* ✅ Automated keyboard checks (`e2e/keyboard.spec.ts`): skip link, navigation with Tab/Enter, a visible focus indicator on every tab stop of all 12 pages, no keyboard traps, chart builder and legislation filters operable by keyboard.
+* 🔜 Manual accessibility audit with a screen reader (NVDA/VoiceOver).
 * ✅ Manual review on real devices (17 Oct 2026): Android (Chrome) and desktop browsers by the maintainer, iPhone (Safari) by a second tester; no problems found.
 * 🔜 Independent data-integrity review of displayed figures against Eurostat data browser ([checklist](DATA_REVIEW_CHECKLIST.md)).
 * ✅ Public URL `https://dalust.github.io/Vision-Zero-Monitor/` serves the site (checked in Chromium after the rename).
@@ -80,7 +81,7 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ R6: schemas for curated input and published output; targets with indicator, reduction, baseline and target year; outcomes calculated from `observations.json` after every refresh.
 * ✅ R7: "Commitments" page: quotes and links, target values next to official figures, both baselines for the 2030 target, chart of EU road deaths against every measurable target.
 * ✅ Corrected the 2030 baseline wording across the site: the policy framework says 2020–2030; the Commission's monitoring (and the overview benchmark) uses 2019.
-* ✅ First national road safety strategies (ES, PL, DE, NL), quoted in the original language with labelled translations; official translations verified like the quotes.
+* ✅ First national road safety strategies (ES, PL, DE, NL, SE), quoted in the original language with labelled translations; official translations verified like the quotes.
 * 🔜 More national strategies; serious-injury targets once MAIS3+ data are covered.
 * Acceptance: each commitment cites its document; target type (binding, indicative, aspirational) is taken from the source.
 
