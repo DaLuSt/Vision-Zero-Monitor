@@ -215,9 +215,17 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   | Poland | Narodowy Program Bezpieczeństwa Ruchu Drogowego 2021–2030 (KRBRD), summary | −50 %, no more than 1,455 deaths in 2030 (half of 2,909 in 2019, equal to Eurostat) | Official (English version, p. 24) |
   | Germany | Verkehrssicherheitsprogramm der Bundesregierung 2021 bis 2030 (BMVI) | −40 % road deaths by 2030; **no baseline year stated**, so not measured | Own |
   | Netherlands | Strategisch Plan Verkeersveiligheid 2030 (officielebekendmakingen.nl, blg-866302) | Zero road casualties as the ambition for 2050; no national number for 2030 | Own |
+  | Sweden | Government interim target of 13 Feb 2020, as set out in Trafikverket's PM “Nya mål för trafiksäkerhet väg 2020–2030” (16 Sep 2020) | −50 % road deaths by 2030 from the **2017–2019 average** (266, equal to the Eurostat average; at most 133) | Own |
 
-  *France:* no official national road-death target for 2030 was found in the documents of
-  the Sécurité routière / ONISR searched (October 2026); not listed until one is found.
+  *Searched but not listed (October 2026):*
+  * *France:* no official national road-death target for 2030 found in the Sécurité routière /
+    ONISR documents.
+  * *Ireland* (Road Safety Strategy 2021–2030, −50 %) and *Belgium* (federal plan): the
+    official sites (gov.ie, rsa.ie, belgium.be) block automated access, so the monthly quote
+    check could not run; only third-party copies are reachable.
+  * *Italy* (PNSS 2030): the only official text found, a Chamber of Deputies summary, gives the
+    target as “da 3000 a 1500” with the baseline as “2019 oppure alla media del triennio
+    2017-2019”; neither matches 3,000 in Eurostat, so it cannot be measured reliably.
   *Spain's site* (seguridadvial2030.dgt.es) does not send its intermediate certificate;
   `verify_sources.py` adds the public FNMT-RCM intermediate from
   `scripts/commitments/certs/` (downloaded from the certificate's own CA Issuers URL), so TLS

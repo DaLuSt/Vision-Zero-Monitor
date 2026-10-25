@@ -1,7 +1,9 @@
 """Check every quote in data/curated/commitments.json against the official document.
 
 Downloads each source document, extracts its text and confirms that the quote occurs
-in it word for word (ignoring whitespace, quote-mark style and line-break hyphenation).
+in it word for word: the same characters in the same order, ignoring all whitespace (PDF text
+extraction both inserts spaces inside words and drops them between words), quote-mark style and
+line-break hyphenation.
 Official translations of quotes in other languages are checked the same way against the
 issuer's own translated document; translations made for this site are labelled and not checked.
 Run this before changing the curated file and record the date in "reviewed_at".
@@ -100,8 +102,9 @@ def normalise(text: str) -> str:
     text = re.sub(r"[“”„\"]", '"', text)
     text = re.sub(r"[‘’']", "'", text)
     text = re.sub(r"[–—]", "-", text)
-    text = re.sub(r"(\d)[\s\u2009\u202f\u00a0]+%", r"\1%", text)  # "50 %" typeset with a (thin) space
-    return re.sub(r"\s+", " ", text).strip().lower()
+    # All whitespace (incl. thin and no-break spaces) is dropped, so "Trafikv erket", "nyttetappmål" and
+    # "50 %" match their quotes; every other character must still match in order.
+    return re.sub(r"[\s\u2009\u202f\u00a0]+", "", text).lower()
 
 
 def main(argv: list[str] | None = None) -> int:

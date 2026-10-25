@@ -450,6 +450,15 @@
                           "boolean",
                           "null"
                         ]
+                      },
+                      "baseline_average_of": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "integer",
+                          "minimum": 1990
+                        },
+                        "description": "Years whose official figures are averaged to form the baseline (e.g. 2017–2019); the last must be baseline_year."
                       }
                     }
                   }
@@ -497,6 +506,15 @@
                       }
                     }
                   ]
+                },
+                "baseline_average_of": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1990
+                  },
+                  "description": "Years whose official figures are averaged to form the baseline (e.g. 2017–2019); the last must be baseline_year."
                 }
               }
             }

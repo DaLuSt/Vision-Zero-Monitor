@@ -4,7 +4,7 @@ import { fmtDate, fmtInt, fmtPct, fmtRate } from '../../lib/format';
 import { categoryRows, getDimension, latestCompletePeriod } from '../../lib/breakdowns';
 import { euComparison, inSentence, rankPhrase } from '../../lib/country';
 import { actCitation, actSubject, todayIso, upcomingDeadlines } from '../../lib/legislation';
-import { FORM_LABEL, nationalFor } from '../../lib/commitments';
+import { baselineLabel, FORM_LABEL, nationalFor } from '../../lib/commitments';
 import { scrollArea } from '../../lib/scrollArea';
 
 type Loaded<T> = { kind: 'loading' } | { kind: 'error' } | { kind: 'ready'; doc: T };
@@ -90,7 +90,7 @@ function NationalStrategy({ c }: { c: Commitment }) {
               {o && o.target_value != null ? (
                 <span className="small">
                   {' '}— target value {fmtInt(o.target_value)} road deaths in {o.target_year}; official figure{' '}
-                  {o.compare_year}: <strong>{fmtInt(o.compare_value)}</strong> ({fmtPct(o.change_pct)} since {o.baseline_year})
+                  {o.compare_year}: <strong>{fmtInt(o.compare_value)}</strong> ({fmtPct(o.change_pct)} since {baselineLabel(o)})
                 </span>
               ) : (
                 <span className="small muted"> — {t.not_measured_reason}</span>

@@ -20,6 +20,12 @@ export const BASIS_LABEL: Record<TargetOutcome['basis'], string> = {
   commission_monitoring: 'Commission monitoring baseline',
 };
 
+/** "2019", or "2017–2019 average" for a baseline averaged over several years. */
+export function baselineLabel(o: Pick<TargetOutcome, 'baseline_year' | 'baseline_average_of'>): string {
+  const avg = o.baseline_average_of;
+  return avg && avg.length > 1 ? `${avg[0]}–${avg[avg.length - 1]} average` : String(o.baseline_year);
+}
+
 /** "2019" stays a year; full dates are formatted by the caller. */
 export function isYearOnly(date: string): boolean {
   return /^\d{4}$/.test(date);

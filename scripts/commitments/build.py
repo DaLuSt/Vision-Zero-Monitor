@@ -28,6 +28,7 @@ from typing import Callable
 
 from ..data_pipeline.export import read_json
 from ..data_pipeline.fetch import utc_now_iso
+from ..data_pipeline.transform import most_cautious
 from ..data_pipeline.validate import issue, validate_schema
 
 log = logging.getLogger("commitments")
@@ -66,10 +67,25 @@ def _pct(new: float, base: float) -> float:
     return round((new - base) / base * 100, 1)
 
 
+def _baseline(obs: Observations, geo: str, ind: str, years: list[int]) -> tuple[float | None, str | None]:
+    """Official figure for one year, or the mean of several (missing if any year is missing)."""
+    values = [_value(obs, geo, ind, y) for y in years]
+    if any(v is None for v, _ in values):
+        return None, None
+    if len(values) == 1:
+        return values[0]
+    return round(sum(v for v, _ in values) / len(values), 1), most_cautious(*(st for _, st in values))
+
+
 def outcome(obs: Observations, target: dict, baseline_year: int, basis: str) -> dict:
-    """Target value and recorded outcome for one baseline. Values are official figures; nothing is estimated."""
+    """Target value and recorded outcome for one baseline. Values are official figures; nothing is estimated.
+
+    A target stated against an average of several years (e.g. Sweden: mean of 2017–2019) uses that
+    mean as its baseline; Commission monitoring baselines are single years.
+    """
     geo, ind = target["measure"]["geo"], target["measure"]["indicator"]
-    base, base_status = _value(obs, geo, ind, baseline_year)
+    average = target.get("baseline_average_of") if basis == "as_stated" else None
+    base, base_status = _baseline(obs, geo, ind, average or [baseline_year])
     latest = _latest(obs, geo, ind)
     target_year = target["target_year"]
     deadline_passed = latest is not None and latest >= target_year
@@ -91,6 +107,8 @@ def outcome(obs: Observations, target: dict, baseline_year: int, basis: str) -> 
         "share_of_required_reduction": None,
         "above_target_value": None,
     }
+    if average:
+        result["baseline_average_of"] = average
     if base is not None:
         target_value = base * (1 - target["reduction"])
         result["target_value"] = round(target_value, 1)
@@ -168,6 +186,9 @@ def check(curated: dict, observations: dict, today: str) -> list[dict]:
             b, y = t.get("baseline_year"), t["target_year"]
             if b is not None and b >= y:
                 issues.append(issue("error", "years", f"{where}: baseline year {b} is not before target year {y}"))
+            avg = t.get("baseline_average_of")
+            if avg and (avg != sorted(set(avg)) or avg[-1] != b):
+                issues.append(issue("error", "years", f"{where}: baseline_average_of must be ascending and end with baseline year {b}"))
             measured = t.get("measure") and t.get("reduction") is not None and b is not None
             if not measured and not t.get("not_measured_reason"):
                 issues.append(issue("error", "reason", f"{where}: not measured but no not_measured_reason given"))
@@ -177,7 +198,7 @@ def check(curated: dict, observations: dict, today: str) -> list[dict]:
                     issues.append(issue("error", "measure", f"{where}: measured for {g}, but the strategy is for {c.get('geo')}"))
                 if not any(k[0] == g and k[1] == ind for k in obs):
                     issues.append(issue("error", "measure", f"{where}: no observations for {g}/{ind}"))
-                for year in ([b] if measured else []) + [mb["year"] for mb in t.get("monitoring_baselines", [])]:
+                for year in ((avg or [b]) if measured else []) + [mb["year"] for mb in t.get("monitoring_baselines", [])]:
                     if _value(obs, g, ind, year)[0] is None:
                         issues.append(issue("error", "baseline", f"{where}: no official value for {g} {year}"))
     return issues
