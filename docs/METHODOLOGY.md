@@ -292,7 +292,13 @@ an English `translation`:
   (not official)” and not checked automatically.
 
 National targets are shown on the commitments page and on the country page, but not drawn on
-the EU chart.
+the EU chart. A target stated against an **average of several years** (Sweden: 2017–2019) lists
+those years in `baseline_average_of`; its baseline is the mean of the official figures for those
+years (missing if any year is missing) and is shown as “2017–2019 average”.
+
+Quote matching ignores all whitespace, because PDF text extraction both inserts spaces inside
+words and drops them between words; every other character of the quote must still appear, in
+order, in the document.
 
 **Nature.** All commitments currently listed are political or policy commitments; none is
 legally binding. The text says so for each entry, in the source's own terms (for example

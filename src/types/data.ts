@@ -246,6 +246,8 @@ export interface CommitmentSource {
 export interface TargetOutcome {
   basis: 'as_stated' | 'commission_monitoring';
   baseline_year: number;
+  /** Years averaged to form the baseline (e.g. [2017, 2018, 2019]); absent for a single-year baseline. */
+  baseline_average_of?: number[];
   baseline_value: number | null;
   baseline_status: Status | null;
   target_year: number;
@@ -266,6 +268,8 @@ export interface CommitmentTarget {
   description: string;
   reduction: number | null;
   baseline_year: number | null;
+  /** Years averaged to form the baseline; absent for a single-year baseline. */
+  baseline_average_of?: number[];
   target_year: number;
   measure: { geo: string; indicator: string } | null;
   not_measured_reason: string | null;

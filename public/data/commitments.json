@@ -1,13 +1,13 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-10-17T16:34:20Z",
- "reviewed_at": "2026-10-17",
+ "generated_at": "2026-10-25T18:29:41Z",
+ "reviewed_at": "2026-10-25",
  "review_note": "Every quote was checked word for word against the official document on the review date (scripts/commitments/verify_sources.py). Edit this file only with a new review.",
  "statistics_source": "Eurostat tran_sf_roadus (road deaths), as published in observations.json",
  "summary": {
-  "commitments": 11,
-  "targets": 13,
-  "targets_measured": 5
+  "commitments": 12,
+  "targets": 14,
+  "targets_measured": 6
  },
  "commitments": [
   {
@@ -601,6 +601,80 @@
      "scope_note": null,
      "monitoring_baselines": [],
      "outcomes": [],
+     "reference": null
+    }
+   ]
+  },
+  {
+   "id": "se-etappmal-2030",
+   "title": "Sweden: halve road deaths by 2030, from the 2017–2019 average",
+   "issuer": "Government of Sweden (decision of 13 February 2020)",
+   "level": "national",
+   "geo": "SE",
+   "scope": "Sweden",
+   "form": "national_strategy",
+   "nature": "Interim target (etappmål) of Sweden's transport policy towards Vision Zero, decided by the Government on 13 February 2020 and quantified by the Swedish Transport Administration (Trafikverket). Not legally binding. Serious injuries are to fall by at least 25 %, measured with Swedish hospital-based data, which this site does not cover.",
+   "date": "2020-02-13",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Nya mål för trafiksäkerhet väg 2020–2030 (PM)",
+     "reference": "Trafikverket PM, 16 September 2020",
+     "publisher": "Trafikverket",
+     "date": "2020-09-16",
+     "url": "https://bransch.trafikverket.se/contentassets/46d0e5c65e054841b6aa2564e3dae5fb/nya-mal-for-trafiksakerhet-vag-2020_pm_200916.docx.pdf",
+     "location": "p. 1, “Nytt transportpolitiskt etappmål för trafiksäkerhet”; footnote 1 gives the road baseline as 266 deaths a year and the 2030 target as at most 133",
+     "language": "sv",
+     "quote": "Antalet omkomna till följd av trafikolyckor inom vägtrafiken, sjöfarten respektive luftfarten ska halveras till år 2030. Antalet omkomna inom bantrafiken ska halveras till år 2030. Antalet allvarligt skadade inom respektive trafikslag ska till år 2030 minska med minst 25 procent. Utgångsvärdet för etappmålet utgörs av ett medelvärde av utfallet för år 2017, 2018 och 2019.",
+     "translation": {
+      "kind": "own",
+      "text": "The number of people killed as a result of traffic accidents in road traffic, shipping and aviation respectively shall be halved by 2030. The number killed in rail traffic shall be halved by 2030. The number of seriously injured in each mode of transport shall fall by at least 25 per cent by 2030. The baseline for the interim target is the average of the outcomes for 2017, 2018 and 2019."
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % by 2030, from the 2017–2019 average",
+     "reduction": 0.5,
+     "baseline_year": 2019,
+     "baseline_average_of": [
+      2017,
+      2018,
+      2019
+     ],
+     "target_year": 2030,
+     "measure": {
+      "geo": "SE",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": null,
+     "scope_note": "The target also covers shipping and aviation; only road deaths are measured here. The 2017–2019 average of Eurostat's figures for Sweden (266.0) equals Trafikverket's baseline of 266 road deaths a year, so the target is at most 133 in 2030.",
+     "monitoring_baselines": [],
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2019,
+       "baseline_value": 266.0,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 133.0,
+       "required_change_pct": -50.0,
+       "compare_year": 2024,
+       "compare_value": 213,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": -19.9,
+       "share_of_required_reduction": 0.398,
+       "above_target_value": true,
+       "baseline_average_of": [
+        2017,
+        2018,
+        2019
+       ]
+      }
+     ],
      "reference": null
     }
    ]

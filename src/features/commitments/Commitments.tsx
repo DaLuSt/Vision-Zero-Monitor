@@ -4,7 +4,7 @@ import type { Commitment, Commitments as CommitmentsDoc, CommitmentSource, Commi
 import { loadCommitments } from '../../lib/data';
 import { fmtDate, fmtInt, fmtPct } from '../../lib/format';
 import {
-  BASIS_LABEL, byLevel, chartRows, FORM_LABEL, isYearOnly, LEVEL_LABEL, targetPaths, type ChartRow,
+  BASIS_LABEL, baselineLabel, byLevel, chartRows, FORM_LABEL, isYearOnly, LEVEL_LABEL, targetPaths, type ChartRow,
   type TargetPath,
 } from '../../lib/commitments';
 import { Notice } from '../../components/States';
@@ -115,7 +115,7 @@ function TargetBlock({ t }: { t: CommitmentTarget }) {
             <tbody>
               {t.outcomes.map((o) => (
                 <tr key={o.basis + o.baseline_year}>
-                  <th scope="row">{o.baseline_year}: {fmtInt(o.baseline_value)}<span className="row-note">{BASIS_LABEL[o.basis]}</span></th>
+                  <th scope="row">{baselineLabel(o)}: {fmtInt(o.baseline_value)}<span className="row-note">{BASIS_LABEL[o.basis]}</span></th>
                   <td className="num">{fmtInt(o.target_value)}<span className="row-note">by {o.target_year}</span></td>
                   <td className="num">{fmtInt(o.compare_value)}<span className="row-note">{o.compare_year ?? '–'}</span></td>
                   <td className="num">{fmtPct(o.change_pct)}<span className="row-note">target {fmtPct(o.required_change_pct)}</span></td>

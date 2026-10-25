@@ -35,8 +35,9 @@ describe('Country page', () => {
   it('lists EU commitments covering the country and says national strategies are not yet covered', async () => {
     await renderCountry('NL');
     const section = await screen.findByRole('region', { name: 'Commitments covering the Netherlands' });
-    expect(within(section).getByText(/not yet covered by this site/)).toBeInTheDocument();
-    expect(await within(section).findByRole('link', { name: 'Halve road deaths and serious injuries by 2030' })).toHaveAttribute('href', '#/commitments');
+    // The commitments load separately from the statistics: wait for them before checking.
+    expect(await within(section).findByText(/not yet covered by this site/)).toBeInTheDocument();
+    expect(within(section).getByRole('link', { name: 'Halve road deaths and serious injuries by 2030' })).toHaveAttribute('href', '#/commitments');
     expect(within(section).queryByText('Second Decade of Action for Road Safety')).not.toBeInTheDocument(); // global, not EU
     expect(within(section).getByText(/apply to the EU as a whole/)).toBeInTheDocument();
   });

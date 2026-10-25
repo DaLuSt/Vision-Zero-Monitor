@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import App from '../../App';
 import { makeDataset } from '../../test/fixtures';
 import { makeCommitments, makeCommitmentsWithNational } from '../../test/commitmentsFixture';
-import { byLevel, chartRows, nationalFor, targetPaths } from '../../lib/commitments';
+import { baselineLabel, byLevel, chartRows, nationalFor, targetPaths } from '../../lib/commitments';
 
 afterEach(() => { window.location.hash = ''; });
 
@@ -28,6 +28,11 @@ describe('commitments helpers', () => {
     expect(nationalFor(doc, 'NL').map((c) => c.id)).toEqual(['nl-test']);
     expect(nationalFor(doc, 'DE')).toEqual([]);
     expect(byLevel(doc).map((g) => g.level)).toEqual(['eu', 'national', 'global']);
+  });
+
+  it('labels averaged baselines', () => {
+    expect(baselineLabel({ baseline_year: 2019 })).toBe('2019');
+    expect(baselineLabel({ baseline_year: 2019, baseline_average_of: [2017, 2018, 2019] })).toBe('2017–2019 average');
   });
 
   it('puts the official series and the target end points on one year axis', () => {

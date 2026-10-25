@@ -17,7 +17,7 @@ type State = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 
 function ExternalLink({ href, children, label }: { href: string; children: ReactNode; label?: string }) {
   return (
     <a href={href} rel="noopener noreferrer">
-      {children}<span className="visually-hidden"> {label ?? ''} on EUR-Lex (external)</span>
+      {children}{' '}<span className="visually-hidden">{label ? `${label} ` : ''}on EUR-Lex (external)</span>
     </a>
   );
 }

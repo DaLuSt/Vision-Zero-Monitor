@@ -129,10 +129,10 @@ export function MultiSeriesChart({ title, subtitle: subtitleOverride, source = S
         </figcaption>
         <div className="chart__actions">
           <button type="button" className="button button--ghost button--small" onClick={onPng} disabled={!hasData}>
-            PNG<span className="visually-hidden"> image of {title}</span>
+            PNG{' '}<span className="visually-hidden">image of {title}</span>
           </button>
           <button type="button" className="button button--ghost button--small" onClick={onCsv} disabled={!hasData}>
-            CSV<span className="visually-hidden"> data for {title}</span>
+            CSV{' '}<span className="visually-hidden">data for {title}</span>
           </button>
         </div>
       </div>

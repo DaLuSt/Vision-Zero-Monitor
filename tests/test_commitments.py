@@ -2,6 +2,7 @@
 
 import copy
 import json
+from datetime import date, timedelta
 from pathlib import Path
 
 import pytest
@@ -12,7 +13,10 @@ from scripts.data_pipeline.validate import validate_schema
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = json.loads((ROOT / "public" / "data" / "observations.json").read_text(encoding="utf-8"))
-NOW = "2026-10-17T06:00:00Z"
+# Test clocks follow the curated review date, so a new review never makes these tests stale.
+REVIEWED = json.loads(b.CURATED.read_text(encoding="utf-8"))["reviewed_at"]
+NOW = f"{REVIEWED}T06:00:00Z"
+LATER = (date.fromisoformat(REVIEWED) + timedelta(days=5)).isoformat() + "T06:00:00Z"
 
 
 def clock(ts):
@@ -46,7 +50,7 @@ def codes(issues):
 # --- curated file ----------------------------------------------------------------
 
 def test_curated_file_is_valid(curated):
-    assert b.check(curated, OBSERVATIONS, "2026-10-17") == []
+    assert b.check(curated, OBSERVATIONS, REVIEWED) == []
 
 
 def test_every_commitment_has_a_primary_official_source_with_a_quote(curated):
@@ -89,13 +93,16 @@ def test_built_document_uses_official_figures():
 
     vz = by_id["eu-2050-vision-zero"]["targets"][0]
     assert vz["outcomes"] == [] and vz["reference"]["period"] == 2024
-    assert doc["summary"] == {"commitments": 11, "targets": 13, "targets_measured": 5}
+    assert doc["summary"] == {"commitments": 12, "targets": 14, "targets_measured": 6}
     national = {c["id"]: c for c in doc["commitments"] if c["level"] == "national"}
     es = national["es-esv-2030"]["targets"][0]["outcomes"][0]
     assert (es["baseline_value"], es["target_value"]) == (1755, 877.5)  # the strategy's own baseline figure
     pl = national["pl-npbrd-2021-2030"]["targets"][0]["outcomes"][0]
     assert (pl["baseline_value"], pl["target_value"]) == (2909, 1454.5)  # "no more than 1455"
     assert national["de-vsp-2021-2030"]["targets"][0]["outcomes"] == []  # no baseline year stated
+    se = national["se-etappmal-2030"]["targets"][0]["outcomes"][0]
+    # Mean of Eurostat 2017–2019 (253, 324, 221), as in the Swedish target; at most 133 in 2030.
+    assert (se["baseline_average_of"], se["baseline_value"], se["target_value"]) == ([2017, 2018, 2019], 266.0, 133.0)
     # EU commitments first, newest first within each level.
     levels = [c["level"] for c in doc["commitments"]]
     assert levels == sorted(levels, key=lambda lv: lv != "eu")
@@ -127,34 +134,34 @@ def test_outcome_with_missing_target_year_value_stays_missing():
 
 def test_duplicate_ids_are_errors(curated):
     curated["commitments"].append(copy.deepcopy(curated["commitments"][0]))
-    assert "duplicate" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "duplicate" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_baseline_must_precede_target(curated):
     curated["commitments"][0]["targets"][0]["baseline_year"] = 2031
-    assert "years" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "years" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_unmeasured_target_needs_a_reason(curated):
     t = next(t for c in curated["commitments"] for t in c["targets"] if t["measure"] is None)
     t["not_measured_reason"] = None
-    assert "reason" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "reason" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_measured_target_needs_official_data(curated):
     curated["commitments"][0]["targets"][0]["measure"]["geo"] = "XX"
-    assert "measure" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "measure" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_review_date_cannot_be_in_the_future(curated):
     curated["reviewed_at"] = "2027-01-01"
-    assert "review_date" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "review_date" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_schema_rejects_non_https_sources_and_missing_quotes(curated):
     curated["commitments"][0]["sources"][0]["url"] = "http://example.com"
     del curated["commitments"][1]["sources"][0]["quote"]
-    assert "schema" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "schema" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 # --- run ----------------------------------------------------------------------------
@@ -163,7 +170,7 @@ def test_run_writes_then_reports_unchanged(tmp_path):
     (tmp_path / "observations.json").write_text(json.dumps(OBSERVATIONS))
     assert b.run(tmp_path, now=clock(NOW)) == "success"
     first = (tmp_path / "commitments.json").read_bytes()
-    assert b.run(tmp_path, now=clock("2026-10-22T06:00:00Z")) == "unchanged"
+    assert b.run(tmp_path, now=clock(LATER)) == "unchanged"
     assert (tmp_path / "commitments.json").read_bytes() == first
 
 
@@ -188,9 +195,11 @@ def test_published_file_is_current_and_valid():
 # --- quote verification helper ------------------------------------------------------
 
 @pytest.mark.parametrize("raw,expected", [
-    ("reducing deaths by 50 % between", "reducing deaths by 50% between"),
-    ("road-\n safety  “Vision Zero”", 'roadsafety "vision zero"'),
+    ("reducing deaths by 50 % between", "reducingdeathsby50%between"),
+    ("road-\n safety  “Vision Zero”", 'roadsafety"visionzero"'),
     ("2021–2030", "2021-2030"),
+    # PDF extraction artefacts on both sides match the same quote.
+    ("Trafikv erket nyttetappmål", "trafikverketnyttetappmål"),
 ])
 def test_normalise(raw, expected):
     assert normalise(raw) == expected
@@ -212,19 +221,31 @@ def test_national_strategies_have_a_country_and_translated_quotes(curated):
 
 def test_national_target_must_be_measured_for_its_own_country(curated):
     national(curated)["targets"][0]["measure"]["geo"] = "PL"
-    assert "measure" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "measure" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_national_strategy_needs_a_geo(curated):
     del national(curated)["geo"]
-    assert "national" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "national" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_non_english_quote_needs_a_translation(curated):
     del national(curated)["sources"][0]["translation"]
-    assert "translation" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "translation" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_official_translation_needs_its_source(curated):
     del national(curated)["sources"][0]["translation"]["url"]
-    assert "translation" in codes(b.check(curated, OBSERVATIONS, "2026-10-17"))
+    assert "translation" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
+
+
+def test_averaged_baseline_must_end_with_the_baseline_year(curated):
+    national(curated, "se-etappmal-2030")["targets"][0]["baseline_average_of"] = [2017, 2018]
+    assert "years" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
+
+
+def test_averaged_baseline_is_missing_if_any_year_is():
+    obs = b.index_observations(synthetic_obs({2017: 100, 2019: 80, 2024: 60}, geo="SE"))
+    t = target(measure={"geo": "SE", "indicator": "road_fatalities"}, baseline_year=2019, baseline_average_of=[2017, 2018, 2019])
+    o = b.outcome(obs, t, 2019, "as_stated")
+    assert (o["baseline_value"], o["target_value"]) == (None, None)

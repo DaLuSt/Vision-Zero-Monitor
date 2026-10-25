@@ -60,7 +60,7 @@ Valletta conclusions, the 2050 Vision Zero goal, the Stockholm Declaration and U
 measured with the official statistics, the target value and the recorded figures are shown
 next to it, with a chart of EU road deaths against every measurable target.
 
-National strategies: a first selection (Spain, Poland, Germany, the Netherlands), quoted in
+National strategies: a first selection (Spain, Poland, Germany, the Netherlands, Sweden), quoted in
 the original language with an English translation and measured against Eurostat's national
 figures where the document states a baseline. Next candidates: further national strategies,
 and serious-injury targets once an official EU-wide MAIS3+ series is published.
