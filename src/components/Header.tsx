@@ -93,7 +93,7 @@ export function Header({ route, data }: { route: Route; data: Dataset | null }) 
               </li>
             ))}
             <li>
-              <a href={REPO_URL} rel="noopener noreferrer">GitHub<span className="visually-hidden"> repository (external)</span></a>
+              <a href={REPO_URL} rel="noopener noreferrer">GitHub{' '}<span className="visually-hidden">repository (external)</span></a>
             </li>
           </ul>
         </div>

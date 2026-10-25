@@ -50,7 +50,7 @@ function CategoryBars({ rows, title, subtitle, source, ordinal = false }: {
         <figcaption className="chart__title">{title}<span className="chart__subtitle">{subtitle}</span></figcaption>
         <div className="chart__actions">
           <button type="button" className="button button--ghost button--small" onClick={onPng}>
-            PNG<span className="visually-hidden"> image of {title}</span>
+            PNG{' '}<span className="visually-hidden">image of {title}</span>
           </button>
         </div>
       </div>
@@ -122,7 +122,7 @@ function DimensionSection({ data, bd, dim, geo, geoName }: {
         <h2 id={headingId}>By {dim.label.toLowerCase()}</h2>
         <button type="button" className="button button--ghost button--small"
           onClick={() => downloadText(breakdownCsv(bd, geo, geoName, dim), `${slug(`road-deaths-by-${dim.label}-${geoName}`)}.csv`)}>
-          CSV<span className="visually-hidden"> of deaths by {dim.label.toLowerCase()} in {geoName}</span>
+          CSV{' '}<span className="visually-hidden">of deaths by {dim.label.toLowerCase()} in {geoName}</span>
         </button>
       </div>
       <p className="muted">{dim.description}</p>
@@ -172,7 +172,7 @@ function DimensionSection({ data, bd, dim, geo, geoName }: {
                   <td className="num">{fmtPct(r.changeFromBaseline)}</td>
                   <td>
                     <a href={`#/charts?geo=${geo === EU ? EU : `${EU},${geo}`}&cat=${dim.id}.${r.id}&measure=${geo === EU ? 'deaths' : 'rate'}`}
-                      className="small">Compare<span className="visually-hidden"> {r.label.toLowerCase()} across countries</span></a>
+                      className="small">Compare{' '}<span className="visually-hidden">{r.label.toLowerCase()} across countries</span></a>
                   </td>
                 </tr>
               ))}
