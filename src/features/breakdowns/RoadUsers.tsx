@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, LabelList, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import type { BarShapeProps } from 'recharts';
 import type { BreakdownDimension, Breakdowns, Dataset } from '../../types/data';
@@ -30,6 +30,7 @@ function CategoryBars({ rows, title, subtitle, source, ordinal = false }: {
   rows: CategoryRow[]; title: string; subtitle: string; source: string; ordinal?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const captionId = useId();
   const [error, setError] = useState<string | null>(null);
   const data = barRows(rows, ordinal)
     .map((r) => ({ ...r, valueLabel: `${fmtInt(r.value)} · ${fmtRate(r.share)}%` }));
@@ -45,9 +46,9 @@ function CategoryBars({ rows, title, subtitle, source, ordinal = false }: {
     }
   };
   return (
-    <figure className="chart">
+    <figure className="chart" aria-labelledby={captionId}>
       <div className="chart__header">
-        <figcaption className="chart__title">{title}<span className="chart__subtitle">{subtitle}</span></figcaption>
+        <figcaption id={captionId} className="chart__title">{title}<span className="visually-hidden">:</span>{' '}<span className="chart__subtitle">{subtitle}</span></figcaption>
         <div className="chart__actions">
           <button type="button" className="button button--ghost button--small" onClick={onPng}>
             PNG{' '}<span className="visually-hidden">image of {title}</span>

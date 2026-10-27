@@ -90,7 +90,7 @@ function ActCard({ act, today, proposals }: { act: LegalAct; today: string; prop
       <article aria-labelledby={`act-${act.celex}`}>
         <div className="act-card__head">
           <h3 id={`act-${act.celex}`} className="act-card__title">
-            <ExternalLink href={act.url} label={`official text of ${citation}`}>{citation}</ExternalLink>
+            <ExternalLink href={act.url} label="official text">{citation}</ExternalLink>
           </h3>
           <div className="act-card__badges">
             <ActStatusBadge act={act} />

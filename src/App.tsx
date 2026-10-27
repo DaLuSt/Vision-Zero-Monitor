@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import type { Commitments as CommitmentsDoc, Dataset, Legislation as LegislationRegister } from './types/data';
 import { loadCommitments, loadDataset, loadLegislation } from './lib/data';
-import { useRoute } from './lib/router';
+import { pageTitle, useRoute } from './lib/router';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ErrorState, LoadingState } from './components/States';
@@ -40,6 +40,9 @@ export default function App({ load = loadDataset, loadRegister = loadLegislation
   }, [load]);
 
   const data = state.kind === 'ready' ? state.data : null;
+  useEffect(() => {
+    document.title = pageTitle(route, (geo) => data?.countries.find((c) => c.geo === geo)?.name);
+  }, [route, data]);
   let content;
   // The legislation register has its own data file and does not depend on the statistics.
   if (route.page === 'legislation') content = <Legislation load={loadRegister} />;
