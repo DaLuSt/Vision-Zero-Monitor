@@ -61,3 +61,15 @@ export function useRoute(): Route {
   }, []);
   return route;
 }
+
+const PAGE_TITLES: Record<Exclude<Route['page'], 'country'>, string> = {
+  overview: 'Overview', countries: 'Countries', explorer: 'Data explorer', charts: 'Chart builder',
+  'road-users': 'Road users', legislation: 'Legislation', commitments: 'Policy commitments',
+  methodology: 'Methodology', about: 'About', data: 'Open data', sources: 'Sources', notfound: 'Page not found',
+};
+
+/** Document title per page, so tabs, history and screen readers can tell pages apart (WCAG 2.4.2). */
+export function pageTitle(route: Route, countryName?: (geo: string) => string | undefined): string {
+  const page = route.page === 'country' ? countryName?.(route.geo) ?? route.geo : PAGE_TITLES[route.page];
+  return `${page} · Vision Zero Monitor`;
+}

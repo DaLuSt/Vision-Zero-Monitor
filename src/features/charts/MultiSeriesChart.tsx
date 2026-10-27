@@ -124,7 +124,7 @@ export function MultiSeriesChart({ title, subtitle: subtitleOverride, source = S
     <figure className={`chart${compact ? ' chart--compact' : ''}`} aria-labelledby={`${id}-title`} aria-describedby={`${id}-summary`}>
       <div className="chart__header">
         <figcaption id={`${id}-title`} className="chart__title">
-          {title}
+          {title}<span className="visually-hidden">:</span>{' '}
           <span className="chart__subtitle">{subtitle}</span>
         </figcaption>
         <div className="chart__actions">

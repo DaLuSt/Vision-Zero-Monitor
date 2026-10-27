@@ -33,3 +33,22 @@ for (const scheme of ['light', 'dark'] as const) {
     }
   });
 }
+
+// Found by a structural review of what screen readers announce (#16).
+test('each page has its own title, and chart and heading names read correctly', async ({ page }) => {
+  const titles = new Set<string>();
+  for (const [, url] of PAGES) {
+    await page.goto(url);
+    await expect(page.locator('main h2').first()).toBeVisible();
+    titles.add(await page.title());
+  }
+  expect(titles.size).toBe(PAGES.length);
+  await page.goto('/#/countries/NL');
+  await expect(page).toHaveTitle('Netherlands · Vision Zero Monitor');
+  await page.goto('/#/road-users?geo=NL');
+  await expect(page.getByRole('figure', { name: /^Road deaths by road user: Netherlands ?: \d{4} · / })).toBeVisible();
+  await page.goto('/#/legislation');
+  const heading = page.getByRole('heading', { level: 3 }).first();
+  await expect(heading).toHaveAccessibleName(/^\S.* official text on EUR-Lex \(external\)$/);
+  expect((await heading.textContent())?.match(/\d{4}\/\d+/g)?.length).toBe(1); // the citation is not repeated
+});
