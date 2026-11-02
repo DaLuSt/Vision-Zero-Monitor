@@ -1,6 +1,6 @@
 {
  "schema_version": "1.2.0",
- "generated_at": "2026-10-17T13:10:33Z",
+ "generated_at": "2026-11-02T14:50:14Z",
  "periods": [
   "1999",
   "2000",
@@ -38,7 +38,7 @@
    "source_id": "eurostat:tran_sf_roadus",
    "source_url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-17T13:10:35Z",
+   "retrieved_at": "2026-11-02T14:50:16Z",
    "categories": [
     {
      "id": "DRIV",
@@ -110,7 +110,7 @@
    "source_id": "eurostat:tran_sf_roadve",
    "source_url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadve/default/table",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-17T13:10:36Z",
+   "retrieved_at": "2026-11-02T14:50:17Z",
    "categories": [
     {
      "id": "CAR",
@@ -233,7 +233,7 @@
    "source_id": "eurostat:tran_sf_roadus",
    "source_url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-17T13:10:35Z",
+   "retrieved_at": "2026-11-02T14:50:16Z",
    "categories": [
     {
      "id": "Y_LT15",
@@ -330,7 +330,7 @@
    "source_id": "eurostat:tran_sf_roadus",
    "source_url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadus/default/table",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-17T13:10:35Z",
+   "retrieved_at": "2026-11-02T14:50:16Z",
    "categories": [
     {
      "id": "M",
@@ -394,7 +394,7 @@
    "source_id": "eurostat:tran_sf_roadro",
    "source_url": "https://ec.europa.eu/eurostat/databrowser/view/tran_sf_roadro/default/table",
    "source_published_at": "2026-08-25T21:00:00Z",
-   "retrieved_at": "2026-10-17T13:10:37Z",
+   "retrieved_at": "2026-11-02T14:50:17Z",
    "categories": [
     {
      "id": "RD_URB",

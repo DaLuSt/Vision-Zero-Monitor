@@ -1,12 +1,12 @@
 {
  "schema_version": "1.2.0",
- "generated_at": "2026-10-17T13:10:33Z",
+ "generated_at": "2026-11-02T14:50:14Z",
  "latest_period": "2024",
  "eu": {
   "period": "2024",
   "fatalities": 19933,
   "fatalities_status": "unknown",
-  "rate_per_million": 44.3,
+  "rate_per_million": 44.2,
   "rate_status": "estimated",
   "previous_period": "2023",
   "previous_fatalities": 20386,
