@@ -60,7 +60,7 @@ export function targetPaths(doc: Commitments): TargetPath[] {
     for (const t of c.targets) {
       if (t.measure?.geo !== EU) continue;
       for (const o of t.outcomes) {
-        if (o.baseline_value == null || o.target_value == null) continue;
+        if (o.baseline_value == null || o.target_value == null || o.required_change_pct == null) continue;
         const key = `t${o.baseline_year}_${o.target_year}`;
         if (seen.has(key)) continue;
         const label = o.basis === 'commission_monitoring'

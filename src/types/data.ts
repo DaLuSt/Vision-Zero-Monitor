@@ -252,7 +252,8 @@ export interface TargetOutcome {
   baseline_status: Status | null;
   target_year: number;
   target_value: number | null;
-  required_change_pct: number;
+  /** Null only if a target stated as a maximum has no baseline figure. */
+  required_change_pct: number | null;
   compare_year: number | null;
   compare_value: number | null;
   compare_status: Status | null;
@@ -267,6 +268,8 @@ export interface CommitmentTarget {
   indicator: 'road_deaths' | 'serious_injuries';
   description: string;
   reduction: number | null;
+  /** Stated ceiling for the target year (e.g. at most 50 deaths), used instead of a reduction. */
+  maximum?: number;
   baseline_year: number | null;
   /** Years averaged to form the baseline; absent for a single-year baseline. */
   baseline_average_of?: number[];

@@ -251,6 +251,11 @@
                   "exclusiveMinimum": 0,
                   "maximum": 1
                 },
+                "maximum": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "description": "Stated ceiling for the target year (e.g. at most 50 road deaths in 2030), for a target given as a number rather than a reduction; used as the target value."
+                },
                 "baseline_year": {
                   "type": [
                     "integer",
@@ -402,7 +407,10 @@
                         ]
                       },
                       "required_change_pct": {
-                        "type": "number"
+                        "type": [
+                          "number",
+                          "null"
+                        ]
                       },
                       "compare_year": {
                         "type": [

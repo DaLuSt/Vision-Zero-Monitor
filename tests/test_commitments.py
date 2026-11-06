@@ -93,7 +93,7 @@ def test_built_document_uses_official_figures():
 
     vz = by_id["eu-2050-vision-zero"]["targets"][0]
     assert vz["outcomes"] == [] and vz["reference"]["period"] == 2024
-    assert doc["summary"] == {"commitments": 16, "targets": 18, "targets_measured": 8}
+    assert doc["summary"] == {"commitments": 16, "targets": 18, "targets_measured": 9}
     national = {c["id"]: c for c in doc["commitments"] if c["level"] == "national"}
     es = national["es-esv-2030"]["targets"][0]["outcomes"][0]
     assert (es["baseline_value"], es["target_value"]) == (1755, 877.5)  # the strategy's own baseline figure
@@ -108,10 +108,12 @@ def test_built_document_uses_official_figures():
     assert (at["baseline_average_of"], at["baseline_value"], at["target_value"]) == ([2017, 2018, 2019], 413.0, 206.5)
     hr = national["hr-npscp-2021-2030"]["targets"][0]["outcomes"][0]
     assert (hr["baseline_year"], hr["baseline_value"], hr["target_value"]) == (2019, 297, 148.5)  # the plan's 2019 figure
-    # Czechia (two baselines in one document) and Slovenia (a ceiling, not a percentage): reference figure only.
-    for cid in ("cz-besip-2021-2030", "si-renpvcp-2023-2030"):
-        t = national[cid]["targets"][0]
-        assert t["outcomes"] == [] and t["reference"]["period"] == 2024
+    si = national["si-renpvcp-2023-2030"]["targets"][0]["outcomes"][0]
+    # A maximum, not a percentage: at most 50 deaths in 2030, against Eurostat's 102 in 2019.
+    assert (si["baseline_value"], si["target_value"], si["required_change_pct"]) == (102, 50, -51.0)
+    # Czechia states two baselines in one document: reference figure only.
+    cz = national["cz-besip-2021-2030"]["targets"][0]
+    assert cz["outcomes"] == [] and cz["reference"]["period"] == 2024
     # EU commitments first, newest first within each level.
     levels = [c["level"] for c in doc["commitments"]]
     assert levels == sorted(levels, key=lambda lv: lv != "eu")
@@ -133,6 +135,19 @@ def test_outcome_after_the_deadline_uses_the_target_year():
     assert o["share_of_required_reduction"] == 1.04
 
 
+def test_outcome_for_a_stated_maximum():
+    obs = b.index_observations(synthetic_obs({2019: 100, 2024: 70}))
+    o = b.outcome(obs, target(reduction=None, maximum=40, baseline_year=2019), 2019, "as_stated")
+    assert (o["target_value"], o["required_change_pct"], o["change_pct"]) == (40, -60.0, -30.0)
+    assert o["share_of_required_reduction"] == 0.5 and o["above_target_value"] is True
+
+
+def test_stated_maximum_without_a_baseline_figure_stays_missing():
+    obs = b.index_observations(synthetic_obs({2024: 70}))
+    o = b.outcome(obs, target(reduction=None, maximum=40, baseline_year=2019), 2019, "as_stated")
+    assert (o["baseline_value"], o["target_value"], o["required_change_pct"]) == (None, None, None)
+
+
 def test_outcome_with_missing_target_year_value_stays_missing():
     obs = b.index_observations(synthetic_obs({2010: 1000, 2021: 600}))
     o = b.outcome(obs, target(baseline_year=2010, target_year=2020), 2010, "as_stated")
@@ -149,6 +164,11 @@ def test_duplicate_ids_are_errors(curated):
 def test_baseline_must_precede_target(curated):
     curated["commitments"][0]["targets"][0]["baseline_year"] = 2031
     assert "years" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
+
+
+def test_target_states_either_a_reduction_or_a_maximum(curated):
+    curated["commitments"][0]["targets"][0]["maximum"] = 10000
+    assert "target" in codes(b.check(curated, OBSERVATIONS, REVIEWED))
 
 
 def test_unmeasured_target_needs_a_reason(curated):
