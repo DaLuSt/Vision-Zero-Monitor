@@ -1,13 +1,13 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-11-06T13:29:28Z",
+ "generated_at": "2026-11-06T14:01:28Z",
  "reviewed_at": "2026-11-06",
  "review_note": "Every quote was checked word for word against the official document on the review date (scripts/commitments/verify_sources.py). Edit this file only with a new review.",
  "statistics_source": "Eurostat tran_sf_roadus (road deaths), as published in observations.json",
  "summary": {
   "commitments": 16,
   "targets": 18,
-  "targets_measured": 8
+  "targets_measured": 9
  },
  "commitments": [
   {
@@ -382,23 +382,37 @@
     {
      "id": "deaths",
      "indicator": "road_deaths",
-     "target_year": 2030,
-     "not_measured_reason": "The resolution sets a ceiling of 50 road deaths in 2030 rather than a percentage reduction, so no target value is calculated from a baseline. The latest official figure is shown for reference.",
-     "scope_note": "Eurostat records 102 road deaths in Slovenia in 2019, the resolution's baseline year.",
-     "monitoring_baselines": [],
-     "description": "At most 50 road deaths in 2030",
+     "description": "At most 50 road deaths in 2030 (baseline year 2019)",
      "reduction": null,
+     "maximum": 50,
      "baseline_year": 2019,
+     "target_year": 2030,
      "measure": {
       "geo": "SI",
       "indicator": "road_fatalities"
      },
-     "outcomes": [],
-     "reference": {
-      "period": 2024,
-      "value": 68,
-      "status": "unknown"
-     }
+     "not_measured_reason": null,
+     "scope_note": "The resolution states the target as a maximum of 50 road deaths, not as a percentage. Eurostat records 102 road deaths in Slovenia in 2019, the resolution's baseline year, so the target implies a change of −51.0 %.",
+     "monitoring_baselines": [],
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2019,
+       "baseline_value": 102,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 50,
+       "required_change_pct": -51.0,
+       "compare_year": 2024,
+       "compare_value": 68,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": -33.3,
+       "share_of_required_reduction": 0.654,
+       "above_target_value": true
+      }
+     ],
+     "reference": null
     }
    ]
   },
@@ -624,10 +638,6 @@
     {
      "id": "deaths",
      "indicator": "road_deaths",
-     "target_year": 2030,
-     "not_measured_reason": null,
-     "scope_note": "The 2017–2019 average of Eurostat's figures for Austria (413.0) equals the ministry's baseline of 413 road deaths; half of it is 206.5, which the ministry rounds to 206.",
-     "monitoring_baselines": [],
      "description": "Road deaths −50 % by 2030, from the 2017–2019 average",
      "reduction": 0.5,
      "baseline_year": 2019,
@@ -636,10 +646,14 @@
       2018,
       2019
      ],
+     "target_year": 2030,
      "measure": {
       "geo": "AT",
       "indicator": "road_fatalities"
      },
+     "not_measured_reason": null,
+     "scope_note": "The 2017–2019 average of Eurostat's figures for Austria (413.0) equals the ministry's baseline of 413 road deaths; half of it is 206.5, which the ministry rounds to 206.",
+     "monitoring_baselines": [],
      "outcomes": [
       {
        "basis": "as_stated",
@@ -713,17 +727,17 @@
     {
      "id": "deaths",
      "indicator": "road_deaths",
-     "target_year": 2030,
-     "not_measured_reason": null,
-     "scope_note": "The plan gives 297 road deaths in 2019, equal to Eurostat's figure for Croatia; half of it is 148.5.",
-     "monitoring_baselines": [],
      "description": "Road deaths −50 % by 2030, from 2019",
      "reduction": 0.5,
      "baseline_year": 2019,
+     "target_year": 2030,
      "measure": {
       "geo": "HR",
       "indicator": "road_fatalities"
      },
+     "not_measured_reason": null,
+     "scope_note": "The plan gives 297 road deaths in 2019, equal to Eurostat's figure for Croatia; half of it is 148.5.",
+     "monitoring_baselines": [],
      "outcomes": [
       {
        "basis": "as_stated",
@@ -792,17 +806,17 @@
     {
      "id": "deaths",
      "indicator": "road_deaths",
-     "target_year": 2030,
-     "not_measured_reason": "The strategy gives two different baselines: the average of 2017–2019 in its introduction and 2020 in section 3.1. No target value is calculated; the latest official figure is shown for reference.",
-     "scope_note": null,
-     "monitoring_baselines": [],
      "description": "Road deaths −50 % by 2030",
      "reduction": 0.5,
      "baseline_year": null,
+     "target_year": 2030,
      "measure": {
       "geo": "CZ",
       "indicator": "road_fatalities"
      },
+     "not_measured_reason": "The strategy gives two different baselines: the average of 2017–2019 in its introduction and 2020 in section 3.1. No target value is calculated; the latest official figure is shown for reference.",
+     "scope_note": null,
+     "monitoring_baselines": [],
      "outcomes": [],
      "reference": {
       "period": 2024,

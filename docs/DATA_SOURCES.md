@@ -219,7 +219,7 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   | Austria | Austrian Road Safety Strategy 2021–2030 (BMK, English edition); baseline and target in the ministry's Jahresbericht Verkehrssicherheit 2024 | −50 % road deaths by 2030 from the **2017–2019 average** (413, equal to the Eurostat average; target 206) | Strategy in English; report: official (English edition, p. 23) |
   | Croatia | Nacionalni plan sigurnosti cestovnog prometa 2021–2030, Narodne novine 86/2021 | −50 % road deaths from the reference year **2019** (297, equal to Eurostat) | Own |
   | Czechia | Strategie BESIP 2021–2030 (government resolution no. 8, 4 Jan 2021) | −50 % road deaths and serious injuries by 2030; **two baselines stated** (2017–2019 average in chapter 1, 2020 in §3.1), so not measured | Own |
-  | Slovenia | Resolution ReNPVCP23–30, Uradni list RS 124/2023 | **At most 50 road deaths in 2030** (baseline year 2019); a ceiling, not a percentage, so not measured | Own |
+  | Slovenia | Resolution ReNPVCP23–30, Uradni list RS 124/2023 | **At most 50 road deaths in 2030** (baseline year 2019, 102 in Eurostat); measured as a stated maximum (implied change −51.0 %) | Own |
 
   *Searched but not listed (October and November 2026):*
   * *Finland* (Liikenneturvallisuusstrategia 2022–2026, reported as −50 % from 2020) and *Denmark*

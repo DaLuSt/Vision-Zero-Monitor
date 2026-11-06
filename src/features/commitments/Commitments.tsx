@@ -238,7 +238,8 @@ export function CommitmentsView({ data, doc }: { data: Dataset; doc: Commitments
         <p>
           Commitments are published as documents, not as data, so they are curated by hand: each entry quotes the
           official text and links to it, and a script checks every quote against the source before a review is
-          recorded. Target values are the official baseline figure × (1 − the stated reduction); the change is
+          recorded. Target values are the official baseline figure × (1 − the stated reduction), or the stated maximum
+          where a target is given as a number (e.g. at most 50 deaths); the change is
           (official figure − baseline) ÷ baseline. When a target's deadline has passed, the figure for the target year
           is shown; otherwise the latest available year. See the{' '}
           <a href={`${DOCS_URL}/METHODOLOGY.md#policy-commitments`}>methodology</a>. Quotes in other languages come with

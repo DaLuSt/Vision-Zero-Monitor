@@ -305,14 +305,16 @@ legally binding. The text says so for each entry, in the source's own terms (for
 “Council conclusions”, “UN General Assembly resolution”).
 
 **Targets.** Each commitment lists its targets as stated: indicator (road deaths or serious
-injuries), reduction, baseline year and target year. A target is **measured** only when it
+injuries), reduction (or, where the document gives a number instead, the stated maximum for the
+target year), baseline year and target year. A target is **measured** only when it
 can be compared with the official statistics on this site: road deaths, for the EU-27 or
 (national strategies) the country, with an official figure for the baseline year. Otherwise the reason is shown (for example: no official
 EU-wide serious-injury (MAIS3+) series exists, see DATA_SOURCES §8; a global goal; no baseline year stated).
 
 | Quantity | Definition |
 | --- | --- |
-| Target value | official baseline figure × (1 − stated reduction), kept unrounded in the data (e.g. 9 415.0) |
+| Target value | official baseline figure × (1 − stated reduction), kept unrounded in the data (e.g. 9 415.0); for a target stated as a maximum, that maximum (e.g. Slovenia: 50) |
+| Required change | − stated reduction × 100; for a stated maximum, (maximum − baseline figure) ÷ baseline figure × 100 |
 | Comparison year | the target year if its figure is published, otherwise the latest year with a figure |
 | Change | (figure in comparison year − baseline figure) ÷ baseline figure × 100 |
 | Share of the required reduction | (baseline − figure) ÷ (baseline − target value); negative when deaths rose |

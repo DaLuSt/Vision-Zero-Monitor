@@ -81,8 +81,11 @@ def outcome(obs: Observations, target: dict, baseline_year: int, basis: str) -> 
     """Target value and recorded outcome for one baseline. Values are official figures; nothing is estimated.
 
     A target stated against an average of several years (e.g. Sweden: mean of 2017–2019) uses that
-    mean as its baseline; Commission monitoring baselines are single years.
+    mean as its baseline; Commission monitoring baselines are single years. A target stated as a
+    maximum (e.g. Slovenia: at most 50 deaths in 2030) uses that number as the target value, and the
+    required change is the change from the baseline figure to it.
     """
+    maximum = target.get("maximum")
     geo, ind = target["measure"]["geo"], target["measure"]["indicator"]
     average = target.get("baseline_average_of") if basis == "as_stated" else None
     base, base_status = _baseline(obs, geo, ind, average or [baseline_year])
@@ -98,7 +101,7 @@ def outcome(obs: Observations, target: dict, baseline_year: int, basis: str) -> 
         "baseline_status": base_status,
         "target_year": target_year,
         "target_value": None,
-        "required_change_pct": round(-target["reduction"] * 100, 1),
+        "required_change_pct": None if maximum is not None else round(-target["reduction"] * 100, 1),
         "compare_year": compare_year,
         "compare_value": value,
         "compare_status": status,
@@ -110,13 +113,21 @@ def outcome(obs: Observations, target: dict, baseline_year: int, basis: str) -> 
     if average:
         result["baseline_average_of"] = average
     if base is not None:
-        target_value = base * (1 - target["reduction"])
+        target_value = maximum if maximum is not None else base * (1 - target["reduction"])
         result["target_value"] = round(target_value, 1)
+        if maximum is not None:
+            result["required_change_pct"] = _pct(maximum, base)
         if value is not None:
             result["change_pct"] = _pct(value, base)
-            result["share_of_required_reduction"] = round((base - value) / (base - target_value), 3)
+            if base != target_value:
+                result["share_of_required_reduction"] = round((base - value) / (base - target_value), 3)
             result["above_target_value"] = value > target_value
     return result
+
+
+def _stated_target(t: dict) -> bool:
+    """A target can be computed if it states a reduction or a maximum."""
+    return t.get("reduction") is not None or t.get("maximum") is not None
 
 
 def build(curated: dict, observations: dict, generated_at: str) -> dict:
@@ -129,7 +140,7 @@ def build(curated: dict, observations: dict, generated_at: str) -> dict:
             t["outcomes"] = []
             t["reference"] = None
             m = t.get("measure")
-            if m and t.get("reduction") is not None and t.get("baseline_year") is not None:
+            if m and _stated_target(t) and t.get("baseline_year") is not None:
                 t["outcomes"].append(outcome(obs, t, t["baseline_year"], "as_stated"))
                 for mb in t.get("monitoring_baselines", []):
                     t["outcomes"].append(outcome(obs, t, mb["year"], "commission_monitoring"))
@@ -189,7 +200,9 @@ def check(curated: dict, observations: dict, today: str) -> list[dict]:
             avg = t.get("baseline_average_of")
             if avg and (avg != sorted(set(avg)) or avg[-1] != b):
                 issues.append(issue("error", "years", f"{where}: baseline_average_of must be ascending and end with baseline year {b}"))
-            measured = t.get("measure") and t.get("reduction") is not None and b is not None
+            if t.get("reduction") is not None and t.get("maximum") is not None:
+                issues.append(issue("error", "target", f"{where}: state either a reduction or a maximum, not both"))
+            measured = t.get("measure") and _stated_target(t) and b is not None
             if not measured and not t.get("not_measured_reason"):
                 issues.append(issue("error", "reason", f"{where}: not measured but no not_measured_reason given"))
             if t.get("measure"):
