@@ -93,7 +93,7 @@ def test_built_document_uses_official_figures():
 
     vz = by_id["eu-2050-vision-zero"]["targets"][0]
     assert vz["outcomes"] == [] and vz["reference"]["period"] == 2024
-    assert doc["summary"] == {"commitments": 12, "targets": 14, "targets_measured": 6}
+    assert doc["summary"] == {"commitments": 16, "targets": 18, "targets_measured": 8}
     national = {c["id"]: c for c in doc["commitments"] if c["level"] == "national"}
     es = national["es-esv-2030"]["targets"][0]["outcomes"][0]
     assert (es["baseline_value"], es["target_value"]) == (1755, 877.5)  # the strategy's own baseline figure
@@ -103,6 +103,15 @@ def test_built_document_uses_official_figures():
     se = national["se-etappmal-2030"]["targets"][0]["outcomes"][0]
     # Mean of Eurostat 2017–2019 (253, 324, 221), as in the Swedish target; at most 133 in 2030.
     assert (se["baseline_average_of"], se["baseline_value"], se["target_value"]) == ([2017, 2018, 2019], 266.0, 133.0)
+    at = national["at-vss-2021-2030"]["targets"][0]["outcomes"][0]
+    # Mean of Eurostat 2017–2019 (414, 409, 416), the ministry's baseline of 413; target 206.5 ("206").
+    assert (at["baseline_average_of"], at["baseline_value"], at["target_value"]) == ([2017, 2018, 2019], 413.0, 206.5)
+    hr = national["hr-npscp-2021-2030"]["targets"][0]["outcomes"][0]
+    assert (hr["baseline_year"], hr["baseline_value"], hr["target_value"]) == (2019, 297, 148.5)  # the plan's 2019 figure
+    # Czechia (two baselines in one document) and Slovenia (a ceiling, not a percentage): reference figure only.
+    for cid in ("cz-besip-2021-2030", "si-renpvcp-2023-2030"):
+        t = national[cid]["targets"][0]
+        assert t["outcomes"] == [] and t["reference"]["period"] == 2024
     # EU commitments first, newest first within each level.
     levels = [c["level"] for c in doc["commitments"]]
     assert levels == sorted(levels, key=lambda lv: lv != "eu")
