@@ -1,13 +1,13 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-10-25T18:29:41Z",
- "reviewed_at": "2026-10-25",
+ "generated_at": "2026-11-06T13:29:28Z",
+ "reviewed_at": "2026-11-06",
  "review_note": "Every quote was checked word for word against the official document on the review date (scripts/commitments/verify_sources.py). Edit this file only with a new review.",
  "statistics_source": "Eurostat tran_sf_roadus (road deaths), as published in observations.json",
  "summary": {
-  "commitments": 12,
-  "targets": 14,
-  "targets_measured": 6
+  "commitments": 16,
+  "targets": 18,
+  "targets_measured": 8
  },
  "commitments": [
   {
@@ -352,6 +352,57 @@
    ]
   },
   {
+   "id": "si-renpvcp-2023-2030",
+   "title": "Slovenia: at most 50 road deaths in 2030",
+   "issuer": "National Assembly of the Republic of Slovenia (resolution of 28 November 2023)",
+   "level": "national",
+   "geo": "SI",
+   "scope": "Slovenia",
+   "form": "national_strategy",
+   "nature": "Resolution on the National Road Safety Programme 2023–2030 (ReNPVCP23–30), adopted by the National Assembly and published in the official gazette, Uradni list RS 124/2023. Not legally binding. Serious injuries are to be no more than 400 in 2030, measured with Slovenian police data, which this site does not cover.",
+   "date": "2023-11-28",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Resolucija o nacionalnem programu varnosti cestnega prometa za obdobje od 2023 do 2030 (ReNPVCP23–30)",
+     "reference": "Uradni list RS 124/2023",
+     "publisher": "Uradni list Republike Slovenije (official gazette)",
+     "date": "2023-12-08",
+     "url": "https://www.uradni-list.si/glasilo-uradni-list-rs/vsebina/2023-01-3598",
+     "location": "Section 3.5, “Cilji resolucije za obdobje od leta 2023 do leta 2030”",
+     "language": "sl",
+     "quote": "Z izvajanjem ukrepov, določenih v resoluciji, bo stremela k temu, da na slovenskih cestah do leta 2030 ne bo umrlo več kot 50 oseb in da se v prometnih nesrečah ne bo hudo telesno poškodovalo več kot 400 oseb. Za izhodiščno leto je uporabljeno leto 2019",
+     "translation": {
+      "kind": "own",
+      "text": "By implementing the measures set out in the resolution, [Slovenia] will strive to ensure that by 2030 no more than 50 people die on Slovenian roads and no more than 400 are seriously injured in road traffic crashes. 2019 is used as the baseline year"
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "target_year": 2030,
+     "not_measured_reason": "The resolution sets a ceiling of 50 road deaths in 2030 rather than a percentage reduction, so no target value is calculated from a baseline. The latest official figure is shown for reference.",
+     "scope_note": "Eurostat records 102 road deaths in Slovenia in 2019, the resolution's baseline year.",
+     "monitoring_baselines": [],
+     "description": "At most 50 road deaths in 2030",
+     "reduction": null,
+     "baseline_year": 2019,
+     "measure": {
+      "geo": "SI",
+      "indicator": "road_fatalities"
+     },
+     "outcomes": [],
+     "reference": {
+      "period": 2024,
+      "value": 68,
+      "status": "unknown"
+     }
+    }
+   ]
+  },
+  {
    "id": "es-esv-2030",
    "title": "Spain: halve road deaths between 2019 and 2030",
    "issuer": "Dirección General de Tráfico (DGT), Ministry of the Interior",
@@ -526,6 +577,238 @@
      "monitoring_baselines": [],
      "outcomes": [],
      "reference": null
+    }
+   ]
+  },
+  {
+   "id": "at-vss-2021-2030",
+   "title": "Austria: halve road deaths by 2030, from the 2017–2019 average",
+   "issuer": "Austrian Federal Government (Federal Ministry for Climate Action, BMK; now BMIMI)",
+   "level": "national",
+   "geo": "AT",
+   "scope": "Austria",
+   "form": "national_strategy",
+   "nature": "Austrian Road Safety Strategy 2021–2030 (Österreichische Verkehrssicherheitsstrategie 2021–2030), published by the federal transport ministry in German and in its own English edition. Not legally binding. Serious injuries are also to fall by 50 % from the 2017–2019 average, measured with Austrian police data, which this site does not cover; no child is to be killed in road traffic by 2030.",
+   "date": "2021",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Austrian Road Safety Strategy 2021–2030",
+     "reference": "Austrian Road Safety Strategy 2021–2030 (English edition)",
+     "publisher": "Federal Ministry for Climate Action, Environment, Energy, Mobility, Innovation and Technology (BMK)",
+     "date": "2021",
+     "url": "https://www.bmimi.gv.at/dam/jcr:01ec66b7-7961-4d06-bfdb-26067919ee8a/BMK_VSS_2021-2030_EN_UA.pdf",
+     "location": "Chapter 6.1, “Reduction targets”, p. 59 of the PDF",
+     "quote": "50 % reduction in traffic fatalities by 2030 (basis: average 2017 – 2019)"
+    },
+    {
+     "role": "reaffirmed",
+     "title": "Verkehrssicherheit in Österreich – Jahresbericht 2024",
+     "reference": "Road safety annual report 2024",
+     "publisher": "Federal Ministry for Innovation, Mobility and Infrastructure (BMIMI)",
+     "date": "2026",
+     "url": "https://www.bmimi.gv.at/dam/jcr:3f8ef33c-ad9d-41ec-97bf-7b7ef99a292f/Jahresbericht-Verkehrssicherheit-2024.pdf",
+     "location": "p. 23 of the PDF; gives the baseline as 413 deaths and the target as 206",
+     "language": "de",
+     "quote": "In der Verkehrssicherheitsstrategie 2021–2030 werden bei den numerischen Reduktionszielen die durchschnittlichen Werte der Jahre 2017–2019 als Ausgangsbasis herangezogen. Damit ergeben sich als Ausgangs- sowie Zielwerte: • Getötete: Ausgangswert 413, Zielwert 206",
+     "translation": {
+      "kind": "official",
+      "title": "Road Safety in Austria – Annual Report 2024 (English edition)",
+      "url": "https://www.bmimi.gv.at/dam/jcr:ec675b4c-a298-4049-b1ab-1834a8c34e40/Jahresbericht-Verkehrssicherheit-2024-EN_bf.pdf",
+      "location": "p. 23 of the PDF",
+      "text": "The 2021–2030 road safety strategy uses the average values from 2017–2019 as a baseline for its numerical reduction targets. These baseline and target figures are as follows: • Fatalities: baseline figure 413, target figure 206"
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "target_year": 2030,
+     "not_measured_reason": null,
+     "scope_note": "The 2017–2019 average of Eurostat's figures for Austria (413.0) equals the ministry's baseline of 413 road deaths; half of it is 206.5, which the ministry rounds to 206.",
+     "monitoring_baselines": [],
+     "description": "Road deaths −50 % by 2030, from the 2017–2019 average",
+     "reduction": 0.5,
+     "baseline_year": 2019,
+     "baseline_average_of": [
+      2017,
+      2018,
+      2019
+     ],
+     "measure": {
+      "geo": "AT",
+      "indicator": "road_fatalities"
+     },
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2019,
+       "baseline_value": 413.0,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 206.5,
+       "required_change_pct": -50.0,
+       "compare_year": 2024,
+       "compare_value": 351,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": -15.0,
+       "share_of_required_reduction": 0.3,
+       "above_target_value": true,
+       "baseline_average_of": [
+        2017,
+        2018,
+        2019
+       ]
+      }
+     ],
+     "reference": null
+    }
+   ]
+  },
+  {
+   "id": "hr-npscp-2021-2030",
+   "title": "Croatia: halve road deaths by 2030, from 2019",
+   "issuer": "Government of the Republic of Croatia (decision of 29 July 2021)",
+   "level": "national",
+   "geo": "HR",
+   "scope": "Croatia",
+   "form": "national_strategy",
+   "nature": "National Road Safety Plan of the Republic of Croatia 2021–2030 (Nacionalni plan sigurnosti cestovnog prometa), adopted by Government decision and published in the official gazette, Narodne novine 86/2021. Not legally binding. The plan also aims to halve the number of serious crashes (crashes with deaths or serious injuries), which this site does not cover.",
+   "date": "2021-07-29",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Odluka o donošenju Nacionalnog plana sigurnosti cestovnog prometa Republike Hrvatske za razdoblje od 2021. do 2030.",
+     "reference": "Narodne novine 86/2021",
+     "publisher": "Narodne novine (official gazette of the Republic of Croatia)",
+     "date": "2021-07-30",
+     "url": "https://narodne-novine.nn.hr/clanci/sluzbeni/full/2021_07_86_1588.html",
+     "location": "Preface (Predgovor) of the plan",
+     "language": "hr",
+     "quote": "Opći cilj Nacionalnog plana usmjeren je na ostvarenje 50% smanjenja broja osoba poginulih u prometnim nesrećama i broja teških prometnih nesreća u cestovnom prometu.",
+     "translation": {
+      "kind": "own",
+      "text": "The general objective of the National Plan is a 50 % reduction in the number of people killed in road traffic crashes and in the number of serious road traffic crashes."
+     }
+    },
+    {
+     "role": "primary",
+     "title": "Odluka o donošenju Nacionalnog plana sigurnosti cestovnog prometa Republike Hrvatske za razdoblje od 2021. do 2030.",
+     "reference": "Narodne novine 86/2021",
+     "publisher": "Narodne novine (official gazette of the Republic of Croatia)",
+     "date": "2021-07-30",
+     "url": "https://narodne-novine.nn.hr/clanci/sluzbeni/full/2021_07_86_1588.html",
+     "location": "Introduction to the analysis of critical factors; the preface gives 297 road deaths in 2019",
+     "language": "hr",
+     "quote": "S obzirom na dinamiku i metodologiju obrade podataka te provođenje istraživanja i izradu Nacionalnog plana u 2020., kao referentna godina korištena je 2019.",
+     "translation": {
+      "kind": "own",
+      "text": "Given the timing and method of data processing and the research and drafting of the National Plan in 2020, 2019 was used as the reference year."
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "target_year": 2030,
+     "not_measured_reason": null,
+     "scope_note": "The plan gives 297 road deaths in 2019, equal to Eurostat's figure for Croatia; half of it is 148.5.",
+     "monitoring_baselines": [],
+     "description": "Road deaths −50 % by 2030, from 2019",
+     "reduction": 0.5,
+     "baseline_year": 2019,
+     "measure": {
+      "geo": "HR",
+      "indicator": "road_fatalities"
+     },
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2019,
+       "baseline_value": 297,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 148.5,
+       "required_change_pct": -50.0,
+       "compare_year": 2024,
+       "compare_value": 239,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": -19.5,
+       "share_of_required_reduction": 0.391,
+       "above_target_value": true
+      }
+     ],
+     "reference": null
+    }
+   ]
+  },
+  {
+   "id": "cz-besip-2021-2030",
+   "title": "Czechia: halve road deaths and serious injuries by 2030",
+   "issuer": "Government of the Czech Republic (resolution no. 8 of 4 January 2021)",
+   "level": "national",
+   "geo": "CZ",
+   "scope": "Czechia",
+   "form": "national_strategy",
+   "nature": "Road Safety Strategy BESIP 2021–2030 (Strategie BESIP 2021–2030), approved by the Government and published by the Ministry of Transport. Not legally binding. The strategy counts deaths within 24 hours of a crash; Eurostat's figures use 30 days.",
+   "date": "2021-01-04",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Strategie BESIP 2021–2030",
+     "reference": "Strategie BESIP 2021–2030",
+     "publisher": "Ministerstvo dopravy (BESIP)",
+     "date": "2021",
+     "url": "https://besip.gov.cz/getattachment/Pro-odborniky/Narodni-strategie-BESIP/Aktualni-strategie/Strategie-BESIP-2021-2030_ceska-verze-final_pro-WEB.pdf?lang=cs-CZ",
+     "location": "Chapter 1, “Úvod”, p. 4 of the PDF",
+     "language": "cs",
+     "quote": "snížit počet usmrcených a těžce zraněných osob na pozemních komunikacích o polovinu (v roce 2030 o 50 % méně vůči výchozímu stavu). Pozn. Výchozí stav předpokladu Strategie je průměrem let 2017-2019.",
+     "translation": {
+      "kind": "own",
+      "text": "to halve the number of people killed and seriously injured on the roads (50 % fewer in 2030 than at the starting point). Note: the Strategy's starting point is the average of 2017–2019."
+     }
+    },
+    {
+     "role": "primary",
+     "title": "Strategie BESIP 2021–2030",
+     "reference": "Strategie BESIP 2021–2030",
+     "publisher": "Ministerstvo dopravy (BESIP)",
+     "date": "2021",
+     "url": "https://besip.gov.cz/getattachment/Pro-odborniky/Narodni-strategie-BESIP/Aktualni-strategie/Strategie-BESIP-2021-2030_ceska-verze-final_pro-WEB.pdf?lang=cs-CZ",
+     "location": "Section 3.1, “Mezní hodnoty usmrcených a těžce zraněných osob”, p. 11 of the PDF",
+     "language": "cs",
+     "quote": "vinu, tzn. v roce 2030 o 50 % méně vůči roku 2020.",
+     "translation": {
+      "kind": "own",
+      "text": "[to] half, i.e. 50 % fewer in 2030 than in 2020."
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "target_year": 2030,
+     "not_measured_reason": "The strategy gives two different baselines: the average of 2017–2019 in its introduction and 2020 in section 3.1. No target value is calculated; the latest official figure is shown for reference.",
+     "scope_note": null,
+     "monitoring_baselines": [],
+     "description": "Road deaths −50 % by 2030",
+     "reduction": 0.5,
+     "baseline_year": null,
+     "measure": {
+      "geo": "CZ",
+      "indicator": "road_fatalities"
+     },
+     "outcomes": [],
+     "reference": {
+      "period": 2024,
+      "value": 494,
+      "status": "unknown"
+     }
     }
    ]
   },

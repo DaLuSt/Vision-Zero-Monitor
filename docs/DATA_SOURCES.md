@@ -206,7 +206,7 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   | UN General Assembly resolution A/RES/74/299 | 31 Aug 2020 | At least −50 % deaths and injuries 2021–2030 (global) |
   | Commission “Road safety statistics 2025 in more detail”, Figure 1 | 2026 | Monitoring baseline 2019 for the 2030 target |
 
-* **National strategies (first selection, reviewed 17 Oct 2026).** Quoted in the original
+* **National strategies (reviewed 17 Oct 2026; second batch 6 Nov 2026).** Quoted in the original
   language with an English translation; official translations are verified like the quotes.
 
   | Country | Document | Target used | Translation |
@@ -216,8 +216,21 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   | Germany | Verkehrssicherheitsprogramm der Bundesregierung 2021 bis 2030 (BMVI) | −40 % road deaths by 2030; **no baseline year stated**, so not measured | Own |
   | Netherlands | Strategisch Plan Verkeersveiligheid 2030 (officielebekendmakingen.nl, blg-866302) | Zero road casualties as the ambition for 2050; no national number for 2030 | Own |
   | Sweden | Government interim target of 13 Feb 2020, as set out in Trafikverket's PM “Nya mål för trafiksäkerhet väg 2020–2030” (16 Sep 2020) | −50 % road deaths by 2030 from the **2017–2019 average** (266, equal to the Eurostat average; at most 133) | Own |
+  | Austria | Austrian Road Safety Strategy 2021–2030 (BMK, English edition); baseline and target in the ministry's Jahresbericht Verkehrssicherheit 2024 | −50 % road deaths by 2030 from the **2017–2019 average** (413, equal to the Eurostat average; target 206) | Strategy in English; report: official (English edition, p. 23) |
+  | Croatia | Nacionalni plan sigurnosti cestovnog prometa 2021–2030, Narodne novine 86/2021 | −50 % road deaths from the reference year **2019** (297, equal to Eurostat) | Own |
+  | Czechia | Strategie BESIP 2021–2030 (government resolution no. 8, 4 Jan 2021) | −50 % road deaths and serious injuries by 2030; **two baselines stated** (2017–2019 average in chapter 1, 2020 in §3.1), so not measured | Own |
+  | Slovenia | Resolution ReNPVCP23–30, Uradni list RS 124/2023 | **At most 50 road deaths in 2030** (baseline year 2019); a ceiling, not a percentage, so not measured | Own |
 
-  *Searched but not listed (October 2026):*
+  *Searched but not listed (October and November 2026):*
+  * *Finland* (Liikenneturvallisuusstrategia 2022–2026, reported as −50 % from 2020) and *Denmark*
+    (Færdselssikkerhedskommissionen's plan, reported as at most 90 deaths in 2030): valtioneuvosto.fi,
+    lvm.fi, julkaisut.valtioneuvosto.fi and ft.dk answer automated requests with a bot challenge
+    (HTTP 403), so the quote check could not run. Denmark's target is also set by a commission,
+    not the government.
+  * *Romania* (Strategia națională pentru siguranță rutieră 2022–2030, HG 682/2022):
+    legislatie.just.ro closes automated connections.
+  * *Portugal* (“Visão Zero 2030”): approved by the Council of Ministers on 3 June 2026 for
+    public consultation; no final text in the Diário da República found yet.
   * *France:* no official national road-death target for 2030 found in the Sécurité routière /
     ONISR documents.
   * *Ireland* (Road Safety Strategy 2021–2030, −50 %) and *Belgium* (federal plan): the
