@@ -1,8 +1,8 @@
 {
  "schema_version": "1.2.0",
- "last_attempt_at": "2026-11-02T14:50:14Z",
+ "last_attempt_at": "2026-11-09T15:16:56Z",
  "last_outcome": "success",
- "last_success_at": "2026-11-02T14:50:14Z",
- "message": "Data updated. Latest EU reference period 2024; 4 changed, 0 added, 0 removed value(s); 3 validation warning(s).",
- "run_url": "https://github.com/DaLuSt/Vision-Zero-Monitor/actions/runs/41465709967"
+ "last_success_at": "2026-11-09T15:16:56Z",
+ "message": "Data updated. Latest EU reference period 2024; 0 changed, 0 added, 0 removed value(s); 2 validation warning(s).",
+ "run_url": "https://github.com/DaLuSt/Vision-Zero-Monitor/actions/runs/42643046350"
 }
