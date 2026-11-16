@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-11-09T15:17:05Z",
+ "generated_at": "2026-11-16T14:52:43Z",
  "source": {
   "publisher": "Publications Office of the European Union (Cellar / EUR-Lex metadata)",
   "endpoint": "https://publications.europa.eu/webapi/rdf/sparql",
@@ -23,7 +23,7 @@
     "reason": "Speed limitation devices for heavy vehicles; not indexed under 'road safety'."
    }
   ],
-  "retrieved_at": "2026-11-09T15:17:05Z",
+  "retrieved_at": "2026-11-16T14:52:43Z",
   "licence": "EUR-Lex data reuse: Commission Decision 2011/833/EU; © European Union"
  },
  "summary": {
@@ -1321,7 +1321,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2023/983/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023D0983",
-   "responsible": null,
+   "responsible": "MOVE",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -1536,7 +1536,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2022/2200/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022D2200",
-   "responsible": null,
+   "responsible": "GROW",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -1864,7 +1864,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2021/1981/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32021D1981",
-   "responsible": null,
+   "responsible": "GROW",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -2050,7 +2050,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2021/925/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32021D0925",
-   "responsible": null,
+   "responsible": "GROW",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -2291,7 +2291,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2021/366/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32021D0366",
-   "responsible": null,
+   "responsible": "MOVE",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -2324,7 +2324,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2020/1637/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32020D1637",
-   "responsible": null,
+   "responsible": "GROW",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -2404,7 +2404,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2020/848/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32020D0848",
-   "responsible": null,
+   "responsible": "GROW",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -2693,7 +2693,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2019/984/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32019D0984",
-   "responsible": null,
+   "responsible": "MOVE",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -2803,7 +2803,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2018/1926/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32018D1926",
-   "responsible": null,
+   "responsible": "MOVE",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -3135,7 +3135,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2017/2380/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32017D2380",
-   "responsible": null,
+   "responsible": "MOVE",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -3343,7 +3343,7 @@
    ],
    "transposition_deadlines": [],
    "in_force": true,
-   "end_of_validity": null,
+   "end_of_validity": "2018-07-20",
    "eli": "http://data.europa.eu/eli/reg_del/2016/1788/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R1788",
    "responsible": "GROW",
@@ -3583,7 +3583,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2015/2088/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32015D2088",
-   "responsible": null,
+   "responsible": "GROW",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -4210,7 +4210,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/2012/143(1)/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32012D0143",
-   "responsible": null,
+   "responsible": "ENTR",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -4866,7 +4866,7 @@
     "2011-01-19"
    ],
    "in_force": true,
-   "end_of_validity": "2029-11-25",
+   "end_of_validity": "2027-11-25",
    "eli": "http://data.europa.eu/eli/dir/2006/126/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32006L0126",
    "responsible": "MOVE",
@@ -5108,7 +5108,7 @@
    "end_of_validity": "2009-11-24",
    "eli": "http://data.europa.eu/eli/dir/2005/66/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32005L0066",
-   "responsible": null,
+   "responsible": "ENTR",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -5391,7 +5391,7 @@
    "end_of_validity": "2009-11-24",
    "eli": "http://data.europa.eu/eli/dir/2003/102/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32003L0102",
-   "responsible": null,
+   "responsible": "ENTR",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
@@ -6231,7 +6231,7 @@
    "end_of_validity": null,
    "eli": "http://data.europa.eu/eli/dec/1993/704/oj",
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:31993D0704",
-   "responsible": "OSCE",
+   "responsible": "ESTAT",
    "inclusion": {
     "basis": "eurovoc",
     "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
