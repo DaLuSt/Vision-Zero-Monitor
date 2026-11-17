@@ -206,7 +206,7 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   | UN General Assembly resolution A/RES/74/299 | 31 Aug 2020 | At least −50 % deaths and injuries 2021–2030 (global) |
   | Commission “Road safety statistics 2025 in more detail”, Figure 1 | 2026 | Monitoring baseline 2019 for the 2030 target |
 
-* **National strategies (reviewed 17 Oct 2026; second batch 6 Nov 2026).** Quoted in the original
+* **National strategies (reviewed 17 Oct 2026; second batch 6 Nov 2026; third batch 17 Nov 2026).** Quoted in the original
   language with an English translation; official translations are verified like the quotes.
 
   | Country | Document | Target used | Translation |
@@ -220,8 +220,24 @@ own provenance and `status: "provisional"`, never merged into the Eurostat serie
   | Croatia | Nacionalni plan sigurnosti cestovnog prometa 2021–2030, Narodne novine 86/2021 | −50 % road deaths from the reference year **2019** (297, equal to Eurostat) | Own |
   | Czechia | Strategie BESIP 2021–2030 (government resolution no. 8, 4 Jan 2021) | −50 % road deaths and serious injuries by 2030; **two baselines stated** (2017–2019 average in chapter 1, 2020 in §3.1), so not measured | Own |
   | Slovenia | Resolution ReNPVCP23–30, Uradni list RS 124/2023 | **At most 50 road deaths in 2030** (baseline year 2019, 102 in Eurostat); measured as a stated maximum (implied change −51.0 %) | Own |
+  | Slovakia | Národná stratégia BECEP 2021–2030 (government resolution 700/2021), PDF from the Slovak Road Administration | −50 % road deaths by 2030 from **2020**; the strategy's national figure is 224, Eurostat's 247, so the target value is taken from Eurostat (123.5, not the strategy's 112) | Own |
+  | Latvia | Ceļu satiksmes drošības plāns 2021.–2027. gadam (Cabinet order 712, likumi.lv) | Road deaths −35 % by 2027 and −50 % by 2030 from **2020** (139, equal to Eurostat), set separately for deaths in Table 17 | Own |
+  | Estonia | Liiklusohutusprogramm 2026–2035 (Government order of 18 Dec 2025, RT III 20.12.2025, 1; text from Transpordiamet) | **At most 22 road deaths a year on average in 2033–2035**; a three-year average, so not measured | Own |
 
   *Searched but not listed (October and November 2026):*
+  * *Lithuania* (“Vision 0” programme, −50 % by 2030): lrv.lt answers automated requests with
+    HTTP 403, and sources disagree on the baseline (2019 or 2020).
+  * *Bulgaria:* the 2020 strategy (Council of Ministers decision 775) gives only a direction
+    (“towards halving” deaths and serious injuries by 2030) with no baseline; the 2026 update on
+    sars.gov.bg (−50 % from 2019, at most 314 deaths) loses letters in text extraction, so its quote
+    cannot be checked, and its adoption was not confirmed.
+  * *Hungary:* the document found on kormany.hu restates the EU targets; no national target text
+    was found.
+  * *Luxembourg* (Plan national “Sécurité routière 2024-2028”): no number for road deaths.
+  * *Greece, Cyprus, Malta:* no official text with the target found; Greece's strategy is
+    described only on a university site (nrso.ntua.gr) and in the press.
+  * *Slovenia (listed):* on 17 Nov 2026 uradni-list.si served an expired TLS certificate
+    (valid until 10 Nov 2026), so its quote could not be re-checked; it matched on 6 Nov 2026.
   * *Finland* (Liikenneturvallisuusstrategia 2022–2026, reported as −50 % from 2020) and *Denmark*
     (Færdselssikkerhedskommissionen's plan, reported as at most 90 deaths in 2030): valtioneuvosto.fi,
     lvm.fi, julkaisut.valtioneuvosto.fi and ft.dk answer automated requests with a bot challenge

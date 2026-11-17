@@ -93,7 +93,7 @@ def test_built_document_uses_official_figures():
 
     vz = by_id["eu-2050-vision-zero"]["targets"][0]
     assert vz["outcomes"] == [] and vz["reference"]["period"] == 2024
-    assert doc["summary"] == {"commitments": 16, "targets": 18, "targets_measured": 9}
+    assert doc["summary"] == {"commitments": 19, "targets": 22, "targets_measured": 12}
     national = {c["id"]: c for c in doc["commitments"] if c["level"] == "national"}
     es = national["es-esv-2030"]["targets"][0]["outcomes"][0]
     assert (es["baseline_value"], es["target_value"]) == (1755, 877.5)  # the strategy's own baseline figure
@@ -111,9 +111,16 @@ def test_built_document_uses_official_figures():
     si = national["si-renpvcp-2023-2030"]["targets"][0]["outcomes"][0]
     # A maximum, not a percentage: at most 50 deaths in 2030, against Eurostat's 102 in 2019.
     assert (si["baseline_value"], si["target_value"], si["required_change_pct"]) == (102, 50, -51.0)
-    # Czechia states two baselines in one document: reference figure only.
-    cz = national["cz-besip-2021-2030"]["targets"][0]
-    assert cz["outcomes"] == [] and cz["reference"]["period"] == 2024
+    sk = national["sk-nsbcp-2021-2030"]["targets"][0]["outcomes"][0]
+    # Half of Eurostat's 2020 figure (247), not of the strategy's national figure (224).
+    assert (sk["baseline_year"], sk["baseline_value"], sk["target_value"]) == (2020, 247, 123.5)
+    lv_2027, lv_2030 = (t["outcomes"][0] for t in national["lv-csdp-2021-2027"]["targets"])
+    assert (lv_2027["baseline_value"], lv_2027["target_value"], lv_2027["target_year"]) == (139, 90.4, 2027)
+    assert (lv_2030["target_value"], lv_2030["target_year"]) == (69.5, 2030)
+    # Czechia states two baselines in one document; Estonia's target is a three-year average: reference figure only.
+    for cid in ("cz-besip-2021-2030", "ee-lop-2026-2035"):
+        t = national[cid]["targets"][0]
+        assert t["outcomes"] == [] and t["reference"]["period"] == 2024
     # EU commitments first, newest first within each level.
     levels = [c["level"] for c in doc["commitments"]]
     assert levels == sorted(levels, key=lambda lv: lv != "eu")

@@ -85,6 +85,7 @@ Status legend: ✅ done in this repository · ⏳ requires a repository owner ac
 * ✅ First national road safety strategies (ES, PL, DE, NL, SE), quoted in the original language with labelled translations; official translations verified like the quotes.
 * ✅ Second batch of national strategies (AT, HR, CZ, SI), reviewed 6 Nov 2026; 25 quotes verified. Finland, Denmark, Romania and Portugal searched but not added (DATA_SOURCES §7).
 * ✅ Targets stated as a maximum (e.g. Slovenia: at most 50 deaths in 2030) are measured, with the stated number as the target value.
+* ✅ Third batch (SK, LV, EE), reviewed 17 Nov 2026. Lithuania, Bulgaria, Hungary, Luxembourg, Greece, Cyprus and Malta searched but not added (DATA_SOURCES §7).
 * 🔜 More national strategies; serious-injury targets once MAIS3+ data are covered.
 * Acceptance: each commitment cites its document; target type (binding, indicative, aspirational) is taken from the source.
 
