@@ -1,13 +1,13 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-11-06T14:01:28Z",
- "reviewed_at": "2026-11-06",
- "review_note": "Every quote was checked word for word against the official document on the review date (scripts/commitments/verify_sources.py). Edit this file only with a new review.",
+ "generated_at": "2026-11-17T19:54:24Z",
+ "reviewed_at": "2026-11-17",
+ "review_note": "Every quote was checked word for word against the official document on the review date (scripts/commitments/verify_sources.py), except Slovenia's: on 17 November 2026 its source could not be fetched because the site's TLS certificate had expired; it was last found on 6 November 2026 (DATA_SOURCES.md §7). Edit this file only with a new review.",
  "statistics_source": "Eurostat tran_sf_roadus (road deaths), as published in observations.json",
  "summary": {
-  "commitments": 16,
-  "targets": 18,
-  "targets_measured": 9
+  "commitments": 19,
+  "targets": 22,
+  "targets_measured": 12
  },
  "commitments": [
   {
@@ -352,6 +352,57 @@
    ]
   },
   {
+   "id": "ee-lop-2026-2035",
+   "title": "Estonia: at most 22 road deaths a year on average in 2033–2035",
+   "issuer": "Government of the Republic of Estonia (order of 18 December 2025)",
+   "level": "national",
+   "geo": "EE",
+   "scope": "Estonia",
+   "form": "national_strategy",
+   "nature": "Road Safety Programme 2026–2035 (Liiklusohutusprogramm 2026–2035), approved by Government order (RT III, 20.12.2025, 1) and published by the Transport Administration. Not legally binding. Serious injuries (hospital treatment of more than 24 hours) are to average no more than 272 a year, which this site does not cover.",
+   "date": "2025-12-18",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Liiklusohutusprogramm 2026–2035",
+     "reference": "Liiklusohutusprogramm 2026–2035",
+     "publisher": "Transpordiamet (Estonian Transport Administration)",
+     "date": "2026",
+     "url": "https://transpordiamet.ee/sites/default/files/documents/2026-01/Liiklusohutusprogramm%202026%E2%80%932035.pdf",
+     "location": "Section 2.1, “Strateegiline eesmärk ja alaeesmärgid”, p. 7 of the PDF",
+     "language": "et",
+     "quote": "Liiklusohutusprogrammi eesmärk on liiklussurmade ja raskesti vigastatute arvu vähendamine selliselt, et aastate 2033–2035 keskmisena ei hukkuks liikluses üle 22 inimese",
+     "translation": {
+      "kind": "own",
+      "text": "The aim of the road safety programme is to reduce the number of road deaths and seriously injured people so that, on average over 2033–2035, no more than 22 people are killed in road traffic"
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "At most 22 road deaths a year on average in 2033–2035",
+     "reduction": null,
+     "baseline_year": null,
+     "target_year": 2035,
+     "measure": {
+      "geo": "EE",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": "The target is an average over three years (2033–2035), not a figure for one year, so it is not compared with a single year's figure. The latest official figure is shown for reference.",
+     "scope_note": null,
+     "monitoring_baselines": [],
+     "outcomes": [],
+     "reference": {
+      "period": 2024,
+      "value": 69,
+      "status": "unknown"
+     }
+    }
+   ]
+  },
+  {
    "id": "si-renpvcp-2023-2030",
    "title": "Slovenia: at most 50 road deaths in 2030",
    "issuer": "National Assembly of the Republic of Slovenia (resolution of 28 November 2023)",
@@ -675,6 +726,183 @@
         2018,
         2019
        ]
+      }
+     ],
+     "reference": null
+    }
+   ]
+  },
+  {
+   "id": "sk-nsbcp-2021-2030",
+   "title": "Slovakia: halve road deaths by 2030, from 2020",
+   "issuer": "Government of the Slovak Republic (resolution no. 700/2021 of 1 December 2021)",
+   "level": "national",
+   "geo": "SK",
+   "scope": "Slovakia",
+   "form": "national_strategy",
+   "nature": "National Road Safety Strategy of the Slovak Republic 2021–2030 (Národná stratégia Slovenskej republiky pre bezpečnosť cestnej premávky na roky 2021 – 2030), approved by the Government. Not legally binding. Serious injuries are also to be halved from 2020 (914 to 457 or fewer), measured with Slovak police data, which this site does not cover.",
+   "date": "2021-12-01",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Národná stratégia Slovenskej republiky pre bezpečnosť cestnej premávky na roky 2021 – 2030",
+     "reference": "Národná stratégia BECEP 2021–2030",
+     "publisher": "Ministry of Transport of the Slovak Republic; published by the Slovak Road Administration (SSC)",
+     "date": "2021-12-01",
+     "url": "https://www.ssc.sk/files/documents/becep/narodna_strategia_becep_2021_2030.pdf",
+     "location": "Section 3.2.1, “Strategické ciele”, medium-term strategic objective no. 1, p. 20 of the PDF",
+     "language": "sk",
+     "quote": "Zníženie počtu usmrtených osôb v dôsledku cestných dopravných nehôd v SR o polovicu do roku 2030 v porovnaní s ich počtom v referenčnom roku 2020. V referenčnom roku 2020 bolo pri dopravných nehodách v SR usmrtených 224 osôb, strategickým cieľom je preto do roku 2030 znížiť ich počet na 112 usmrtených a menej.",
+     "translation": {
+      "kind": "own",
+      "text": "Halving the number of people killed in road traffic crashes in the Slovak Republic by 2030 compared with the reference year 2020. In the reference year 2020, 224 people were killed in road traffic crashes in the Slovak Republic, so the strategic objective is to reduce this to 112 deaths or fewer by 2030."
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % by 2030, from 2020",
+     "reduction": 0.5,
+     "baseline_year": 2020,
+     "target_year": 2030,
+     "measure": {
+      "geo": "SK",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": null,
+     "scope_note": "The strategy gives 224 road deaths in 2020 from national data; Eurostat records 247 for Slovakia. The target value here is half of Eurostat's figure (123.5), not the strategy's 112, so that it is compared with figures on the same basis.",
+     "monitoring_baselines": [],
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2020,
+       "baseline_value": 247,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 123.5,
+       "required_change_pct": -50.0,
+       "compare_year": 2024,
+       "compare_value": 262,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": 6.1,
+       "share_of_required_reduction": -0.121,
+       "above_target_value": true
+      }
+     ],
+     "reference": null
+    }
+   ]
+  },
+  {
+   "id": "lv-csdp-2021-2027",
+   "title": "Latvia: 35 % fewer road deaths by 2027 and 50 % by 2030, from 2020",
+   "issuer": "Cabinet of Ministers of Latvia (order no. 712 of 6 October 2021)",
+   "level": "national",
+   "geo": "LV",
+   "scope": "Latvia",
+   "form": "national_strategy",
+   "nature": "Road Traffic Safety Plan 2021–2027 (Ceļu satiksmes drošības plāns 2021.–2027. gadam), approved by Cabinet order and published in the official legal acts portal likumi.lv. Not legally binding. The same percentages apply to serious injuries (491 in 2020), measured with Latvian police data, which this site does not cover.",
+   "date": "2021-10-06",
+   "sources": [
+    {
+     "role": "primary",
+     "title": "Par Ceļu satiksmes drošības plānu 2021.–2027. gadam (Ministru kabineta rīkojums Nr. 712)",
+     "reference": "Cabinet order no. 712, 6 October 2021",
+     "publisher": "likumi.lv (official legal acts portal of the Republic of Latvia)",
+     "date": "2021-10-06",
+     "url": "https://likumi.lv/ta/id/326640-par-celu-satiksmes-drosibas-planu-2021-2027-gadam",
+     "location": "Plan, summary of the plan's objective",
+     "language": "lv",
+     "quote": "2030.gadā ceļu satiksmes negadījumos bojāgājušo un smagi ievainoto skaita samazinājums 50% apmērā pret 2020.gadu. Tādējādi plāna mērķis ir 2027.gadā samazināt ceļu satiksmes negadījumos bojāgājušo un smagi ievainoto skaitu 35% apmērā pret 2020.gadu.",
+     "translation": {
+      "kind": "own",
+      "text": "In 2030, a 50 % reduction in the number of people killed and seriously injured in road traffic crashes compared with 2020. Accordingly, the plan's objective is to reduce the number of people killed and seriously injured in road traffic crashes by 35 % compared with 2020 in 2027."
+     }
+    },
+    {
+     "role": "primary",
+     "title": "Par Ceļu satiksmes drošības plānu 2021.–2027. gadam (Ministru kabineta rīkojums Nr. 712)",
+     "reference": "Cabinet order no. 712, 6 October 2021",
+     "publisher": "likumi.lv (official legal acts portal of the Republic of Latvia)",
+     "date": "2021-10-06",
+     "url": "https://likumi.lv/ta/id/326640-par-celu-satiksmes-drosibas-planu-2021-2027-gadam",
+     "location": "Table 17, results indicators, row 1 (road deaths); “58” after the unit is a footnote marker in the source",
+     "language": "lv",
+     "quote": "1. Ceļu satiksmes negadījumos bojāgājušo personu skaita procentuālais samazinājums 58 % (bāzes gada pers.skaits - 139) 2020 100 5 10 15 20 25 30 35 50",
+     "translation": {
+      "kind": "own",
+      "text": "1. Percentage reduction in the number of people killed in road traffic crashes; unit: % (number of people in the base year: 139); base year 2020; base value 100; target values 2021–2027: 5, 10, 15, 20, 25, 30, 35; target value 2030: 50."
+     }
+    }
+   ],
+   "targets": [
+    {
+     "id": "deaths-2027",
+     "indicator": "road_deaths",
+     "description": "Road deaths −35 % by 2027, from 2020",
+     "reduction": 0.35,
+     "baseline_year": 2020,
+     "target_year": 2027,
+     "measure": {
+      "geo": "LV",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": null,
+     "scope_note": "Table 17 sets the targets separately for road deaths and serious injuries; its baseline of 139 road deaths in 2020 equals Eurostat's figure for Latvia.",
+     "monitoring_baselines": [],
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2020,
+       "baseline_value": 139,
+       "baseline_status": "unknown",
+       "target_year": 2027,
+       "target_value": 90.4,
+       "required_change_pct": -35.0,
+       "compare_year": 2024,
+       "compare_value": 112,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": -19.4,
+       "share_of_required_reduction": 0.555,
+       "above_target_value": true
+      }
+     ],
+     "reference": null
+    },
+    {
+     "id": "deaths-2030",
+     "indicator": "road_deaths",
+     "description": "Road deaths −50 % by 2030, from 2020",
+     "reduction": 0.5,
+     "baseline_year": 2020,
+     "target_year": 2030,
+     "measure": {
+      "geo": "LV",
+      "indicator": "road_fatalities"
+     },
+     "not_measured_reason": null,
+     "scope_note": "Stated in the plan as the 2021–2030 objective; Table 17 gives 50 as the target value for 2030.",
+     "monitoring_baselines": [],
+     "outcomes": [
+      {
+       "basis": "as_stated",
+       "baseline_year": 2020,
+       "baseline_value": 139,
+       "baseline_status": "unknown",
+       "target_year": 2030,
+       "target_value": 69.5,
+       "required_change_pct": -50.0,
+       "compare_year": 2024,
+       "compare_value": 112,
+       "compare_status": "unknown",
+       "deadline_passed": false,
+       "change_pct": -19.4,
+       "share_of_required_reduction": 0.388,
+       "above_target_value": true
       }
      ],
      "reference": null
