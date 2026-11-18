@@ -1,5 +1,9 @@
 # Groups the automatically generated release notes (see workflows/release.yml).
 changelog:
+  # Weekly data refreshes and version bumps are merged as pull requests by the
+  # workflows themselves; the release text already says which data year it adds.
+  exclude:
+    authors: [github-actions, "github-actions[bot]"]
   categories:
     - title: Dependency updates
       labels: [dependencies]

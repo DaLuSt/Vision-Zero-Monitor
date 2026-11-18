@@ -175,8 +175,10 @@ absolute base path, build with `VITE_BASE_PATH=/your/path/ npm run build`.
 2. Parse JSON-stat, normalise to observations and breakdowns, derive rates, map status flags.
 3. Validate (schemas, invariants, cross-checks, revisions vs. the last published data).
 4. If the content hash is unchanged → no commit, no deploy.
-5. If changed and valid → run the test suite, commit `public/data/`, push to `main`,
-   then call `deploy.yml`.
+5. If changed and valid → run the test suite, commit `public/data/` to a branch, open a
+   pull request, run CI on it and merge it into `main` once CI passes
+   (`scripts/ci/merge-via-pr.sh`), then call `deploy.yml`. `main` is protected by a ruleset
+   that requires a pull request and the three CI checks, also for the workflows.
 6. If anything fails → previous data kept, failure recorded in
    `pipeline_status.json` (committed and deployed so the site shows it), job fails red.
    The statistics and the legislation register are independent: a failure in one does
@@ -196,10 +198,13 @@ release is archived on Zenodo with its own DOI, using the metadata in `.zenodo.j
   adding 2025), it makes a minor release after the site is deployed, so each data year has a citable
   version.
 
-The workflow first runs the full CI suite on the tip of `main`, then bumps the version in
-`CITATION.cff` and `package.json` (`scripts/release/prepare.py`), commits that to `main`, and tags and
-publishes the release with notes generated from the merged pull requests. It pushes to `main` with
-the workflow token, like the data update.
+The workflow bumps the version in `CITATION.cff` and `package.json` (`scripts/release/prepare.py`) on
+the tip of `main` and merges that commit through a pull request once the full CI suite passes on it,
+like the data update. It then tags the merge commit and publishes the release with notes generated
+from the merged pull requests (the workflows' own data and version pull requests are left out).
+
+The workflows open pull requests with the built-in `GITHUB_TOKEN`, so the repository setting
+**Settings → Actions → General → Allow GitHub Actions to create and approve pull requests** must be on.
 
 ## Known limitations
 
