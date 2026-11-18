@@ -17,14 +17,13 @@
 #   PR_BODY    pull request body
 #   GH_TOKEN   token for the gh CLI (needs contents, pull-requests and actions: write)
 #
-# Prints only merge_sha=<sha of the merge commit on main> on stdout, for $GITHUB_OUTPUT;
-# everything else goes to stderr.
+# Writes merge_sha=<sha of the merge commit on main> to $GITHUB_OUTPUT.
 set -euo pipefail
 
 sha=$(git rev-parse HEAD)
-git push origin "HEAD:refs/heads/$BRANCH" >&2
+git push origin "HEAD:refs/heads/$BRANCH"
 
-gh workflow run ci.yml --ref "$BRANCH" >&2
+gh workflow run ci.yml --ref "$BRANCH"
 run_id=""
 for _ in $(seq 1 30); do
   run_id=$(gh run list --workflow ci.yml --branch "$BRANCH" --event workflow_dispatch \
@@ -38,9 +37,9 @@ if [ -z "$run_id" ]; then
 fi
 
 pr_url=$(gh pr create --base main --head "$BRANCH" --title "$PR_TITLE" --body "$PR_BODY")
-echo "Opened $pr_url; waiting for CI run $run_id" >&2
+echo "Opened $pr_url; waiting for CI run $run_id"
 
-if ! gh run watch "$run_id" --exit-status --interval 30 >&2; then
+if ! gh run watch "$run_id" --exit-status --interval 30; then
   echo "::error::CI failed on $BRANCH; the pull request is left open: $pr_url"
   exit 1
 fi
@@ -49,7 +48,7 @@ fi
 # moment to count the finished checks, so a refused merge is retried a few times. The
 # branch is deleted by the repository setting "Automatically delete head branches".
 for attempt in 1 2 3 4 5; do
-  if gh pr merge "$pr_url" --merge --match-head-commit "$sha" >&2; then
+  if gh pr merge "$pr_url" --merge --match-head-commit "$sha"; then
     break
   fi
   if [ "$attempt" = 5 ]; then
@@ -59,5 +58,5 @@ for attempt in 1 2 3 4 5; do
   sleep 20
 done
 merge_sha=$(gh pr view "$pr_url" --json mergeCommit --jq '.mergeCommit.oid')
-echo "Merged $pr_url as $merge_sha" >&2
-echo "merge_sha=$merge_sha"
+echo "Merged $pr_url as $merge_sha"
+echo "merge_sha=$merge_sha" >> "$GITHUB_OUTPUT"

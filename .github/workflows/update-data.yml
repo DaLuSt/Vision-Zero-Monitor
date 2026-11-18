@@ -116,7 +116,7 @@ jobs:
           PR_TITLE=$(git log -1 --format=%s)
           export PR_TITLE
           export PR_BODY="Validated data from the weekly **Update data** run: $RUN_URL"$'\n\n'"Opened and merged by that run once CI passes; if CI fails, it stays open and the run fails."
-          bash scripts/ci/merge-via-pr.sh >> "$GITHUB_OUTPUT"
+          bash scripts/ci/merge-via-pr.sh
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Detect a new reference year
