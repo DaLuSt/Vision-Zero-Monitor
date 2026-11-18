@@ -80,7 +80,7 @@ jobs:
           git commit -am "release: v$VERSION" -m "Run: $run_url"
           export PR_TITLE="release: v$VERSION"
           export PR_BODY="Version bump for release v$VERSION, from the **Release** run: $run_url"$'\n\n'"Opened and merged by that run once CI passes; the release is tagged on the merge commit."
-          bash scripts/ci/merge-via-pr.sh >> "$GITHUB_OUTPUT"
+          bash scripts/ci/merge-via-pr.sh
 
       - name: Tag and publish the release
         env:
