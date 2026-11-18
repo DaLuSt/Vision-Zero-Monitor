@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0.0",
- "generated_at": "2026-11-16T14:52:43Z",
+ "generated_at": "2026-11-18T18:26:30Z",
  "source": {
   "publisher": "Publications Office of the European Union (Cellar / EUR-Lex metadata)",
   "endpoint": "https://publications.europa.eu/webapi/rdf/sparql",
@@ -23,11 +23,11 @@
     "reason": "Speed limitation devices for heavy vehicles; not indexed under 'road safety'."
    }
   ],
-  "retrieved_at": "2026-11-16T14:52:43Z",
+  "retrieved_at": "2026-11-18T18:26:30Z",
   "licence": "EUR-Lex data reuse: Commission Decision 2011/833/EU; © European Union"
  },
  "summary": {
-  "acts_total": 166,
+  "acts_total": 167,
   "acts_in_force": 123,
   "acts_in_force_by_type": {
    "Decision": 34,
@@ -39,10 +39,43 @@
    "Recommendation (non-binding)": 5,
    "Regulation": 12
   },
-  "proposals_open": 6,
+  "proposals_open": 5,
   "proposals_open_unclear": 2
  },
  "acts": [
+  {
+   "celex": "32026D2542",
+   "title": "Council Decision (EU) 2026/2542 of 9 November 2026 on the position to be taken on behalf of the European Union within the World Forum for Harmonization of Vehicle Regulations of the United Nations Economic Commission for Europe concerning the November 2026 proposals for UN regulations",
+   "type": "DEC",
+   "type_label": "Decision",
+   "date_adopted": "2026-11-09",
+   "entry_into_force": [
+    "2026-11-09"
+   ],
+   "transposition_deadlines": [],
+   "in_force": null,
+   "end_of_validity": null,
+   "eli": "http://data.europa.eu/eli/dec/2026/2542/oj",
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026D2542",
+   "responsible": null,
+   "inclusion": {
+    "basis": "eurovoc",
+    "reason": "Indexed by the EU Publications Office under EuroVoc 'road safety' (4047)."
+   },
+   "proposal": {
+    "celex": "52026PC0548",
+    "reference": "COM(2026) 548",
+    "date_sent": "2026-10-13",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52026PC0548"
+   },
+   "amended_by": [],
+   "amends": [],
+   "repealed_by": [],
+   "repeals": [],
+   "replaced_by": [],
+   "replaces": [],
+   "amendment_proposals": []
+  },
   {
    "celex": "32026R2266",
    "title": "Commission Implementing Regulation (EU) 2026/2266 of 13 October 2026 laying down detailed provisions for the application of Directive (EU) 2025/2205 of the European Parliament and of the Council as regards mobile driving licences",
@@ -7018,10 +7051,12 @@
    "type": "PROP_DEC",
    "type_label": "Proposal for a decision",
    "date_sent": "2026-10-13",
-   "status": "open",
+   "status": "adopted",
    "status_note": null,
-   "end_of_validity": null,
-   "adopted_by": [],
+   "end_of_validity": "2026-11-09",
+   "adopted_by": [
+    "32026D2542"
+   ],
    "proposes_to_amend": [],
    "indexed_road_safety": true,
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52026PC0548"
