@@ -4,9 +4,10 @@ name: Release
 # mints a DOI for it, using the metadata in .zenodo.json.
 #
 # Run by hand (Actions → Release → Run workflow) or called by update-data.yml when
-# Eurostat publishes a new reference year. Steps: full CI on the tip of main → bump the
-# version in CITATION.cff and package.json → commit to main → tag and publish the
-# release with notes generated from the merged pull requests.
+# Eurostat publishes a new reference year. Steps: bump the version in CITATION.cff and
+# package.json on the tip of main → merge that commit through a pull request once full
+# CI passes on it (scripts/ci/merge-via-pr.sh; protect-main requires this) → tag the
+# merge commit and publish the release with notes generated from the merged pull requests.
 
 on:
   workflow_dispatch:
@@ -38,17 +39,12 @@ permissions:
   contents: read
 
 jobs:
-  ci:
-    name: CI on main
-    uses: ./.github/workflows/ci.yml
-    with:
-      ref: main
-
   release:
-    needs: ci
     runs-on: ubuntu-24.04
     permissions:
-      contents: write # version commit, tag and release
+      contents: write # version branch, merge, tag and release
+      pull-requests: write # open the version pull request
+      actions: write # start CI on the version branch (scripts/ci/merge-via-pr.sh)
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -71,23 +67,30 @@ jobs:
             exit 1
           fi
 
-      - name: Commit the version to main
+      - name: Merge the version commit into main through a pull request
+        id: merge
         env:
+          GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.bump.outputs.version }}
+          BRANCH: release/v${{ steps.bump.outputs.version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "release: v$VERSION" -m "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-          git push origin HEAD:main
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          git commit -am "release: v$VERSION" -m "Run: $run_url"
+          export PR_TITLE="release: v$VERSION"
+          export PR_BODY="Version bump for release v$VERSION, from the **Release** run: $run_url"$'\n\n'"Opened and merged by that run once CI passes; the release is tagged on the merge commit."
+          bash scripts/ci/merge-via-pr.sh >> "$GITHUB_OUTPUT"
 
       - name: Tag and publish the release
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.bump.outputs.version }}
+          MERGE_SHA: ${{ steps.merge.outputs.merge_sha }}
           REASON: ${{ inputs.reason }}
         run: |
           notes="Archived on Zenodo with a DOI; all versions: https://doi.org/10.5281/zenodo.23437733"
           if [ -n "$REASON" ]; then notes="$REASON"$'\n\n'"$notes"; fi
-          gh release create "v$VERSION" --target "$(git rev-parse HEAD)" \
+          gh release create "v$VERSION" --target "$MERGE_SHA" \
             --title "Vision Zero Monitor $VERSION" --notes "$notes" --generate-notes
           echo "### Released v$VERSION" >> "$GITHUB_STEP_SUMMARY"

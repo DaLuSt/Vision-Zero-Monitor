@@ -51,7 +51,7 @@ Vision Zero Monitor on 2026-10-15; the old repository URL redirects to the new o
  scripts/data_pipeline/export.py     write to temp dir → atomic replace of public/data/*
           │
           ▼
- git commit (only if content changed) → push to main
+ git commit (only if content changed) → branch → pull request → CI → merge into main
           │
           ▼
  deploy.yml (workflow_call)          npm ci → test → vite build → GitHub Pages
@@ -60,7 +60,7 @@ Vision Zero Monitor on 2026-10-15; the old repository URL redirects to the new o
  Public static dashboard  (React; reads ./data/*.json at runtime)
           │  only when the latest reference year changed
           ▼
- release.yml (workflow_call)         CI on main → version bump → tag + GitHub release → Zenodo DOI
+ release.yml (workflow_call)         version bump → pull request → CI → merge → tag + release → Zenodo DOI
 ```
 
 The legislation register runs as a separate, independent step in the same workflow:
@@ -144,14 +144,19 @@ See [`DATA_SOURCES.md`](DATA_SOURCES.md) for full detail.
   renamed, because asset URLs still pointed at the old path; relative URLs prevent that.)
   `VITE_BASE_PATH` can still force an absolute base for other hosts.
 * **Routing:** hash-based (`#/countries/NL`) so deep links never 404 on Pages.
-* **Ordering:** data are committed to `main` first; the site is then built from
-  that commit. The `update-data` workflow calls `deploy.yml` as a reusable
-  workflow only when data changed (pushes made with `GITHUB_TOKEN` do not
-  trigger other workflows, so there is no double deploy). Human pushes to `main`
-  trigger `deploy.yml` directly.
+* **Ordering:** data are merged into `main` first; the site is then built from
+  that commit. `main` is protected by a ruleset (pull request and the three CI
+  checks required, no bypass), and `GITHUB_TOKEN` cannot be a bypass actor, so the
+  workflows commit to a branch and `scripts/ci/merge-via-pr.sh` opens a pull
+  request, starts `ci.yml` on it with `workflow_dispatch` (pushes and pull requests
+  made with `GITHUB_TOKEN` trigger no workflow, a dispatch does) and merges once it
+  passes. The `update-data` workflow then calls `deploy.yml` as a reusable workflow
+  (that merge triggers no deploy of its own, so there is no double deploy). Merges
+  by people trigger `deploy.yml` directly.
 * **Releases:** `release.yml` (manual, or called by `update-data` after a deploy that
-  brought a new reference year) runs `ci.yml` on the tip of `main`, bumps the version
-  in `CITATION.cff` and `package.json`, commits, tags and publishes a GitHub release.
+  brought a new reference year) bumps the version in `CITATION.cff` and
+  `package.json`, merges that through a pull request once `ci.yml` passes on it, and
+  tags the merge commit and publishes a GitHub release.
   Zenodo archives each release with its own DOI (metadata from `.zenodo.json`).
 * **First deployment:** a real, validated dataset is committed in the repository,
   so the very first deploy works before any scheduled run.

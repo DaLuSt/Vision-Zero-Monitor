@@ -17,7 +17,9 @@ jobs:
   update:
     runs-on: ubuntu-24.04
     permissions:
-      contents: write # commit validated data to main
+      contents: write # push the data branch and merge its pull request
+      pull-requests: write # open that pull request
+      actions: write # start CI on the branch (scripts/ci/merge-via-pr.sh)
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
       outcome: ${{ steps.pipeline.outputs.outcome }}
@@ -93,8 +95,13 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
-      - name: Commit changes
+      - name: Commit changes and merge them into main through a pull request
+        # protect-main requires a pull request with passing CI; see scripts/ci/merge-via-pr.sh.
         id: commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: data/refresh-${{ github.run_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           if [ -z "$(git status --porcelain -- public/data)" ]; then
             echo "No data changes; nothing to commit or deploy."
@@ -105,8 +112,11 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/data
           git commit -m "data: statistics ${{ steps.pipeline.outputs.outcome }}, legislation ${{ steps.legislation.outputs.legislation_outcome || 'error' }} – refresh $(date -u +%Y-%m-%d)" \
-                     -m "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          git push origin HEAD:main
+                     -m "Run: $RUN_URL"
+          PR_TITLE=$(git log -1 --format=%s)
+          export PR_TITLE
+          export PR_BODY="Validated data from the weekly **Update data** run: $RUN_URL"$'\n\n'"Opened and merged by that run once CI passes; if CI fails, it stays open and the run fails."
+          bash scripts/ci/merge-via-pr.sh >> "$GITHUB_OUTPUT"
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Detect a new reference year
@@ -171,6 +181,8 @@ jobs:
     if: needs.update.result == 'success' && needs.deploy.result == 'success' && needs.update.outputs.new_year == 'true'
     permissions:
       contents: write
+      pull-requests: write
+      actions: write
     uses: ./.github/workflows/release.yml
     with:
       bump: minor
